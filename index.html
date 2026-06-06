@@ -1,48 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>My Mini App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Главное меню</title>
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--tg-theme-bg-color, #f5f5f5);
+      color: var(--tg-theme-text-color, #000);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-        button {
-            padding: 12px 20px;
-            font-size: 16px;
-        }
-    </style>
+    .container {
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      background: var(--tg-theme-button-color, #3390ec);
+      color: var(--tg-theme-button-text-color, #fff);
+      cursor: pointer;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Мое Telegram Mini App</h1>
+<div class="container">
+  <h2>📋 Главное меню</h2>
 
-<p id="user"></p>
+  <button class="btn" onclick="selectOption(1)">
+    1 - Отчёт кассира
+  </button>
 
-<button onclick="sendData()">
-    Отправить данные боту
-</button>
+  <button class="btn" onclick="selectOption(2)">
+    2 - Заявка на индивид торт
+  </button>
+
+  <button class="btn" onclick="selectOption(3)">
+    3 - Заявка на десерты ОПТ
+  </button>
+</div>
 
 <script>
+  const tg = window.Telegram.WebApp;
+  tg.expand();
 
-const tg = window.Telegram.WebApp;
+  function selectOption(option) {
+    let text = "";
 
-tg.expand();
+    if (option === 1) text = "Отчёт кассира";
+    if (option === 2) text = "Заявка на индивид торт";
+    if (option === 3) text = "Заявка на десерты ОПТ";
 
-if (tg.initDataUnsafe.user) {
-    document.getElementById("user").innerHTML =
-        "Привет, " + tg.initDataUnsafe.user.first_name;
-}
-
-function sendData() {
-    tg.sendData("Пользователь нажал кнопку");
-}
-
+    // отправляем выбор в бота
+    tg.sendData(JSON.stringify({
+      type: "menu_select",
+      option: option,
+      text: text
+    }));
+  }
 </script>
 
 </body>
