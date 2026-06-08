@@ -292,13 +292,13 @@
             </button>
 
             <button class="menu-item" onclick="alert('Раздел в разработке')">
-                <span class="icon" style="font-size: 22px; margin-right: 12px;">🛍️</span>
+                <i class="ti ti-cake" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
                 <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
 
             <button class="menu-item" onclick="alert('Раздел в разработке')">
-                <span class="icon" style="font-size: 22px; margin-right: 12px;">📦</span>
+                <i class="ti ti-users" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
                 <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
@@ -612,20 +612,21 @@
 
     // === 3. ЛОГИКА СПИСКОВ И РАСЧЕТОВ ===
     const EXPENSES = [
-        {id:'ex1',name:'Закупка продуктов'},
-        {id:'ex2',name:'Хозяйственные товары'},
-        {id:'ex3',name:'Упаковка и расходники'},
-        {id:'ex4',name:'Доставка / курьер'},
-        {id:'ex5',name:'Техническое обслуживание'},
-        {id:'ex6',name:'Прочие расходы'},
+        {id:'ex1',name:'Закуп Бар'},
+        {id:'ex2',name:'Закуп Кухня'},
+        {id:'ex3',name:'Закуп Кондитер'},
+        {id:'ex4',name:'Доставка'},
+        {id:'ex5',name:'ЗП Техперсонал'},
+        {id:'ex6',name:'Аванс сотруднику'},
+        {id:'ex7',name:'Прочее'},     
     ];
 
     const DEBTS = [
-        {id:'db1',name:'ООО «Ромашка»'},
-        {id:'db2',name:'ИП Иванов'},
-        {id:'db3',name:'Кафе «Уют»'},
-        {id:'db4',name:'Ресторан «Север»'},
-        {id:'db5',name:'Другой контрагент'},
+        {id:'db1',name:'Дом Кондитера'},
+        {id:'db2',name:'Золотой'},
+        {id:'db3',name:'Коника'},
+        {id:'db4',name:'Другой поставщик'},
+ 
     ];
 
     const expenseRowCounters = {};
