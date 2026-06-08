@@ -5,154 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Отчёт закрытия смены</title>
     
-    <!-- Скрипт Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Библиотека иконок Tabler Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <style>
-        /* Заголовок расхода с кнопкой "+ Добавить" */
-.expense-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    cursor: pointer;
-}
-.expense-header .exp-check {
-    width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #E0B8B8;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    transition: all 0.2s; background: #fff;
-}
-.expense-item.selected .expense-header .exp-check {
-    background: #7B3B3B; border-color: #7B3B3B;
-}
-.expense-header .exp-check i { font-size: 14px; color: #fff; display: none; }
-.expense-item.selected .expense-header .exp-check i { display: block; }
-.expense-header .exp-name {
-    font-size: 15px; color: #3D1A1A; flex: 1; font-weight: 500;
-}
-
-/* Кнопка "+ Добавить" */
-.add-btn {
-    background: rgba(123, 59, 59, 0.1);
-    border: 1px solid #E8C8C8;
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #7B3B3B;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    transition: all 0.2s;
-    flex-shrink: 0;
-}
-.add-btn:active {
-    background: #7B3B3B;
-    color: #fff;
-    transform: scale(0.95);
-}
-.add-btn i { font-size: 16px; }
-
-/* Контейнер для строк платежей */
-.exp-rows {
-    padding: 0 16px 14px;
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-}
-.expense-item.selected .exp-rows {
-    display: flex;
-    animation: fadeIn 0.3s ease;
-}
-
-/* Одна строка платежа */
-.expense-row-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #FFFAFA;
-    border: 1px solid #E8C8C8;
-    border-radius: 10px;
-    padding: 10px 12px;
-    animation: fadeIn 0.25s ease;
-}
-.expense-row-item .row-label {
-    font-size: 14px;
-    color: #7B5050;
-    min-width: 80px;
-    font-weight: 500;
-}
-.expense-row-item .row-amount {
-    flex: 1;
-    position: relative;
-}
-.expense-row-item .row-amount input {
-    width: 100%;
-    font-size: 14px;
-    padding: 8px 10px 8px 26px;
-    border: 1px solid #E8C8C8;
-    border-radius: 8px;
-    background: #fff;
-    color: #3D1A1A;
-    outline: none;
-}
-.expense-row-item .row-amount input:focus {
-    border-color: #7B3B3B;
-}
-.expense-row-item .row-currency {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 13px;
-    color: #A06060;
-    pointer-events: none;
-}
-.expense-row-item .row-comment {
-    width: 100%;
-    font-size: 13px;
-    padding: 8px 10px;
-    border: 1px solid #E8C8C8;
-    border-radius: 8px;
-    background: #fff;
-    color: #3D1A1A;
-    outline: none;
-    margin-top: 6px;
-    resize: none;
-}
-.expense-row-item .row-comment:focus {
-    border-color: #7B3B3B;
-}
-.expense-row-item .row-delete {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: none;
-    background: #FCEBEB;
-    color: #A32D2D;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-}
-.expense-row-item .row-delete:active {
-    background: #A32D2D;
-    color: #fff;
-    transform: scale(0.9);
-}
-.expense-row-item .row-delete i { font-size: 16px; }
-
-.expense-row-item .row-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
         .menu-item {
             display: flex; align-items: center; background: #fff; border: 0.5px solid #E8C8C8;
             border-radius: 12px; padding: 16px; width: 100%; text-align: left; cursor: pointer;
@@ -170,7 +26,6 @@
         }
         .screen { max-width: 480px; margin: 0 auto; }
         
-        /* Верхняя панель */
         .topbar { padding: 16px 20px 12px; display: flex; align-items: center; gap: 12px; }
         .back-btn { 
             width: 38px; height: 38px; border-radius: 50%; background: #F5D0D0; border: none; 
@@ -182,7 +37,6 @@
         .topbar-title { font-size: 17px; font-weight: 600; color: #3D1A1A; }
         .topbar-sub { font-size: 13px; color: #A06060; }
 
-        /* Индикатор шагов */
         .steps { display: flex; align-items: center; gap: 0; padding: 0 20px 18px; }
         .st { display: flex; align-items: center; gap: 0; flex: 1; }
         .st-circle { 
@@ -195,7 +49,6 @@
         .st-line { flex: 1; height: 2px; background: #E8C8C8; transition: background 0.3s ease; }
         .st-line.done { background: #C49090; }
 
-        /* Карточки */
         .card { background: #fff; border: 0.5px solid #E8C8C8; border-radius: 16px; padding: 22px 20px; margin: 0 16px; box-shadow: 0 4px 12px rgba(62, 39, 35, 0.04); }
         .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         .card-icon { width: 40px; height: 40px; border-radius: 10px; background: #FDF0F0; border: 0.5px solid #E8C8C8; display: flex; align-items: center; justify-content: center; }
@@ -203,7 +56,6 @@
         .card-title { font-size: 16px; font-weight: 600; color: #3D1A1A; }
         .card-sub { font-size: 13px; color: #A06060; margin-top: 2px; }
 
-        /* Поля ввода */
         .field { margin-bottom: 16px; }
         .field:last-child { margin-bottom: 0; }
         label { font-size: 13px; color: #7B5050; display: block; margin-bottom: 6px; font-weight: 500; }
@@ -221,7 +73,142 @@
         .err-msg { font-size: 13px; color: #A32D2D; margin-top: 6px; display: none; align-items: center; gap: 4px; }
         .err-msg i { font-size: 14px; }
 
-        /* Списки расходов и долгов */
+        /* Стили для расходов с кнопкой "+ Добавить" */
+        .expense-header {
+            display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer;
+        }
+        .expense-header .exp-check {
+            width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #E0B8B8;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: all 0.2s; background: #fff;
+        }
+        .expense-item.selected .expense-header .exp-check {
+            background: #7B3B3B; border-color: #7B3B3B;
+        }
+        .expense-header .exp-check i { font-size: 14px; color: #fff; display: none; }
+        .expense-item.selected .expense-header .exp-check i { display: block; }
+        .expense-header .exp-name {
+            font-size: 15px; color: #3D1A1A; flex: 1; font-weight: 500;
+        }
+
+        .add-btn {
+            background: rgba(123, 59, 59, 0.1);
+            border: 1px solid #E8C8C8;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #7B3B3B;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .add-btn:active {
+            background: #7B3B3B;
+            color: #fff;
+            transform: scale(0.95);
+        }
+        .add-btn i { font-size: 16px; }
+
+        .exp-rows {
+            padding: 0 16px 14px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .expense-item.selected .exp-rows {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .expense-row-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FFFAFA;
+            border: 1px solid #E8C8C8;
+            border-radius: 10px;
+            padding: 10px 12px;
+            animation: fadeIn 0.25s ease;
+        }
+        .expense-row-item .row-label {
+            font-size: 14px;
+            color: #7B5050;
+            min-width: 80px;
+            font-weight: 500;
+        }
+        .expense-row-item .row-amount {
+            flex: 1;
+            position: relative;
+        }
+        .expense-row-item .row-amount input {
+            width: 100%;
+            font-size: 14px;
+            padding: 8px 10px 8px 26px;
+            border: 1px solid #E8C8C8;
+            border-radius: 8px;
+            background: #fff;
+            color: #3D1A1A;
+            outline: none;
+        }
+        .expense-row-item .row-amount input:focus {
+            border-color: #7B3B3B;
+        }
+        .expense-row-item .row-currency {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: #A06060;
+            pointer-events: none;
+        }
+        .expense-row-item .row-comment {
+            width: 100%;
+            font-size: 13px;
+            padding: 8px 10px;
+            border: 1px solid #E8C8C8;
+            border-radius: 8px;
+            background: #fff;
+            color: #3D1A1A;
+            outline: none;
+            margin-top: 6px;
+            resize: none;
+        }
+        .expense-row-item .row-comment:focus {
+            border-color: #7B3B3B;
+        }
+        .expense-row-item .row-delete {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: #FCEBEB;
+            color: #A32D2D;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .expense-row-item .row-delete:active {
+            background: #A32D2D;
+            color: #fff;
+            transform: scale(0.9);
+        }
+        .expense-row-item .row-delete i { font-size: 16px; }
+        .expense-row-item .row-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Старые стили для долгов */
         .expense-item { border: 1px solid #E8C8C8; border-radius: 12px; background: #FFFAFA; margin-bottom: 10px; overflow: hidden; transition: all 0.2s; }
         .expense-item.selected { border-color: #7B3B3B; background: #FFF5F5; }
         .expense-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; }
@@ -238,7 +225,6 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Итоги */
         .total-bar { background: #fff; border: 1px solid #E8C8C8; border-radius: 12px; padding: 14px 18px; margin: 12px 16px 0; display: flex; justify-content: space-between; align-items: center; }
         .total-label { font-size: 14px; color: #7B5050; font-weight: 500; }
         .total-sum { font-size: 18px; font-weight: 600; color: #3D1A1A; }
@@ -254,7 +240,6 @@
         .result-value.surplus { color: #3B6D11; }
         .result-value.deficit { color: #A32D2D; }
 
-        /* Фото */
         .photo-zone { border: 1.5px dashed #E0B8B8; border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; background: #FFFAFA; transition: all 0.2s; }
         .photo-zone:active { background: #F5E6E6; }
         .photo-zone i { font-size: 28px; color: #C49090; margin-bottom: 8px; display: block; }
@@ -263,7 +248,6 @@
         .photo-previews { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
         .photo-thumb { width: 72px; height: 72px; border-radius: 8px; object-fit: cover; border: 1px solid #E8C8C8; }
 
-        /* Кнопки */
         .next-btn { 
             width: calc(100% - 32px); margin: 20px 16px 0; padding: 16px; background: #7B3B3B; color: #fff; 
             border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; 
@@ -273,14 +257,11 @@
         .next-btn:active { transform: scale(0.98); background: #6A2E2E; }
         .next-btn:disabled { background: #D4A0A0; cursor: not-allowed; box-shadow: none; transform: none; }
 
-        /* Управление страницами */
         .page { display: none !important; animation: slideIn 0.3s ease; }
         .page.active { display: block !important; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
 
-        /* Экран успеха */
-        .success-wrap { display: none; flex-direction: column; align-items: center; padding: 60px 32px; text-align: center; }
-        .success-wrap.show { display: flex; animation: fadeIn 0.5s ease; }
+        .success-wrap { display: flex; flex-direction: column; align-items: center; padding: 60px 32px; text-align: center; }
         .success-circle { width: 80px; height: 80px; border-radius: 50%; background: #EAF3DE; border: 2px solid #C0DD97; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
         .success-circle i { font-size: 40px; color: #3B6D11; }
         .success-title { font-size: 22px; font-weight: 700; color: #3D1A1A; margin-bottom: 8px; }
@@ -293,7 +274,7 @@
 
 <div class="screen" id="app">
     
-    <!-- ГЛАВНОЕ МЕНЮ (Стартовый экран) -->
+    <!-- ГЛАВНОЕ МЕНЮ -->
     <div id="page-menu" class="page active">
         <div class="topbar" style="justify-content: center; padding-bottom: 0;">
             <div>
@@ -306,26 +287,26 @@
             
             <button class="menu-item" onclick="openReport()">
                 <i class="ti ti-report" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
-                <span class="text" style="flex: 1; text-align: left; font-size: 18px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
+                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
 
             <button class="menu-item" onclick="alert('Раздел в разработке')">
-                <i class="ti ti-cake" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
-                <span class="text" style="flex: 1; text-align: left; font-size: 18px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
+                <span class="icon" style="font-size: 22px; margin-right: 12px;">🛍️</span>
+                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
 
             <button class="menu-item" onclick="alert('Раздел в разработке')">
-                <i class="ti ti-users" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
-                <span class="text" style="flex: 1; text-align: left; font-size: 18px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
+                <span class="icon" style="font-size: 22px; margin-right: 12px;">📦</span>
+                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
             
         </div>
     </div>
 
-    <!-- Единый индикатор шагов (скрывается через JS на меню) -->
+    <!-- Индикатор шагов -->
     <div class="steps" id="global-steps">
         <div class="st"><div class="st-circle active" id="sc1">1</div><div class="st-line" id="sl1"></div></div>
         <div class="st"><div class="st-circle" id="sc2">2</div><div class="st-line" id="sl2"></div></div>
@@ -472,28 +453,22 @@
                 <div class="card-icon"><i class="ti ti-message"></i></div>
                 <div><div class="card-title">Комментарий</div><div class="card-sub">По смене или причина недостачи</div></div>
             </div>
-            <textarea id="f-comment" rows="3" placeholder="По желанию..."></textarea>
+            <textarea id="f-comment" rows="3" placeholder="Особые ситуации, причина недостачи, сообщение следующей смене..."></textarea>
         </div>
 
         <button class="next-btn" id="submit-btn" onclick="submitAll()">
             <i class="ti ti-send"></i> Отправить отчёт
         </button>
-<!-- ЭКРАН УСПЕХА -->
-<div id="success" class="page">
-  <div class="success-wrap">
-    <div class="success-circle"><i class="ti ti-circle-check"></i></div>
-    <div class="success-title">Отчёт отправлен!</div>
-    <div class="success-sub">Данные записаны в таблицу.<br>Спасибо за смену!</div>
-    <button class="new-btn" style="margin-top:32px;" onclick="openMenu()">На главную</button>
-  </div>
-</div>
+    </div>
 
     <!-- ЭКРАН УСПЕХА -->
-    <div class="success-wrap" id="success">
-        <div class="success-circle"><i class="ti ti-circle-check"></i></div>
-        <div class="success-title">Отчёт отправлен!</div>
-        <div class="success-sub">Данные смены успешно сохранены.<br>Спасибо за вашу работу.</div>
-        <button class="new-btn" onclick="location.reload()">Заполнить новый отчёт</button>
+    <div id="success" class="page">
+        <div class="success-wrap">
+            <div class="success-circle"><i class="ti ti-circle-check"></i></div>
+            <div class="success-title">Отчёт отправлен!</div>
+            <div class="success-sub">Данные записаны в таблицу.<br>Спасибо за смену!</div>
+            <button class="new-btn" style="margin-top:32px;" onclick="openMenu()">На главную</button>
+        </div>
     </div>
 
 </div>
@@ -506,49 +481,27 @@
     tg.setHeaderColor('#FDF0F0');
     tg.setBackgroundColor('#FDF0F0');
 
-   // document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+    // Установка текущей даты в формате ДД/ММ/ГГГГ
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    document.getElementById('f-date').value = `${day}/${month}/${year}`;
+
+    // Маска для поля даты
+    document.getElementById('f-date').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2);
+        }
+        if (value.length >= 5) {
+            value = value.substring(0, 5) + '/' + value.substring(5, 9);
+        }
+        e.target.value = value;
+    });
 
     // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
     let currentStep = 1;
-// === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
-let currentStep = 1;
-
-// Добавляем обработку системной кнопки "Назад" в Telegram
-tg.BackButton.onClick(() => {
-    if (currentStep > 1) {
-        goToStep(currentStep - 1);
-    } else if (currentStep === 1) {
-        openMenu();
-    } else {
-        tg.close();
-    }
-});
-    // Функция открытия отчета из главного меню
-    function openReport() {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page1').classList.add('active');
-        
-        // Показываем индикатор шагов
-        document.querySelector('.steps').style.display = 'flex';
-        
-        currentStep = 1;
-        updateStepIndicators(1);
-        updateTelegramBackButton(1);
-        tg.HapticFeedback.impactOccurred('light');
-    }
-
-    // Функция возврата в главное меню
-  function openMenu() {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-menu').classList.add('active');
-    
-    // Скрываем индикатор шагов
-    document.querySelector('.steps').style.display = 'none';
-    
-    currentStep = 0;
-    tg.BackButton.hide();
-    tg.HapticFeedback.impactOccurred('light');
-}
 
     // Обработка системной кнопки "Назад" в Telegram
     tg.BackButton.onClick(() => {
@@ -560,6 +513,34 @@ tg.BackButton.onClick(() => {
             tg.close();
         }
     });
+
+    // Функция открытия отчета из главного меню
+    function openReport() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const page1 = document.getElementById('page1');
+        if (page1) page1.classList.add('active');
+        
+        const steps = document.querySelector('.steps');
+        if (steps) steps.style.display = 'flex';
+        
+        currentStep = 1;
+        updateStepIndicators(1);
+        if (tg.BackButton) tg.BackButton.show();
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    // Функция возврата в главное меню
+    function openMenu() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-menu').classList.add('active');
+        
+        const steps = document.querySelector('.steps');
+        if (steps) steps.style.display = 'none';
+        
+        currentStep = 0;
+        tg.BackButton.hide();
+        tg.HapticFeedback.impactOccurred('light');
+    }
 
     function goToStep(step) {
         if (step > currentStep) {
@@ -604,11 +585,6 @@ tg.BackButton.onClick(() => {
         }
     }
 
-    function closeApp() {
-        tg.HapticFeedback.impactOccurred('medium');
-        tg.close();
-    }
-
     function validateStep1() {
         const name = document.getElementById('f-name');
         const opening = document.getElementById('f-opening');
@@ -636,163 +612,153 @@ tg.BackButton.onClick(() => {
 
     // === 3. ЛОГИКА СПИСКОВ И РАСЧЕТОВ ===
     const EXPENSES = [
-        {id:'ex1',name:'Закупк бар'},
-        {id:'ex2',name:'Закуп кухня'},
-        {id:'ex3',name:'Закуп кондитер'},
-        {id:'ex4',name:'Доставка'},
-        {id:'ex5',name:'Доп расход на продукт'},
-        {id:'ex6',name:'Упаковка/Тара'},
-        {id:'ex6',name:'ЗП Техперсонал'},
-        {id:'ex6',name:'Аванс сотруднику'},
-        {id:'ex6',name:'Прочее'},
+        {id:'ex1',name:'Закупка продуктов'},
+        {id:'ex2',name:'Хозяйственные товары'},
+        {id:'ex3',name:'Упаковка и расходники'},
+        {id:'ex4',name:'Доставка / курьер'},
+        {id:'ex5',name:'Техническое обслуживание'},
+        {id:'ex6',name:'Прочие расходы'},
     ];
 
     const DEBTS = [
-        {id:'db1',name:'Дом кондитера'},
-        {id:'db2',name:'Золотой'},
-        {id:'db3',name:'Коника»'},
-        {id:'db4',name:'Другой поставщик»'},
+        {id:'db1',name:'ООО «Ромашка»'},
+        {id:'db2',name:'ИП Иванов'},
+        {id:'db3',name:'Кафе «Уют»'},
+        {id:'db4',name:'Ресторан «Север»'},
+        {id:'db5',name:'Другой контрагент'},
     ];
 
-  function buildList(items, containerId, totalId) {
-    const list = document.getElementById(containerId);
-    list.innerHTML = '';
-    const isExpense = (totalId === 'exp-total');
-    
-    items.forEach(e => {
-        const d = document.createElement('div');
-        d.className = 'expense-item';
-        d.id = 'item-' + e.id;
+    const expenseRowCounters = {};
+
+    function buildList(items, containerId, totalId) {
+        const list = document.getElementById(containerId);
+        list.innerHTML = '';
+        const isExpense = (totalId === 'exp-total');
         
-        if (isExpense) {
-            // Для РАСХОДОВ — с кнопкой "+ Добавить" и динамическими строками
-            d.innerHTML = `
-                <div class="expense-header" onclick="toggle('${e.id}','${totalId}')">
-                    <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
-                    <span class="exp-name">${e.name}</span>
-                    <button class="add-btn" onclick="event.stopPropagation(); addExpenseRow('${e.id}', '${totalId}', '${e.name}')">
-                        <i class="ti ti-plus"></i> Добавить
+        items.forEach(e => {
+            const d = document.createElement('div');
+            d.className = 'expense-item';
+            d.id = 'item-' + e.id;
+            
+            if (isExpense) {
+                d.innerHTML = `
+                    <div class="expense-header" onclick="toggle('${e.id}','${totalId}')">
+                        <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
+                        <span class="exp-name">${e.name}</span>
+                        <button class="add-btn" onclick="event.stopPropagation(); addExpenseRow('${e.id}', '${totalId}', '${e.name}')">
+                            <i class="ti ti-plus"></i> Добавить
+                        </button>
+                    </div>
+                    <div class="exp-rows" id="rows-${e.id}"></div>
+                `;
+            } else {
+                d.innerHTML = `
+                    <div class="expense-row" onclick="toggle('${e.id}','${totalId}')">
+                        <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
+                        <span class="exp-name">${e.name}</span>
+                    </div>
+                    <div class="exp-fields">
+                        <div>
+                            <label>Сумма</label>
+                            <div class="amount-wrap"><span class="currency">₽</span>
+                            <input type="number" id="sum-${e.id}" placeholder="0" min="0" oninput="recalcTotal('${totalId}')"></div>
+                        </div>
+                        <div>
+                            <label>Комментарий (необязательно)</label>
+                            <textarea id="cmt-${e.id}" rows="2" placeholder="Уточните при необходимости..."></textarea>
+                        </div>
+                    </div>`;
+            }
+            list.appendChild(d);
+        });
+    }
+
+    function addExpenseRow(itemId, totalId, itemName) {
+        const container = document.getElementById('rows-' + itemId);
+        
+        if (!expenseRowCounters[itemId]) expenseRowCounters[itemId] = 0;
+        expenseRowCounters[itemId]++;
+        const rowIndex = expenseRowCounters[itemId];
+        
+        const item = document.getElementById('item-' + itemId);
+        if (!item.classList.contains('selected')) {
+            item.classList.add('selected');
+        }
+        
+        const row = document.createElement('div');
+        row.className = 'expense-row-item';
+        row.id = `row-${itemId}-${rowIndex}`;
+        row.innerHTML = `
+            <div class="row-content">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span class="row-label">${itemName} #${rowIndex}</span>
+                    <div class="row-amount">
+                        <span class="row-currency">₽</span>
+                        <input type="number" placeholder="0" min="0" oninput="recalcTotal('${totalId}')">
+                    </div>
+                    <button class="row-delete" onclick="removeExpenseRow('${itemId}', ${rowIndex}, '${totalId}')">
+                        <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <div class="exp-rows" id="rows-${e.id}"></div>
-            `;
-        } else {
-            // Для ДОЛГОВ — оставляем старую структуру
-            d.innerHTML = `
-                <div class="expense-row" onclick="toggle('${e.id}','${totalId}')">
-                    <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
-                    <span class="exp-name">${e.name}</span>
-                </div>
-                <div class="exp-fields">
-                    <div>
-                        <label>Сумма</label>
-                        <div class="amount-wrap"><span class="currency">₽</span>
-                        <input type="number" id="sum-${e.id}" placeholder="0" min="0" oninput="recalcTotal('${totalId}')"></div>
-                    </div>
-                    <div>
-                        <label>Комментарий (необязательно)</label>
-                        <textarea id="cmt-${e.id}" rows="2" placeholder="Уточните при необходимости..."></textarea>
-                    </div>
-                </div>`;
-        }
-        list.appendChild(d);
-    });
-}
-    // Счетчик добавленных строк для каждого расхода
-const expenseRowCounters = {};
-
-// Добавить новую строку платежа
-function addExpenseRow(itemId, totalId, itemName) {
-    const container = document.getElementById('rows-' + itemId);
-    
-    // Инициализируем счетчик
-    if (!expenseRowCounters[itemId]) expenseRowCounters[itemId] = 0;
-    expenseRowCounters[itemId]++;
-    const rowIndex = expenseRowCounters[itemId];
-    
-    // Автоматически выбираем расход, если еще не выбран
-    const item = document.getElementById('item-' + itemId);
-    if (!item.classList.contains('selected')) {
-        item.classList.add('selected');
-    }
-    
-    const row = document.createElement('div');
-    row.className = 'expense-row-item';
-    row.id = `row-${itemId}-${rowIndex}`;
-    row.innerHTML = `
-        <div class="row-content">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span class="row-label">${itemName} #${rowIndex}</span>
-                <div class="row-amount">
-                    <span class="row-currency">₽</span>
-                    <input type="number" placeholder="0" min="0" 
-                           oninput="recalcTotal('${totalId}')">
-                </div>
-                <button class="row-delete" onclick="removeExpenseRow('${itemId}', ${rowIndex}, '${totalId}')">
-                    <i class="ti ti-x"></i>
-                </button>
+                <textarea class="row-comment" rows="1" placeholder="Комментарий (необязательно)..."></textarea>
             </div>
-            <textarea class="row-comment" rows="1" placeholder="Комментарий (необязательно)..."></textarea>
-        </div>
-    `;
-    
-    container.appendChild(row);
-    tg.HapticFeedback.impactOccurred('light');
-}
-
-// Удалить строку платежа
-function removeExpenseRow(itemId, rowIndex, totalId) {
-    const row = document.getElementById(`row-${itemId}-${rowIndex}`);
-    if (row) {
-        row.remove();
-        recalcTotal(totalId);
+        `;
+        
+        container.appendChild(row);
         tg.HapticFeedback.impactOccurred('light');
     }
-}
 
-    function toggle(id, totalId) {
-    document.getElementById('item-' + id).classList.toggle('selected');
-    tg.HapticFeedback.impactOccurred('light');
-}
+    function removeExpenseRow(itemId, rowIndex, totalId) {
+        const row = document.getElementById(`row-${itemId}-${rowIndex}`);
+        if (row) {
+            row.remove();
+            recalcTotal(totalId);
+            tg.HapticFeedback.impactOccurred('light');
+        }
     }
 
-function recalcTotal(totalId) {
-    const allItems = totalId === 'exp-total' ? EXPENSES : DEBTS;
-    let t = 0;
-    
-    allItems.forEach(e => {
-        const item = document.getElementById('item-' + e.id);
-        if (!item) return;
+    function toggle(id, totalId) {
+        document.getElementById('item-' + id).classList.toggle('selected');
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function recalcTotal(totalId) {
+        const allItems = totalId === 'exp-total' ? EXPENSES : DEBTS;
+        let t = 0;
         
-        if (totalId === 'exp-total') {
-            // Для расходов — суммируем все строки
+        allItems.forEach(e => {
+            const item = document.getElementById('item-' + e.id);
+            if (!item) return;
+            
+            if (totalId === 'exp-total') {
+                const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
+                rows.forEach(row => {
+                    const input = row.querySelector('input[type="number"]');
+                    if (input) t += parseFloat(input.value) || 0;
+                });
+            } else {
+                if (item.classList.contains('selected')) {
+                    t += parseFloat(document.getElementById('sum-' + e.id).value) || 0;
+                }
+            }
+        });
+        
+        document.getElementById(totalId).textContent = '₽ ' + t.toLocaleString('ru-RU');
+        if (totalId === 'exp-total') calcResult();
+    }
+
+    function getTotal(items) {
+        let t = 0;
+        items.forEach(e => {
             const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
             rows.forEach(row => {
                 const input = row.querySelector('input[type="number"]');
                 if (input) t += parseFloat(input.value) || 0;
             });
-        } else {
-            // Для долгов — старая логика
-            if (item.classList.contains('selected')) {
-                t += parseFloat(document.getElementById('sum-' + e.id).value) || 0;
-            }
-        }
-    });
-    
-    document.getElementById(totalId).textContent = '₽ ' + t.toLocaleString('ru-RU');
-    if (totalId === 'exp-total') calcResult();
-}
-    function getTotal(items) {
-    let t = 0;
-    items.forEach(e => {
-        const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
-        rows.forEach(row => {
-            const input = row.querySelector('input[type="number"]');
-            if (input) t += parseFloat(input.value) || 0;
         });
-    });
-    return t;
-}
+        return t;
+    }
+
     function calcResult() {
         const opening = parseFloat(document.getElementById('f-opening').value) || 0;
         const revenue = parseFloat(document.getElementById('f-revenue').value) || 0;
@@ -846,30 +812,19 @@ function recalcTotal(totalId) {
         tg.HapticFeedback.impactOccurred('light');
     }
 
- function submitAll() {
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
-    tg.HapticFeedback.impactOccurred('medium');
+    function submitAll() {
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+        tg.HapticFeedback.impactOccurred('medium');
 
-    // Имитация отправки (позже сюда добавим код для Google Таблиц)
-    setTimeout(() => {
-        // 1. Скрываем все страницы
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        
-        // 2. Показываем экран успеха
-        document.getElementById('success').classList.add('active');
-        
-        // 3. Скрываем индикатор шагов (линии 1-2-3-4)
-        document.querySelector('.steps').style.display = 'none';
-        
-        // 4. Скрываем системную кнопку "Назад" в Telegram
-        tg.BackButton.hide();
-        
-        // 5. Сбрасываем счетчик шагов
-        currentStep = 0; 
-    }, 1200);
-}
+        setTimeout(() => {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('success').classList.add('active');
+            document.querySelector('.steps').style.display = 'none';
+            tg.BackButton.hide();
+            currentStep = 0;
+        }, 1200);
     }
 
     // Инициализация списков при загрузке
