@@ -143,6 +143,37 @@
 <body>
 
 <div class="screen" id="app">
+      <!-- ГЛАВНОЕ МЕНЮ (Стартовый экран) -->
+  <div id="page-menu" class="page active">
+    <div class="topbar" style="justify-content: center; padding-bottom: 0;">
+      <div>
+        <div class="topbar-title" style="font-size: 22px;">Главное меню</div>
+        <div class="topbar-sub">Выберите нужное действие</div>
+      </div>
+    </div>
+    
+    <div class="menu-list" style="padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;">
+      
+      <button class="menu-item" onclick="openReport()">
+        <i class="ti ti-report" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
+        <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
+        <i class="ti ti-chevron-right" style="color: #A06060;"></i>
+      </button>
+
+      <button class="menu-item" onclick="alert('Раздел в разработке')">
+        <span class="icon" style="font-size: 22px; margin-right: 12px;">🛍️</span>
+        <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
+        <i class="ti ti-chevron-right" style="color: #A06060;"></i>
+      </button>
+
+      <button class="menu-item" onclick="alert('Раздел в разработке')">
+        <span class="icon" style="font-size: 22px; margin-right: 12px;">📦</span>
+        <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
+        <i class="ti ti-chevron-right" style="color: #A06060;"></i>
+      </button>
+      
+    </div>
+  </div>
 
     <!-- Единый индикатор шагов (обновляется через JS) -->
     <div class="steps" id="global-steps">
