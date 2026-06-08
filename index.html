@@ -166,7 +166,8 @@ body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .step
     <div class="menu-list" style="padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;">
       
       <button class="menu-item" onclick="openReport()">
-          function openReport() {
+      {
+          function openReport() 
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page1').classList.add('active');
   
