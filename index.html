@@ -478,15 +478,15 @@
         <button class="next-btn" id="submit-btn" onclick="submitAll()">
             <i class="ti ti-send"></i> Отправить отчёт
         </button>
-        <div id="screen-success" class="screen">
+<!-- ЭКРАН УСПЕХА -->
+<div id="success" class="page">
   <div class="success-wrap">
-    <div class="success-icon">✅</div>
+    <div class="success-circle"><i class="ti ti-circle-check"></i></div>
     <div class="success-title">Отчёт отправлен!</div>
     <div class="success-sub">Данные записаны в таблицу.<br>Спасибо за смену!</div>
-    <button class="btn-primary" style="margin-top:32px;" onclick="go('screen-home')">На главную</button>
+    <button class="new-btn" style="margin-top:32px;" onclick="openMenu()">На главную</button>
   </div>
 </div>
-    </div>
 
     <!-- ЭКРАН УСПЕХА -->
     <div class="success-wrap" id="success">
@@ -510,7 +510,19 @@
 
     // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
     let currentStep = 1;
+// === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
+let currentStep = 1;
 
+// Добавляем обработку системной кнопки "Назад" в Telegram
+tg.BackButton.onClick(() => {
+    if (currentStep > 1) {
+        goToStep(currentStep - 1);
+    } else if (currentStep === 1) {
+        openMenu();
+    } else {
+        tg.close();
+    }
+});
     // Функция открытия отчета из главного меню
     function openReport() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -526,17 +538,17 @@
     }
 
     // Функция возврата в главное меню
-    function openMenu() {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-menu').classList.add('active');
-        
-        // Скрываем индикатор шагов
-        document.querySelector('.steps').style.display = 'none';
-        
-        currentStep = 0;
-        tg.BackButton.hide();
-        tg.HapticFeedback.impactOccurred('light');
-    }
+  function openMenu() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-menu').classList.add('active');
+    
+    // Скрываем индикатор шагов
+    document.querySelector('.steps').style.display = 'none';
+    
+    currentStep = 0;
+    tg.BackButton.hide();
+    tg.HapticFeedback.impactOccurred('light');
+}
 
     // Обработка системной кнопки "Назад" в Telegram
     tg.BackButton.onClick(() => {
@@ -834,17 +846,30 @@ function recalcTotal(totalId) {
         tg.HapticFeedback.impactOccurred('light');
     }
 
-    function submitAll() {
-        const btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
-        tg.HapticFeedback.impactOccurred('medium');
+ function submitAll() {
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+    tg.HapticFeedback.impactOccurred('medium');
 
-        setTimeout(() => {
-            document.getElementById('app').style.display = 'none';
-            document.getElementById('success').classList.add('show');
-            tg.BackButton.hide(); 
-        }, 1200);
+    // Имитация отправки (позже сюда добавим код для Google Таблиц)
+    setTimeout(() => {
+        // 1. Скрываем все страницы
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        
+        // 2. Показываем экран успеха
+        document.getElementById('success').classList.add('active');
+        
+        // 3. Скрываем индикатор шагов (линии 1-2-3-4)
+        document.querySelector('.steps').style.display = 'none';
+        
+        // 4. Скрываем системную кнопку "Назад" в Telegram
+        tg.BackButton.hide();
+        
+        // 5. Сбрасываем счетчик шагов
+        currentStep = 0; 
+    }, 1200);
+}
     }
 
     // Инициализация списков при загрузке
