@@ -166,19 +166,6 @@ body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .step
     <div class="menu-list" style="padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;">
       
       <button class="menu-item" onclick="openReport()">
-      {
-          function openReport() 
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page1').classList.add('active');
-  
-  // Показываем шаги
-  document.querySelector('.steps').style.display = 'flex';
-  
-  currentStep = 1;
-  updateStepIndicators(1);
-  updateTelegramBackButton(1);
-  tg.HapticFeedback.impactOccurred('light');
-}
         <i class="ti ti-report" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
         <span class="text" style="flex: 1; text-align: left; font-size: 20px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
         <i class="ti ti-chevron-right" style="color: #A06060;"></i>
@@ -378,6 +365,40 @@ body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .step
 
     // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
     let currentStep = 1;
+    // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
+let currentStep = 1;
+
+// ВСТАВИТЬ СЮДА ↓↓↓
+
+// Функция открытия отчета из главного меню
+function openReport() {
+  // Скрываем все страницы
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Показываем 1 шаг отчета
+  document.getElementById('page1').classList.add('active');
+  
+  // Показываем индикатор шагов
+  document.querySelector('.steps').style.display = 'flex';
+  
+  currentStep = 1;
+  updateStepIndicators(1);
+  updateTelegramBackButton(1);
+  tg.HapticFeedback.impactOccurred('light');
+}
+
+// Функция возврата в главное меню
+function openMenu() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-menu').classList.add('active');
+  
+  // Скрываем индикатор шагов
+  document.querySelector('.steps').style.display = 'none';
+  
+  currentStep = 0; // 0 означает, что мы в меню
+  tg.BackButton.hide(); // Скрываем кнопку назад в самом меню
+  tg.HapticFeedback.impactOccurred('light');
+}
+    
 // Функция открытия отчета из главного меню
 function openReport() {
   // Скрываем все страницы
@@ -429,23 +450,6 @@ tg.BackButton.onClick(() => {
     tg.close();
   }
 });
-
-// Функция возврата в главное меню
-function openMenu() {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-menu').classList.add('active');
-  currentStep = 0; // 0 означает, что мы в меню
-  tg.BackButton.hide(); // Скрываем кнопку назад в самом меню
-  tg.HapticFeedback.impactOccurred('light');
-}
-    // Обработка системной кнопки "Назад" в Telegram
-    tg.BackButton.onClick(() => {
-        if (currentStep > 1) {
-            goToStep(currentStep - 1);
-        } else {
-            tg.close(); // Если мы на 1 шаге, закрываем приложение
-        }
-    });
 
     function goToStep(step) {
         // Валидация только при движении ВПЕРЕД
