@@ -11,6 +11,148 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <style>
+        /* Заголовок расхода с кнопкой "+ Добавить" */
+.expense-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+}
+.expense-header .exp-check {
+    width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #E0B8B8;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.2s; background: #fff;
+}
+.expense-item.selected .expense-header .exp-check {
+    background: #7B3B3B; border-color: #7B3B3B;
+}
+.expense-header .exp-check i { font-size: 14px; color: #fff; display: none; }
+.expense-item.selected .expense-header .exp-check i { display: block; }
+.expense-header .exp-name {
+    font-size: 15px; color: #3D1A1A; flex: 1; font-weight: 500;
+}
+
+/* Кнопка "+ Добавить" */
+.add-btn {
+    background: rgba(123, 59, 59, 0.1);
+    border: 1px solid #E8C8C8;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #7B3B3B;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.add-btn:active {
+    background: #7B3B3B;
+    color: #fff;
+    transform: scale(0.95);
+}
+.add-btn i { font-size: 16px; }
+
+/* Контейнер для строк платежей */
+.exp-rows {
+    padding: 0 16px 14px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+}
+.expense-item.selected .exp-rows {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Одна строка платежа */
+.expense-row-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFFAFA;
+    border: 1px solid #E8C8C8;
+    border-radius: 10px;
+    padding: 10px 12px;
+    animation: fadeIn 0.25s ease;
+}
+.expense-row-item .row-label {
+    font-size: 14px;
+    color: #7B5050;
+    min-width: 80px;
+    font-weight: 500;
+}
+.expense-row-item .row-amount {
+    flex: 1;
+    position: relative;
+}
+.expense-row-item .row-amount input {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 10px 8px 26px;
+    border: 1px solid #E8C8C8;
+    border-radius: 8px;
+    background: #fff;
+    color: #3D1A1A;
+    outline: none;
+}
+.expense-row-item .row-amount input:focus {
+    border-color: #7B3B3B;
+}
+.expense-row-item .row-currency {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: #A06060;
+    pointer-events: none;
+}
+.expense-row-item .row-comment {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 10px;
+    border: 1px solid #E8C8C8;
+    border-radius: 8px;
+    background: #fff;
+    color: #3D1A1A;
+    outline: none;
+    margin-top: 6px;
+    resize: none;
+}
+.expense-row-item .row-comment:focus {
+    border-color: #7B3B3B;
+}
+.expense-row-item .row-delete {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: #FCEBEB;
+    color: #A32D2D;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+.expense-row-item .row-delete:active {
+    background: #A32D2D;
+    color: #fff;
+    transform: scale(0.9);
+}
+.expense-row-item .row-delete i { font-size: 16px; }
+
+.expense-row-item .row-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
         .menu-item {
             display: flex; align-items: center; background: #fff; border: 0.5px solid #E8C8C8;
             border-radius: 12px; padding: 16px; width: 100%; text-align: left; cursor: pointer;
@@ -164,19 +306,19 @@
             
             <button class="menu-item" onclick="openReport()">
                 <i class="ti ti-report" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
-                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
+                <span class="text" style="flex: 1; text-align: left; font-size: 18px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
 
             <button class="menu-item" onclick="alert('Раздел в разработке')">
-                <span class="icon" style="font-size: 22px; margin-right: 12px;">🛍️</span>
-                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
+                <i class="ti ti-cake" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
+                <span class="text" style="flex: 1; text-align: left; font-size: 18px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
 
             <button class="menu-item" onclick="alert('Раздел в разработке')">
-                <span class="icon" style="font-size: 22px; margin-right: 12px;">📦</span>
-                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
+                <i class="ti ti-users" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
+                <span class="text" style="flex: 1; text-align: left; font-size: 18px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
             
@@ -214,7 +356,7 @@
             </div>
             <div class="field">
                 <label>Дата смены</label>
-                <input type="date" id="f-date">
+                <input type="text" id="f-date" placeholder="ДД/ММ/ГГГГ" maxlength="10" inputmode="numeric">
             </div>
             <div class="field">
                 <label>Сумма на начало дня (в кассе)</label>
@@ -330,12 +472,20 @@
                 <div class="card-icon"><i class="ti ti-message"></i></div>
                 <div><div class="card-title">Комментарий</div><div class="card-sub">По смене или причина недостачи</div></div>
             </div>
-            <textarea id="f-comment" rows="3" placeholder="Особые ситуации, причина недостачи, сообщение следующей смене..."></textarea>
+            <textarea id="f-comment" rows="3" placeholder="По желанию..."></textarea>
         </div>
 
         <button class="next-btn" id="submit-btn" onclick="submitAll()">
             <i class="ti ti-send"></i> Отправить отчёт
         </button>
+        <div id="screen-success" class="screen">
+  <div class="success-wrap">
+    <div class="success-icon">✅</div>
+    <div class="success-title">Отчёт отправлен!</div>
+    <div class="success-sub">Данные записаны в таблицу.<br>Спасибо за смену!</div>
+    <button class="btn-primary" style="margin-top:32px;" onclick="go('screen-home')">На главную</button>
+  </div>
+</div>
     </div>
 
     <!-- ЭКРАН УСПЕХА -->
@@ -356,7 +506,7 @@
     tg.setHeaderColor('#FDF0F0');
     tg.setBackgroundColor('#FDF0F0');
 
-    document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+   // document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
 
     // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
     let currentStep = 1;
@@ -474,29 +624,48 @@
 
     // === 3. ЛОГИКА СПИСКОВ И РАСЧЕТОВ ===
     const EXPENSES = [
-        {id:'ex1',name:'Закупка продуктов'},
-        {id:'ex2',name:'Хозяйственные товары'},
-        {id:'ex3',name:'Упаковка и расходники'},
-        {id:'ex4',name:'Доставка / курьер'},
-        {id:'ex5',name:'Техническое обслуживание'},
-        {id:'ex6',name:'Прочие расходы'},
+        {id:'ex1',name:'Закупк бар'},
+        {id:'ex2',name:'Закуп кухня'},
+        {id:'ex3',name:'Закуп кондитер'},
+        {id:'ex4',name:'Доставка'},
+        {id:'ex5',name:'Доп расход на продукт'},
+        {id:'ex6',name:'Упаковка/Тара'},
+        {id:'ex6',name:'ЗП Техперсонал'},
+        {id:'ex6',name:'Аванс сотруднику'},
+        {id:'ex6',name:'Прочее'},
     ];
 
     const DEBTS = [
-        {id:'db1',name:'ООО «Ромашка»'},
-        {id:'db2',name:'ИП Иванов'},
-        {id:'db3',name:'Кафе «Уют»'},
-        {id:'db4',name:'Ресторан «Север»'},
-        {id:'db5',name:'Другой контрагент'},
+        {id:'db1',name:'Дом кондитера'},
+        {id:'db2',name:'Золотой'},
+        {id:'db3',name:'Коника»'},
+        {id:'db4',name:'Другой поставщик»'},
     ];
 
-    function buildList(items, containerId, totalId) {
-        const list = document.getElementById(containerId);
-        list.innerHTML = '';
-        items.forEach(e => {
-            const d = document.createElement('div');
-            d.className = 'expense-item';
-            d.id = 'item-' + e.id;
+  function buildList(items, containerId, totalId) {
+    const list = document.getElementById(containerId);
+    list.innerHTML = '';
+    const isExpense = (totalId === 'exp-total');
+    
+    items.forEach(e => {
+        const d = document.createElement('div');
+        d.className = 'expense-item';
+        d.id = 'item-' + e.id;
+        
+        if (isExpense) {
+            // Для РАСХОДОВ — с кнопкой "+ Добавить" и динамическими строками
+            d.innerHTML = `
+                <div class="expense-header" onclick="toggle('${e.id}','${totalId}')">
+                    <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
+                    <span class="exp-name">${e.name}</span>
+                    <button class="add-btn" onclick="event.stopPropagation(); addExpenseRow('${e.id}', '${totalId}', '${e.name}')">
+                        <i class="ti ti-plus"></i> Добавить
+                    </button>
+                </div>
+                <div class="exp-rows" id="rows-${e.id}"></div>
+            `;
+        } else {
+            // Для ДОЛГОВ — оставляем старую структуру
             d.innerHTML = `
                 <div class="expense-row" onclick="toggle('${e.id}','${totalId}')">
                     <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
@@ -513,40 +682,105 @@
                         <textarea id="cmt-${e.id}" rows="2" placeholder="Уточните при необходимости..."></textarea>
                     </div>
                 </div>`;
-            list.appendChild(d);
-        });
-    }
+        }
+        list.appendChild(d);
+    });
+}
+    // Счетчик добавленных строк для каждого расхода
+const expenseRowCounters = {};
 
-    function toggle(id, totalId) {
-        document.getElementById('item-' + id).classList.toggle('selected');
+// Добавить новую строку платежа
+function addExpenseRow(itemId, totalId, itemName) {
+    const container = document.getElementById('rows-' + itemId);
+    
+    // Инициализируем счетчик
+    if (!expenseRowCounters[itemId]) expenseRowCounters[itemId] = 0;
+    expenseRowCounters[itemId]++;
+    const rowIndex = expenseRowCounters[itemId];
+    
+    // Автоматически выбираем расход, если еще не выбран
+    const item = document.getElementById('item-' + itemId);
+    if (!item.classList.contains('selected')) {
+        item.classList.add('selected');
+    }
+    
+    const row = document.createElement('div');
+    row.className = 'expense-row-item';
+    row.id = `row-${itemId}-${rowIndex}`;
+    row.innerHTML = `
+        <div class="row-content">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span class="row-label">${itemName} #${rowIndex}</span>
+                <div class="row-amount">
+                    <span class="row-currency">₽</span>
+                    <input type="number" placeholder="0" min="0" 
+                           oninput="recalcTotal('${totalId}')">
+                </div>
+                <button class="row-delete" onclick="removeExpenseRow('${itemId}', ${rowIndex}, '${totalId}')">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+            <textarea class="row-comment" rows="1" placeholder="Комментарий (необязательно)..."></textarea>
+        </div>
+    `;
+    
+    container.appendChild(row);
+    tg.HapticFeedback.impactOccurred('light');
+}
+
+// Удалить строку платежа
+function removeExpenseRow(itemId, rowIndex, totalId) {
+    const row = document.getElementById(`row-${itemId}-${rowIndex}`);
+    if (row) {
+        row.remove();
         recalcTotal(totalId);
         tg.HapticFeedback.impactOccurred('light');
     }
+}
 
-    function recalcTotal(totalId) {
-        const allItems = totalId === 'exp-total' ? EXPENSES : DEBTS;
-        let t = 0;
-        allItems.forEach(e => {
-            const el = document.getElementById('item-' + e.id);
-            if (el && el.classList.contains('selected')) {
-                t += parseFloat(document.getElementById('sum-' + e.id).value) || 0;
-            }
-        });
-        document.getElementById(totalId).textContent = '₽ ' + t.toLocaleString('ru-RU');
-        if (totalId === 'exp-total') calcResult();
+    function toggle(id, totalId) {
+    document.getElementById('item-' + id).classList.toggle('selected');
+    tg.HapticFeedback.impactOccurred('light');
+}
     }
 
+function recalcTotal(totalId) {
+    const allItems = totalId === 'exp-total' ? EXPENSES : DEBTS;
+    let t = 0;
+    
+    allItems.forEach(e => {
+        const item = document.getElementById('item-' + e.id);
+        if (!item) return;
+        
+        if (totalId === 'exp-total') {
+            // Для расходов — суммируем все строки
+            const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
+            rows.forEach(row => {
+                const input = row.querySelector('input[type="number"]');
+                if (input) t += parseFloat(input.value) || 0;
+            });
+        } else {
+            // Для долгов — старая логика
+            if (item.classList.contains('selected')) {
+                t += parseFloat(document.getElementById('sum-' + e.id).value) || 0;
+            }
+        }
+    });
+    
+    document.getElementById(totalId).textContent = '₽ ' + t.toLocaleString('ru-RU');
+    if (totalId === 'exp-total') calcResult();
+}
     function getTotal(items) {
-        let t = 0;
-        items.forEach(e => {
-            const el = document.getElementById('item-' + e.id);
-            if (el && el.classList.contains('selected')) {
-                t += parseFloat(document.getElementById('sum-' + e.id).value) || 0;
-            }
+    let t = 0;
+    items.forEach(e => {
+        const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
+        rows.forEach(row => {
+            const input = row.querySelector('input[type="number"]');
+            if (input) t += parseFloat(input.value) || 0;
         });
-        return t;
-    }
-
+    });
+    return t;
+}
     function calcResult() {
         const opening = parseFloat(document.getElementById('f-opening').value) || 0;
         const revenue = parseFloat(document.getElementById('f-revenue').value) || 0;
