@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <style>
+        .menu-item {
+  display: flex; align-items: center; background: #fff; border: 0.5px solid #E8C8C8;
+  border-radius: 12px; padding: 16px; width: 100%; text-align: left; cursor: pointer;
+  transition: all 0.2s; box-shadow: 0 2px 8px rgba(62, 39, 35, 0.04);
+}
+.menu-item:active { transform: scale(0.98); background: #FFF5F5; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { 
             background: #FDF0F0; 
@@ -144,7 +150,7 @@
 
 <div class="screen" id="app">
       <!-- ГЛАВНОЕ МЕНЮ (Стартовый экран) -->
-  <div id="page-menu" class="page active">
+  <div id="page-menu" class="page">
     <div class="topbar" style="justify-content: center; padding-bottom: 0;">
       <div>
         <div class="topbar-title" style="font-size: 22px;">Главное меню</div>
@@ -354,7 +360,55 @@
 
     // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
     let currentStep = 1;
+// Функция открытия отчета из главного меню
+function openReport() {
+  // Скрываем все страницы
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Показываем 1 шаг отчета
+  document.getElementById('page1').classList.add('active');
+  
+  currentStep = 1;
+  updateStepIndicators(1);
+  updateTelegramBackButton(1);
+  tg.HapticFeedback.impactOccurred('light');
+}
 
+// Обновляем функцию goToStep, чтобы кнопка "Назад" на 1 шаге возвращала в меню, а не закрывала приложение
+function goToStep(step) {
+  if (step > currentStep) {
+    if (currentStep === 1 && !validateStep1()) return;
+  }
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page' + step).classList.add('active');
+  
+  currentStep = step;
+  updateStepIndicators(step);
+  updateTelegramBackButton(step);
+  
+  tg.HapticFeedback.impactOccurred('light');
+}
+
+// Обновляем обработку системной кнопки "Назад" в Telegram
+tg.BackButton.onClick(() => {
+  if (currentStep > 1) {
+    goToStep(currentStep - 1); // Возврат на шаг назад в отчете
+  } else if (currentStep === 1) {
+    // Если мы на 1 шаге отчета, возвращаемся в главное меню
+    openMenu();
+  } else {
+    tg.close();
+  }
+});
+
+// Функция возврата в главное меню
+function openMenu() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-menu').classList.add('active');
+  currentStep = 0; // 0 означает, что мы в меню
+  tg.BackButton.hide(); // Скрываем кнопку назад в самом меню
+  tg.HapticFeedback.impactOccurred('light');
+}
     // Обработка системной кнопки "Назад" в Telegram
     tg.BackButton.onClick(() => {
         if (currentStep > 1) {
@@ -588,7 +642,7 @@
     buildList(DEBTS, 'debts-list', 'debt-total');
     
     // Скрываем кнопку назад на старте
-    updateTelegramBackButton(1);
+openMenu(); // Инициализируем приложение с главного меню
 </script>
 
 </body>
