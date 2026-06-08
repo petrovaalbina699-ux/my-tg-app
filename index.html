@@ -1,183 +1,390 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Рабочее меню</title>
-    
-    <!-- Подключаем скрипт Telegram WebApp -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <style>
-        /* === НАСТРОЙКИ ДИЗАЙНА === */
-        :root {
-            --bg-color: #FDF6F0;         /* Светло-розовый/бежевый фон */
-            --card-bg: #FFFFFF;          /* Белый для карточек */
-            --text-primary: #3E2723;     /* Темно-коричневый текст (почти черный) */
-            --text-secondary: #6D4C41;   /* Светло-коричневый для подписей */
-            --accent-color: #EFEBE9;     /* Мягкий акцент при нажатии */
-            --shadow: 0 4px 12px rgba(62, 39, 35, 0.06);
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* Убирает синюю подсветку при клике на iOS/Android */
-        }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-size: 16px; /* Аккуратный средний шрифт */
-            line-height: 1.5;
-            padding: 24px 20px;
-        }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.screen{background:#FDF0F0;min-height:100vh;font-family:var(--font-sans);padding:0 0 48px;}
+.topbar{padding:16px 20px 12px;display:flex;align-items:center;gap:12px;}
+.back-btn{width:38px;height:38px;border-radius:50%;background:#F5D0D0;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.back-btn i{font-size:20px;color:#7B3B3B;}
+.topbar-title{font-size:17px;font-weight:500;color:#3D1A1A;}
+.topbar-sub{font-size:13px;color:#A06060;}
+.steps{display:flex;align-items:center;gap:0;padding:0 20px 18px;}
+.st{display:flex;align-items:center;gap:0;flex:1;}
+.st-circle{width:28px;height:28px;border-radius:50%;border:1.5px solid #E8C8C8;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#C49090;flex-shrink:0;transition:all .2s;}
+.st-circle.active{background:#7B3B3B;border-color:#7B3B3B;color:#fff;}
+.st-circle.done{background:#F5D0D0;border-color:#C49090;color:#7B3B3B;}
+.st-line{flex:1;height:1.5px;background:#E8C8C8;}
+.st-line.done{background:#C49090;}
+.card{background:#fff;border:0.5px solid #E8C8C8;border-radius:16px;padding:22px 20px;margin:0 16px;}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.card-icon{width:40px;height:40px;border-radius:10px;background:#FDF0F0;border:0.5px solid #E8C8C8;display:flex;align-items:center;justify-content:center;}
+.card-icon i{font-size:20px;color:#7B3B3B;}
+.card-title{font-size:16px;font-weight:500;color:#3D1A1A;}
+.card-sub{font-size:13px;color:#A06060;}
+.field{margin-bottom:16px;}
+.field:last-child{margin-bottom:0;}
+label{font-size:13px;color:#7B5050;display:block;margin-bottom:6px;}
+input,select,textarea{width:100%;font-size:15px;padding:12px 14px;border:0.5px solid #E8C8C8;border-radius:10px;background:#FFFAFA;color:#3D1A1A;font-family:var(--font-sans);outline:none;}
+input:focus,select:focus,textarea:focus{border-color:#C49090;background:#fff;}
+textarea{resize:none;line-height:1.5;}
+.amount-wrap{position:relative;}
+.amount-wrap input{padding-left:30px;}
+.currency{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;color:#A06060;pointer-events:none;}
+.err-msg{font-size:13px;color:#A32D2D;margin-top:4px;display:none;}
+.expense-item{border:0.5px solid #E8C8C8;border-radius:12px;background:#FFFAFA;margin-bottom:10px;overflow:hidden;transition:border-color .15s;}
+.expense-item.selected{border-color:#C49090;background:#FFF5F5;}
+.expense-row{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;}
+.exp-check{width:20px;height:20px;border-radius:6px;border:1.5px solid #E0B8B8;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;background:#fff;}
+.expense-item.selected .exp-check{background:#7B3B3B;border-color:#7B3B3B;}
+.exp-check i{font-size:13px;color:#fff;display:none;}
+.expense-item.selected .exp-check i{display:block;}
+.exp-name{font-size:15px;color:#3D1A1A;flex:1;}
+.exp-fields{padding:0 16px 14px;display:none;flex-direction:column;gap:10px;}
+.expense-item.selected .exp-fields{display:flex;}
+.total-bar{background:#fff;border:0.5px solid #E8C8C8;border-radius:12px;padding:14px 18px;margin:12px 16px 0;display:flex;justify-content:space-between;align-items:center;}
+.total-label{font-size:14px;color:#A06060;}
+.total-sum{font-size:18px;font-weight:500;color:#3D1A1A;}
+.result-card{border-radius:12px;padding:16px 18px;margin:12px 16px 0;display:flex;justify-content:space-between;align-items:center;}
+.result-card.neutral{background:#FDF0F0;border:0.5px solid #E8C8C8;}
+.result-card.surplus{background:#EAF3DE;border:0.5px solid #C0DD97;}
+.result-card.deficit{background:#FCEBEB;border:0.5px solid #F7C1C1;}
+.result-label{font-size:14px;color:#7B5050;}
+.result-label.surplus{color:#3B6D11;}
+.result-label.deficit{color:#A32D2D;}
+.result-value{font-size:20px;font-weight:500;color:#3D1A1A;}
+.result-value.surplus{color:#3B6D11;}
+.result-value.deficit{color:#A32D2D;}
+.photo-zone{border:1px dashed #E0B8B8;border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:#FFFAFA;}
+.photo-zone i{font-size:28px;color:#C49090;margin-bottom:6px;}
+.photo-zone p{font-size:14px;color:#A06060;}
+.photo-zone input{display:none;}
+.photo-previews{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.photo-thumb{width:72px;height:72px;border-radius:8px;object-fit:cover;border:0.5px solid #E8C8C8;}
+.next-btn{width:calc(100% - 32px);margin:16px 16px 0;padding:15px;background:#7B3B3B;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.next-btn:hover{background:#6A2E2E;}
+.next-btn:disabled{background:#D4A0A0;cursor:not-allowed;}
+.page{display:none;}
+.page.active{display:block;}
+.success-wrap{display:none;flex-direction:column;align-items:center;padding:60px 32px;text-align:center;}
+.success-wrap.show{display:flex;}
+.success-circle{width:76px;height:76px;border-radius:50%;background:#F5D0D0;border:1.5px solid #E8AEAE;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.success-circle i{font-size:34px;color:#7B3B3B;}
+.success-title{font-size:19px;font-weight:500;color:#3D1A1A;margin-bottom:8px;}
+.success-sub{font-size:14px;color:#A06060;line-height:1.6;margin-bottom:28px;}
+.new-btn{background:#fff;border:0.5px solid #E8C8C8;border-radius:10px;padding:12px 28px;font-size:15px;color:#7B3B3B;cursor:pointer;}
+</style>
 
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-        }
+<div class="screen" id="app">
 
-        .header {
-            margin-bottom: 32px;
-            text-align: center;
-        }
+  <div id="page1" class="page active">
+    <div class="topbar">
+      <button class="back-btn" onclick="sendPrompt('Вернуться в главное меню Mahan')" aria-label="Назад"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+      <div><div class="topbar-title">Отчёт закрытия смены</div><div class="topbar-sub">Шаг 1 из 4</div></div>
+    </div>
+    <div class="steps">
+      <div class="st"><div class="st-circle active" id="sc1">1</div><div class="st-line" id="sl1"></div></div>
+      <div class="st"><div class="st-circle" id="sc2">2</div><div class="st-line" id="sl2"></div></div>
+      <div class="st"><div class="st-circle" id="sc3">3</div><div class="st-line" id="sl3"></div></div>
+      <div class="st"><div class="st-circle" id="sc4">4</div><div class="st-line" style="background:transparent"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon"><i class="ti ti-user" aria-hidden="true"></i></div>
+        <div><div class="card-title">Начало смены</div><div class="card-sub">Основная информация</div></div>
+      </div>
+      <div class="field">
+        <label>Имя сотрудника</label>
+        <input type="text" id="f-name" placeholder="Введите ваше имя">
+        <div class="err-msg" id="err-name">Укажите имя</div>
+      </div>
+      <div class="field">
+        <label>Дата смены</label>
+        <input type="date" id="f-date">
+      </div>
+      <div class="field">
+        <label>Сумма на начало дня (в кассе)</label>
+        <div class="amount-wrap"><span class="currency">₽</span><input type="number" id="f-opening" placeholder="0" min="0"></div>
+        <div class="err-msg" id="err-opening">Укажите сумму</div>
+      </div>
+    </div>
+    <button class="next-btn" onclick="go(1,2)">Далее <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  </div>
 
-        .header h1 {
-            font-size: 26px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
+  <div id="page2" class="page">
+    <div class="topbar">
+      <button class="back-btn" onclick="go(2,1)" aria-label="Назад"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+      <div><div class="topbar-title">Отчёт закрытия смены</div><div class="topbar-sub">Шаг 2 из 4</div></div>
+    </div>
+    <div class="steps">
+      <div class="st"><div class="st-circle done" id="sc1b"><i class="ti ti-check" style="font-size:13px"></i></div><div class="st-line done"></div></div>
+      <div class="st"><div class="st-circle active">2</div><div class="st-line" id="sl2b"></div></div>
+      <div class="st"><div class="st-circle">3</div><div class="st-line"></div></div>
+      <div class="st"><div class="st-circle">4</div><div class="st-line" style="background:transparent"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon"><i class="ti ti-receipt" aria-hidden="true"></i></div>
+        <div><div class="card-title">Расходы из кассы</div><div class="card-sub">Выберите нужные пункты</div></div>
+      </div>
+      <div id="expenses-list"></div>
+    </div>
+    <div class="total-bar">
+      <span class="total-label">Итого расходов</span>
+      <span class="total-sum" id="exp-total">₽ 0</span>
+    </div>
+    <button class="next-btn" onclick="go(2,3)">Далее <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  </div>
 
-        .subtitle {
-            font-size: 15px;
-            color: var(--text-secondary);
-        }
+  <div id="page3" class="page">
+    <div class="topbar">
+      <button class="back-btn" onclick="go(3,2)" aria-label="Назад"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+      <div><div class="topbar-title">Отчёт закрытия смены</div><div class="topbar-sub">Шаг 3 из 4</div></div>
+    </div>
+    <div class="steps">
+      <div class="st"><div class="st-circle done"><i class="ti ti-check" style="font-size:13px"></i></div><div class="st-line done"></div></div>
+      <div class="st"><div class="st-circle done"><i class="ti ti-check" style="font-size:13px"></i></div><div class="st-line done"></div></div>
+      <div class="st"><div class="st-circle active">3</div><div class="st-line"></div></div>
+      <div class="st"><div class="st-circle">4</div><div class="st-line" style="background:transparent"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon"><i class="ti ti-file-invoice" aria-hidden="true"></i></div>
+        <div><div class="card-title">Долговые накладные</div><div class="card-sub">Если имеются — выберите и укажите сумму</div></div>
+      </div>
+      <div id="debts-list"></div>
+    </div>
+    <div class="total-bar">
+      <span class="total-label">Итого по накладным</span>
+      <span class="total-sum" id="debt-total">₽ 0</span>
+    </div>
+    <button class="next-btn" onclick="go(3,4)">Далее <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  </div>
 
-        .menu-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            background-color: var(--card-bg);
-            border: 1px solid rgba(62, 39, 35, 0.08);
-            border-radius: 16px;
-            padding: 18px 20px;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .menu-item:active {
-            transform: scale(0.98);
-            background-color: var(--accent-color);
-            box-shadow: none;
-        }
-
-        .icon {
-            font-size: 24px;
-            margin-right: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-        }
-
-        .text {
-            flex-grow: 1;
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .arrow {
-            font-size: 22px;
-            color: var(--text-secondary);
-            font-weight: 300;
-            opacity: 0.6;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <header class="header">
-            <h1>Главное меню</h1>
-            <p class="subtitle">Выберите нужное действие</p>
-        </header>
-
-        <main class="menu-list">
-            <button class="menu-item" onclick="openScreen('shift-report')">
-                <span class="icon">📊</span>
-                <span class="text">Отчет по закрытию смены</span>
-                <span class="arrow">›</span>
-            </button>
-
-            <button class="menu-item" onclick="openScreen('individual-order')">
-                <span class="icon">🛍️</span>
-                <span class="text">Оформление индивид. заказа</span>
-                <span class="arrow">›</span>
-            </button>
-
-            <button class="menu-item" onclick="openScreen('wholesale-order')">
-                <span class="icon">📦</span>
-                <span class="text">Оформление опт. заказа</span>
-                <span class="arrow">›</span>
-            </button>
-            
-            <button class="menu-item" onclick="openScreen('other')">
-                <span class="icon">⚙️</span>
-                <span class="text">Другое</span>
-                <span class="arrow">›</span>
-            </button>
-        </main>
+  <div id="page4" class="page">
+    <div class="topbar">
+      <button class="back-btn" onclick="go(4,3)" aria-label="Назад"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+      <div><div class="topbar-title">Отчёт закрытия смены</div><div class="topbar-sub">Шаг 4 из 4</div></div>
+    </div>
+    <div class="steps">
+      <div class="st"><div class="st-circle done"><i class="ti ti-check" style="font-size:13px"></i></div><div class="st-line done"></div></div>
+      <div class="st"><div class="st-circle done"><i class="ti ti-check" style="font-size:13px"></i></div><div class="st-line done"></div></div>
+      <div class="st"><div class="st-circle done"><i class="ti ti-check" style="font-size:13px"></i></div><div class="st-line done"></div></div>
+      <div class="st"><div class="st-circle active">4</div><div class="st-line" style="background:transparent"></div></div>
     </div>
 
-    <script>
-        // === ЛОГИКА ПРИЛОЖЕНИЯ ===
-        
-        // 1. Инициализация Telegram WebApp
-        const tg = window.Telegram.WebApp;
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon"><i class="ti ti-camera" aria-hidden="true"></i></div>
+        <div><div class="card-title">Фото накладных</div><div class="card-sub">Необязательно</div></div>
+      </div>
+      <div class="photo-zone" onclick="document.getElementById('photo-input').click()">
+        <i class="ti ti-cloud-upload" aria-hidden="true"></i>
+        <p>Нажмите, чтобы загрузить фото</p>
+        <input type="file" id="photo-input" accept="image/*" multiple onchange="handlePhotos(this)">
+      </div>
+      <div class="photo-previews" id="photo-previews"></div>
+    </div>
 
-        // 2. Сообщаем Telegram, что приложение готово к работе
-        tg.ready();
+    <div class="card" style="margin-top:12px;">
+      <div class="card-header">
+        <div class="card-icon"><i class="ti ti-cash" aria-hidden="true"></i></div>
+        <div><div class="card-title">Итоги смены</div><div class="card-sub">Заполните все поля</div></div>
+      </div>
+      <div class="field">
+        <label>Выручка за день (₽)</label>
+        <div class="amount-wrap"><span class="currency">₽</span><input type="number" id="f-revenue" placeholder="0" min="0" oninput="calcResult()"></div>
+      </div>
+      <div class="field">
+        <label>Безнал (₽)</label>
+        <div class="amount-wrap"><span class="currency">₽</span><input type="number" id="f-cashless" placeholder="0" min="0" oninput="calcResult()"></div>
+      </div>
+      <div class="field">
+        <label>Инкассация (₽)</label>
+        <div class="amount-wrap"><span class="currency">₽</span><input type="number" id="f-collection" placeholder="0" min="0" oninput="calcResult()"></div>
+      </div>
+      <div class="field">
+        <label>Остаток на конец дня (₽)</label>
+        <div class="amount-wrap"><span class="currency">₽</span><input type="number" id="f-closing" placeholder="0" min="0" oninput="calcResult()"></div>
+      </div>
+    </div>
 
-        // 3. Разворачиваем приложение на весь доступный экран
-        tg.expand();
+    <div class="result-card neutral" id="result-card" style="margin-top:12px;">
+      <div>
+        <div class="result-label" id="result-label">Недостача / Излишек</div>
+        <div style="font-size:12px;color:#A06060;margin-top:3px;" id="result-formula">Заполните поля выше</div>
+      </div>
+      <div class="result-value" id="result-value">—</div>
+    </div>
 
-        // 4. Настраиваем цвета системных элементов Telegram под наш дизайн
-        tg.setHeaderColor('#FDF6F0'); 
-        tg.setBackgroundColor('#FDF6F0');
+    <div class="card" style="margin-top:12px;">
+      <div class="card-header" style="margin-bottom:12px;">
+        <div class="card-icon"><i class="ti ti-message" aria-hidden="true"></i></div>
+        <div><div class="card-title">Комментарий</div><div class="card-sub">По смене или причина недостачи</div></div>
+      </div>
+      <textarea id="f-comment" rows="3" placeholder="Особые ситуации, причина недостачи, сообщение следующей смене..."></textarea>
+    </div>
 
-        // 5. Функция обработки кликов по пунктам меню
-        function openScreen(screenName) {
-            // Легкая вибрация при нажатии (работает на телефонах)
-            tg.HapticFeedback.impactOccurred('light');
+    <button class="next-btn" id="submit-btn" onclick="submitAll()">
+      <i class="ti ti-send" aria-hidden="true"></i> Отправить отчёт
+    </button>
+  </div>
 
-            // Временное действие: показываем всплывающее окно
-            // Позже мы заменим это на реальный переход к формам
-            const titles = {
-                'shift-report': 'Отчет по закрытию смены',
-                'individual-order': 'Индивидуальный заказ',
-                'wholesale-order': 'Оптовый заказ',
-                'other': 'Другие функции'
-            };
+  <div class="success-wrap" id="success">
+    <div class="success-circle"><i class="ti ti-circle-check"></i></div>
+    <div class="success-title">Отчёт отправлен</div>
+    <div class="success-sub">Данные смены сохранены.<br>Спасибо за работу!</div>
+    <button class="new-btn" onclick="location.reload()">Заполнить новый отчёт</button>
+  </div>
 
-            tg.showPopup({
-                title: 'Раздел в разработке',
-                message: `Вы выбрали: "${titles[screenName]}". \n\nСледующим шагом мы создадим форму для этого раздела и подключим отправку в Google Таблицы.`,
-                buttons: [{type: 'ok', text: 'Понятно'}]
-            });
-        }
-    </script>
-</body>
-</html>
+</div>
+
+<script>
+document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+
+const EXPENSES = [
+  {id:'ex1',name:'Закупка продуктов'},
+  {id:'ex2',name:'Хозяйственные товары'},
+  {id:'ex3',name:'Упаковка и расходники'},
+  {id:'ex4',name:'Доставка / курьер'},
+  {id:'ex5',name:'Техническое обслуживание'},
+  {id:'ex6',name:'Прочие расходы'},
+];
+
+const DEBTS = [
+  {id:'db1',name:'ООО «Ромашка»'},
+  {id:'db2',name:'ИП Иванов'},
+  {id:'db3',name:'Кафе «Уют»'},
+  {id:'db4',name:'Ресторан «Север»'},
+  {id:'db5',name:'Другой контрагент'},
+];
+
+function buildList(items, containerId, totalId){
+  const list = document.getElementById(containerId);
+  list.innerHTML='';
+  items.forEach(e=>{
+    const d=document.createElement('div');
+    d.className='expense-item';
+    d.id='item-'+e.id;
+    d.innerHTML=`<div class="expense-row" onclick="toggle('${e.id}','${totalId}')">
+      <div class="exp-check" id="check-${e.id}"><i class="ti ti-check" aria-hidden="true"></i></div>
+      <span class="exp-name">${e.name}</span></div>
+      <div class="exp-fields">
+        <div><label>Сумма</label><div class="amount-wrap"><span class="currency">₽</span>
+        <input type="number" id="sum-${e.id}" placeholder="0" min="0" oninput="recalcTotal('${totalId}')"></div></div>
+        <div><label>Комментарий (необязательно)</label>
+        <textarea id="cmt-${e.id}" rows="2" placeholder="Уточните при необходимости..."></textarea></div>
+      </div>`;
+    list.appendChild(d);
+  });
+}
+
+function toggle(id, totalId){
+  document.getElementById('item-'+id).classList.toggle('selected');
+  recalcTotal(totalId);
+}
+
+function recalcTotal(totalId){
+  const allItems = totalId==='exp-total' ? EXPENSES : DEBTS;
+  let t=0;
+  allItems.forEach(e=>{
+    if(document.getElementById('item-'+e.id).classList.contains('selected')){
+      t+=parseFloat(document.getElementById('sum-'+e.id).value)||0;
+    }
+  });
+  document.getElementById(totalId).textContent='₽ '+t.toLocaleString('ru-RU');
+  if(totalId==='exp-total') calcResult();
+}
+
+function getTotal(items){
+  let t=0;
+  items.forEach(e=>{
+    if(document.getElementById('item-'+e.id) && document.getElementById('item-'+e.id).classList.contains('selected')){
+      t+=parseFloat(document.getElementById('sum-'+e.id).value)||0;
+    }
+  });
+  return t;
+}
+
+function calcResult(){
+  const opening=parseFloat(document.getElementById('f-opening').value)||0;
+  const revenue=parseFloat(document.getElementById('f-revenue').value)||0;
+  const cashless=parseFloat(document.getElementById('f-cashless').value)||0;
+  const collection=parseFloat(document.getElementById('f-collection').value)||0;
+  const closing=parseFloat(document.getElementById('f-closing').value)||0;
+  const expenses=getTotal(EXPENSES);
+
+  const hasData = revenue||cashless||collection||closing;
+  if(!hasData){
+    document.getElementById('result-value').textContent='—';
+    document.getElementById('result-card').className='result-card neutral';
+    document.getElementById('result-label').className='result-label';
+    document.getElementById('result-formula').textContent='Заполните поля выше';
+    return;
+  }
+
+  const expected = opening + revenue - expenses - cashless - collection;
+  const diff = closing - expected;
+  const card = document.getElementById('result-card');
+  const lbl = document.getElementById('result-label');
+  const val = document.getElementById('result-value');
+  const formula = document.getElementById('result-formula');
+
+  formula.textContent = opening.toLocaleString('ru-RU')+' + '+revenue.toLocaleString('ru-RU')+' − '+expenses.toLocaleString('ru-RU')+' − '+cashless.toLocaleString('ru-RU')+' − '+collection.toLocaleString('ru-RU');
+
+  if(diff===0){
+    card.className='result-card surplus';
+    lbl.className='result-label surplus'; lbl.textContent='Сходится';
+    val.className='result-value surplus'; val.textContent='₽ 0';
+  } else if(diff>0){
+    card.className='result-card surplus';
+    lbl.className='result-label surplus'; lbl.textContent='Излишек';
+    val.className='result-value surplus'; val.textContent='+ ₽ '+diff.toLocaleString('ru-RU');
+  } else {
+    card.className='result-card deficit';
+    lbl.className='result-label deficit'; lbl.textContent='Недостача';
+    val.className='result-value deficit'; val.textContent='− ₽ '+Math.abs(diff).toLocaleString('ru-RU');
+  }
+}
+
+function handlePhotos(input){
+  const prev=document.getElementById('photo-previews');
+  Array.from(input.files).forEach(f=>{
+    const img=document.createElement('img');
+    img.className='photo-thumb';
+    img.src=URL.createObjectURL(f);
+    prev.appendChild(img);
+  });
+}
+
+function go(from, to){
+  if(to>from){
+    if(from===1){
+      const name=document.getElementById('f-name');
+      const opening=document.getElementById('f-opening');
+      let ok=true;
+      document.getElementById('err-name').style.display='none';
+      document.getElementById('err-opening').style.display='none';
+      if(!name.value.trim()){name.style.borderColor='#E24B4A';document.getElementById('err-name').style.display='block';ok=false;}
+      else name.style.borderColor='';
+      if(opening.value===''){opening.style.borderColor='#E24B4A';document.getElementById('err-opening').style.display='block';ok=false;}
+      else opening.style.borderColor='';
+      if(!ok) return;
+    }
+  }
+  document.getElementById('page'+from).classList.remove('active');
+  document.getElementById('page'+to).classList.add('active');
+}
+
+function submitAll(){
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;
+  btn.innerHTML='<i class="ti ti-loader-2"></i> Отправка...';
+  setTimeout(()=>{
+    document.getElementById('app').style.display='none';
+    document.getElementById('success').classList.add('show');
+  },900);
+}
+
+buildList(EXPENSES,'expenses-list','exp-total');
+buildList(DEBTS,'debts-list','debt-total');
+</script>
