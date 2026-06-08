@@ -11,17 +11,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <style>
-        /* Скрываем шаги когда активно меню */
-#page-menu.active ~ .steps,
-body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .steps {
-  display: none !important;
-}
         .menu-item {
-  display: flex; align-items: center; background: #fff; border: 0.5px solid #E8C8C8;
-  border-radius: 12px; padding: 16px; width: 100%; text-align: left; cursor: pointer;
-  transition: all 0.2s; box-shadow: 0 2px 8px rgba(62, 39, 35, 0.04);
-}
-.menu-item:active { transform: scale(0.98); background: #FFF5F5; }
+            display: flex; align-items: center; background: #fff; border: 0.5px solid #E8C8C8;
+            border-radius: 12px; padding: 16px; width: 100%; text-align: left; cursor: pointer;
+            transition: all 0.2s; box-shadow: 0 2px 8px rgba(62, 39, 35, 0.04);
+        }
+        .menu-item:active { transform: scale(0.98); background: #FFF5F5; }
+        
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { 
             background: #FDF0F0; 
@@ -44,7 +40,7 @@ body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .step
         .topbar-title { font-size: 17px; font-weight: 600; color: #3D1A1A; }
         .topbar-sub { font-size: 13px; color: #A06060; }
 
-        /* Индикатор шагов (теперь единый для всех страниц) */
+        /* Индикатор шагов */
         .steps { display: flex; align-items: center; gap: 0; padding: 0 20px 18px; }
         .st { display: flex; align-items: center; gap: 0; flex: 1; }
         .st-circle { 
@@ -136,8 +132,8 @@ body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .step
         .next-btn:disabled { background: #D4A0A0; cursor: not-allowed; box-shadow: none; transform: none; }
 
         /* Управление страницами */
-        .page { display: none; animation: slideIn 0.3s ease; }
-        .page.active { display: block; }
+        .page { display: none !important; animation: slideIn 0.3s ease; }
+        .page.active { display: block !important; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
 
         /* Экран успеха */
@@ -154,39 +150,40 @@ body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .step
 <body>
 
 <div class="screen" id="app">
-      <!-- ГЛАВНОЕ МЕНЮ (Стартовый экран) -->
-  <div id="page-menu" class="page">
-    <div class="topbar" style="justify-content: center; padding-bottom: 0;">
-      <div>
-        <div class="topbar-title" style="font-size: 22px;">Главное меню</div>
-        <div class="topbar-sub">Выберите нужное действие</div>
-      </div>
-    </div>
     
-    <div class="menu-list" style="padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;">
-      
-      <button class="menu-item" onclick="openReport()">
-        <i class="ti ti-report" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
-        <span class="text" style="flex: 1; text-align: left; font-size: 20px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
-        <i class="ti ti-chevron-right" style="color: #A06060;"></i>
-      </button>
+    <!-- ГЛАВНОЕ МЕНЮ (Стартовый экран) -->
+    <div id="page-menu" class="page active">
+        <div class="topbar" style="justify-content: center; padding-bottom: 0;">
+            <div>
+                <div class="topbar-title" style="font-size: 22px;">Главное меню</div>
+                <div class="topbar-sub">Выберите нужное действие</div>
+            </div>
+        </div>
+        
+        <div class="menu-list" style="padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;">
+            
+            <button class="menu-item" onclick="openReport()">
+                <i class="ti ti-report" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
+                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
+                <i class="ti ti-chevron-right" style="color: #A06060;"></i>
+            </button>
 
-      <button class="menu-item" onclick="alert('Раздел в разработке')">
-        <i class="ti ti-cake" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
-        <span class="text" style="flex: 1; text-align: left; font-size: 20px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
-        <i class="ti ti-chevron-right" style="color: #A06060;"></i>
-      </button>
+            <button class="menu-item" onclick="alert('Раздел в разработке')">
+                <span class="icon" style="font-size: 22px; margin-right: 12px;">🛍️</span>
+                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
+                <i class="ti ti-chevron-right" style="color: #A06060;"></i>
+            </button>
 
-      <button class="menu-item" onclick="alert('Раздел в разработке')">
-        <i class="ti ti-users" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
-        <span class="text" style="flex: 1; text-align: left; font-size: 20px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
-        <i class="ti ti-chevron-right" style="color: #A06060;"></i>
-      </button>
-      
+            <button class="menu-item" onclick="alert('Раздел в разработке')">
+                <span class="icon" style="font-size: 22px; margin-right: 12px;">📦</span>
+                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
+                <i class="ti ti-chevron-right" style="color: #A06060;"></i>
+            </button>
+            
+        </div>
     </div>
-  </div>
 
-    <!-- Единый индикатор шагов (обновляется через JS) -->
+    <!-- Единый индикатор шагов (скрывается через JS на меню) -->
     <div class="steps" id="global-steps">
         <div class="st"><div class="st-circle active" id="sc1">1</div><div class="st-line" id="sl1"></div></div>
         <div class="st"><div class="st-circle" id="sc2">2</div><div class="st-line" id="sl2"></div></div>
@@ -195,11 +192,10 @@ body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .step
     </div>
 
     <!-- ШАГ 1 -->
-    <div id="page1" class="page active">
+    <div id="page1" class="page">
         <div class="topbar">
-            <!-- Исправлено: теперь корректно закрывает Mini App и возвращает в чат -->
-            <button class="back-btn" onclick="closeApp()" aria-label="Выйти в чат">
-                <i class="ti ti-x" aria-hidden="true"></i>
+            <button class="back-btn" onclick="openMenu()" aria-label="Выйти в меню">
+                <i class="ti ti-arrow-left"></i>
             </button>
             <div>
                 <div class="topbar-title">Отчёт закрытия смены</div>
@@ -360,104 +356,54 @@ body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .step
     tg.setHeaderColor('#FDF0F0');
     tg.setBackgroundColor('#FDF0F0');
 
-    // Устанавливаем сегодняшнюю дату по умолчанию
     document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
 
     // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
     let currentStep = 1;
-    // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
-let currentStep = 1;
 
-// ВСТАВИТЬ СЮДА ↓↓↓
+    // Функция открытия отчета из главного меню
+    function openReport() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page1').classList.add('active');
+        
+        // Показываем индикатор шагов
+        document.querySelector('.steps').style.display = 'flex';
+        
+        currentStep = 1;
+        updateStepIndicators(1);
+        updateTelegramBackButton(1);
+        tg.HapticFeedback.impactOccurred('light');
+    }
 
-// Функция открытия отчета из главного меню
-function openReport() {
-  // Скрываем все страницы
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Показываем 1 шаг отчета
-  document.getElementById('page1').classList.add('active');
-  
-  // Показываем индикатор шагов
-  document.querySelector('.steps').style.display = 'flex';
-  
-  currentStep = 1;
-  updateStepIndicators(1);
-  updateTelegramBackButton(1);
-  tg.HapticFeedback.impactOccurred('light');
-}
+    // Функция возврата в главное меню
+    function openMenu() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-menu').classList.add('active');
+        
+        // Скрываем индикатор шагов
+        document.querySelector('.steps').style.display = 'none';
+        
+        currentStep = 0;
+        tg.BackButton.hide();
+        tg.HapticFeedback.impactOccurred('light');
+    }
 
-// Функция возврата в главное меню
-function openMenu() {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-menu').classList.add('active');
-  
-  // Скрываем индикатор шагов
-  document.querySelector('.steps').style.display = 'none';
-  
-  currentStep = 0; // 0 означает, что мы в меню
-  tg.BackButton.hide(); // Скрываем кнопку назад в самом меню
-  tg.HapticFeedback.impactOccurred('light');
-}
-    
-// Функция открытия отчета из главного меню
-function openReport() {
-  // Скрываем все страницы
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Показываем 1 шаг отчета
-  document.getElementById('page1').classList.add('active');
-  
-  currentStep = 1;
-  updateStepIndicators(1);
-  updateTelegramBackButton(1);
-  tg.HapticFeedback.impactOccurred('light');
-}
-
-// Обновляем функцию goToStep, чтобы кнопка "Назад" на 1 шаге возвращала в меню, а не закрывала приложение
-function goToStep(step) {
-  if (step > currentStep) {
-    if (currentStep === 1 && !validateStep1()) return;
-  }
-
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page' + step).classList.add('active');
-  
-  currentStep = step;
-  updateStepIndicators(step);
-  updateTelegramBackButton(step);
-  
-  tg.HapticFeedback.impactOccurred('light');
-}
-
-// Обновляем обработку системной кнопки "Назад" в Telegram
-tg.BackButton.onClick(() => {
-  if (currentStep > 1) {
-    goToStep(currentStep - 1); // Возврат на шаг назад в отчете
-  } else if (currentStep === 1) {
-    // Если мы на 1 шаге отчета, возвращаемся в главное меню
-    openMenu();
-      function openMenu() {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-menu').classList.add('active');
-  
-  // Скрываем шаги
-  document.querySelector('.steps').style.display = 'none';
-  
-  currentStep = 0;
-  tg.BackButton.hide();
-  tg.HapticFeedback.impactOccurred('light');
-}
-  } else {
-    tg.close();
-  }
-});
+    // Обработка системной кнопки "Назад" в Telegram
+    tg.BackButton.onClick(() => {
+        if (currentStep > 1) {
+            goToStep(currentStep - 1);
+        } else if (currentStep === 1) {
+            openMenu();
+        } else {
+            tg.close();
+        }
+    });
 
     function goToStep(step) {
-        // Валидация только при движении ВПЕРЕД
         if (step > currentStep) {
             if (currentStep === 1 && !validateStep1()) return;
         }
 
-        // Скрываем текущую страницу, показываем новую
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page' + step).classList.add('active');
         
@@ -465,7 +411,6 @@ tg.BackButton.onClick(() => {
         updateStepIndicators(step);
         updateTelegramBackButton(step);
         
-        // Тактильный отклик при переходе
         tg.HapticFeedback.impactOccurred('light');
     }
 
@@ -475,7 +420,7 @@ tg.BackButton.onClick(() => {
             const line = document.getElementById('sl' + i);
             
             circle.classList.remove('active', 'done');
-            circle.innerHTML = i; // Сброс иконки на цифру
+            circle.innerHTML = i;
             
             if (line) line.classList.remove('done');
 
@@ -645,7 +590,7 @@ tg.BackButton.onClick(() => {
 
     function handlePhotos(input) {
         const prev = document.getElementById('photo-previews');
-        prev.innerHTML = ''; // Очищаем старые превью при новой загрузке
+        prev.innerHTML = '';
         Array.from(input.files).forEach(f => {
             const img = document.createElement('img');
             img.className = 'photo-thumb';
@@ -661,11 +606,9 @@ tg.BackButton.onClick(() => {
         btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
         tg.HapticFeedback.impactOccurred('medium');
 
-        // Здесь будет логика отправки в Google Таблицы
         setTimeout(() => {
             document.getElementById('app').style.display = 'none';
             document.getElementById('success').classList.add('show');
-            // Опционально: можно скрыть системную кнопку назад на экране успеха
             tg.BackButton.hide(); 
         }, 1200);
     }
@@ -674,8 +617,9 @@ tg.BackButton.onClick(() => {
     buildList(EXPENSES, 'expenses-list', 'exp-total');
     buildList(DEBTS, 'debts-list', 'debt-total');
     
-    // Скрываем кнопку назад на старте
-openMenu(); // Инициализируем приложение с главного меню
+    // Запуск приложения с главного меню
+    openMenu();
 </script>
 
 </body>
+</html>
