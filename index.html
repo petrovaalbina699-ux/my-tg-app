@@ -1,90 +1,183 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Главное меню</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Рабочее меню</title>
+    
+    <!-- Подключаем скрипт Telegram WebApp -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <style>
+        /* === НАСТРОЙКИ ДИЗАЙНА === */
+        :root {
+            --bg-color: #FDF6F0;         /* Светло-розовый/бежевый фон */
+            --card-bg: #FFFFFF;          /* Белый для карточек */
+            --text-primary: #3E2723;     /* Темно-коричневый текст (почти черный) */
+            --text-secondary: #6D4C41;   /* Светло-коричневый для подписей */
+            --accent-color: #EFEBE9;     /* Мягкий акцент при нажатии */
+            --shadow: 0 4px 12px rgba(62, 39, 35, 0.06);
+        }
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Убирает синюю подсветку при клике на iOS/Android */
+        }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--tg-theme-bg-color, #f5f5f5);
-      color: var(--tg-theme-text-color, #000);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 16px; /* Аккуратный средний шрифт */
+            line-height: 1.5;
+            padding: 24px 20px;
+        }
 
-    .container {
-      width: 90%;
-      max-width: 400px;
-    }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        .header {
+            margin-bottom: 32px;
+            text-align: center;
+        }
 
-    .btn {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 15px;
-      font-size: 16px;
-      border: none;
-      border-radius: 12px;
-      background: var(--tg-theme-button-color, #3390ec);
-      color: var(--tg-theme-button-text-color, #fff);
-      cursor: pointer;
-    }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
 
-    .btn:active {
-      transform: scale(0.98);
-    }
-  </style>
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid rgba(62, 39, 35, 0.08);
+            border-radius: 16px;
+            padding: 18px 20px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .menu-item:active {
+            transform: scale(0.98);
+            background-color: var(--accent-color);
+            box-shadow: none;
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+        }
+
+        .text {
+            flex-grow: 1;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .arrow {
+            font-size: 22px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            opacity: 0.6;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
-  <h2>📋 Главное меню</h2>
+    <div class="container">
+        <header class="header">
+            <h1>Главное меню</h1>
+            <p class="subtitle">Выберите нужное действие</p>
+        </header>
 
-  <button class="btn" onclick="selectOption(1)">
-    1 - Отчёт кассира
-  </button>
+        <main class="menu-list">
+            <button class="menu-item" onclick="openScreen('shift-report')">
+                <span class="icon">📊</span>
+                <span class="text">Отчет по закрытию смены</span>
+                <span class="arrow">›</span>
+            </button>
 
-  <button class="btn" onclick="selectOption(2)">
-    2 - Заявка на индивид торт
-  </button>
+            <button class="menu-item" onclick="openScreen('individual-order')">
+                <span class="icon">🛍️</span>
+                <span class="text">Оформление индивид. заказа</span>
+                <span class="arrow">›</span>
+            </button>
 
-  <button class="btn" onclick="selectOption(3)">
-    3 - Заявка на десерты ОПТ
-  </button>
-</div>
+            <button class="menu-item" onclick="openScreen('wholesale-order')">
+                <span class="icon">📦</span>
+                <span class="text">Оформление опт. заказа</span>
+                <span class="arrow">›</span>
+            </button>
+            
+            <button class="menu-item" onclick="openScreen('other')">
+                <span class="icon">⚙️</span>
+                <span class="text">Другое</span>
+                <span class="arrow">›</span>
+            </button>
+        </main>
+    </div>
 
-<script>
-  const tg = window.Telegram.WebApp;
-  tg.expand();
+    <script>
+        // === ЛОГИКА ПРИЛОЖЕНИЯ ===
+        
+        // 1. Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
 
-  function selectOption(option) {
-    let text = "";
+        // 2. Сообщаем Telegram, что приложение готово к работе
+        tg.ready();
 
-    if (option === 1) text = "Отчёт кассира";
-    if (option === 2) text = "Заявка на индивид торт";
-    if (option === 3) text = "Заявка на десерты ОПТ";
+        // 3. Разворачиваем приложение на весь доступный экран
+        tg.expand();
 
-    // отправляем выбор в бота
-    tg.sendData(JSON.stringify({
-      type: "menu_select",
-      option: option,
-      text: text
-    }));
-  }
-</script>
+        // 4. Настраиваем цвета системных элементов Telegram под наш дизайн
+        tg.setHeaderColor('#FDF6F0'); 
+        tg.setBackgroundColor('#FDF6F0');
 
+        // 5. Функция обработки кликов по пунктам меню
+        function openScreen(screenName) {
+            // Легкая вибрация при нажатии (работает на телефонах)
+            tg.HapticFeedback.impactOccurred('light');
+
+            // Временное действие: показываем всплывающее окно
+            // Позже мы заменим это на реальный переход к формам
+            const titles = {
+                'shift-report': 'Отчет по закрытию смены',
+                'individual-order': 'Индивидуальный заказ',
+                'wholesale-order': 'Оптовый заказ',
+                'other': 'Другие функции'
+            };
+
+            tg.showPopup({
+                title: 'Раздел в разработке',
+                message: `Вы выбрали: "${titles[screenName]}". \n\nСледующим шагом мы создадим форму для этого раздела и подключим отправку в Google Таблицы.`,
+                buttons: [{type: 'ok', text: 'Понятно'}]
+            });
+        }
+    </script>
 </body>
 </html>
