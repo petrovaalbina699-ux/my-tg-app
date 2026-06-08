@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <style>
+        /* Скрываем шаги когда активно меню */
+#page-menu.active ~ .steps,
+body:not(:has(#page1.active, #page2.active, #page3.active, #page4.active)) .steps {
+  display: none !important;
+}
         .menu-item {
   display: flex; align-items: center; background: #fff; border: 0.5px solid #E8C8C8;
   border-radius: 12px; padding: 16px; width: 100%; text-align: left; cursor: pointer;
@@ -161,6 +166,18 @@
     <div class="menu-list" style="padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;">
       
       <button class="menu-item" onclick="openReport()">
+          function openReport() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page1').classList.add('active');
+  
+  // Показываем шаги
+  document.querySelector('.steps').style.display = 'flex';
+  
+  currentStep = 1;
+  updateStepIndicators(1);
+  updateTelegramBackButton(1);
+  tg.HapticFeedback.impactOccurred('light');
+}
         <i class="ti ti-report" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
         <span class="text" style="flex: 1; text-align: left; font-size: 20px; font-weight: 500; color: #3D1A1A;">Отчет по закрытию смены</span>
         <i class="ti ti-chevron-right" style="color: #A06060;"></i>
@@ -396,6 +413,17 @@ tg.BackButton.onClick(() => {
   } else if (currentStep === 1) {
     // Если мы на 1 шаге отчета, возвращаемся в главное меню
     openMenu();
+      function openMenu() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-menu').classList.add('active');
+  
+  // Скрываем шаги
+  document.querySelector('.steps').style.display = 'none';
+  
+  currentStep = 0;
+  tg.BackButton.hide();
+  tg.HapticFeedback.impactOccurred('light');
+}
   } else {
     tg.close();
   }
