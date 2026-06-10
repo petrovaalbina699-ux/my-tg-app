@@ -537,15 +537,25 @@
 </div>
 
 <script>
-    // === 1. ИНИЦИАЛИЗАЦИЯ TELEGRAM ===
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-    tg.setHeaderColor('#FDF0F0');
-    tg.setBackgroundColor('#FDF0F0');
-    
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyd7HPeK3PcFy6IbtOEHWQQullMa6t-AtLfA7G2nZ8UYb7nNeLvfX0ozoS8AnsV5g/exec';
-    
+   // === 1. ИНИЦИАЛИЗАЦИЯ TELEGRAM ===
+const tg = window.Telegram.WebApp;
+
+// Проверяем, что Telegram WebAPI доступен
+if (!tg) {
+    console.error('Telegram WebApp API не загружен!');
+    alert('Пожалуйста, откройте приложение через Telegram');
+}
+
+tg.ready();
+tg.expand();
+
+// ПРАВИЛЬНАЯ установка цветов (в формате #rrggbb)
+tg.setHeaderColor('#FDF0F0');  // Не "Default", а конкретный цвет
+tg.setBackgroundColor('#FDF0F0');
+tg.setBottomBarColor('#FDF0F0'); // Если нужно
+
+// URL вашего Google Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH2GzgWj8RV_Vl9bfQjKT3IlZJHdChkKqKwe4np_SP-wdKZBXTaxw9JNFIBnXKX7A/exec';
     // Установка текущей даты
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -592,42 +602,52 @@
         tg.HapticFeedback.impactOccurred('light');
     }
 
-    function goToStep(step) {
-        if (step > currentStep) {
-            if (currentStep === 1 && !validateStep1()) return;
-            if (currentStep === 2 && !validateStep2()) return;
-        }
-
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page' + step).classList.add('active');
-        
-        currentStep = step;
-        updateStepIndicators(step);
-        updateTelegramBackButton(step);
-        
-        tg.HapticFeedback.impactOccurred('light');
+function goToStep(step) {
+    if (step > currentStep) {
+        if (currentStep === 1 && !validateStep1()) return;
+           if (currentStep === 2 && !validateStep2()) return;
     }
 
-    function updateStepIndicators(step) {
-        for (let i = 1; i <= 4; i++) {
-            const circle = document.getElementById('sc' + i);
-            const line = document.getElementById('sl' + i);
-            
-            circle.classList.remove('active', 'done');
-            circle.innerHTML = i;
-            
-            if (line) line.classList.remove('done');
+    // Скрываем все страницы
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    
+    // Показываем нужную страницу
+    const targetPage = document.getElementById('page' + step);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    } else {
+        console.error('Страница page' + step + ' не найдена!');
+        return;
+    }
+    
+    currentStep = step;
+    updateStepIndicators(step);
+    updateTelegramBackButton(step);
+    
+    tg.HapticFeedback.impactOccurred('light');
+}
 
-            if (i < step) {
-                circle.classList.add('done');
-                circle.innerHTML = '<i class="ti ti-check" style="font-size:14px"></i>';
-                if (line) line.classList.add('done');
-            } else if (i === step) {
-                circle.classList.add('active');
-            }
+function updateStepIndicators(step) {
+    for (let i = 1; i <= 4; i++) {
+        const circle = document.getElementById('sc' + i);
+        const line = document.getElementById('sl' + i);
+        
+        if (!circle) continue; // Пропускаем если элемент не найден
+        
+        circle.classList.remove('active', 'done');
+        circle.innerHTML = i;
+        
+        if (line) line.classList.remove('done');
+
+        if (i < step) {
+            circle.classList.add('done');
+            circle.innerHTML = '<i class="ti ti-check" style="font-size:14px"></i>';
+            if (line) line.classList.add('done');
+        } else if (i === step) {
+            circle.classList.add('active');
         }
     }
-
+}
     function updateTelegramBackButton(step) {
         if (step === 1) {
             tg.BackButton.hide();
@@ -661,7 +681,7 @@
         return ok;
     }
 
-    function validateStep2() {
+    function validateStep2() { 
         let ok = true;
         let errorMsg = '';
         
@@ -684,7 +704,7 @@
                         }
                     }
                 } else if (sub.type === 'multi') {
-                    sub.items.forEach((item, idx) => {
+                    sub.items.forEach((item, idx) => { 
                         const itemName = typeof item === 'string' ? item : item.name;
                         const mandatoryComment = typeof item === 'string' ? false : item.mandatoryComment;
                         const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
@@ -1149,84 +1169,114 @@ function handlePhotos(input) {
         reader.readAsDataURL(file);
     });
 }
-function submitAll() {
+async function submitAll() {
     const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
-    tg.HapticFeedback.impactOccurred('medium');
+    
+    try {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+        tg.HapticFeedback.impactOccurred('medium');
 
-    const reportData = {
-        employeeName: document.getElementById('f-name').value.trim(),
-        date: document.getElementById('f-date').value,
-        opening: parseFloat(document.getElementById('f-opening').value) || 0,
-        revenue: parseFloat(document.getElementById('f-revenue').value) || 0,
-        cashless: parseFloat(document.getElementById('f-cashless').value) || 0,
-        collection: parseFloat(document.getElementById('f-collection').value) || 0,
-        closing: parseFloat(document.getElementById('f-closing').value) || 0,
-        comment: document.getElementById('f-comment').value.trim(),
-        expenses: [],
-        debts: [],
-        photos: photosBase64 || []
-    };
+        // 1. Собираем основные данные
+        const reportData = {
+            employeeName: document.getElementById('f-name').value.trim(),
+            date: document.getElementById('f-date').value,
+            opening: parseFloat(document.getElementById('f-opening').value) || 0,
+            revenue: parseFloat(document.getElementById('f-revenue').value) || 0,
+            cashless: parseFloat(document.getElementById('f-cashless').value) || 0,
+            collection: parseFloat(document.getElementById('f-collection').value) || 0,
+            closing: parseFloat(document.getElementById('f-closing').value) || 0,
+            comment: document.getElementById('f-comment').value.trim(),
+            expenses: [],
+            debts: [],
+            photos: photosBase64 || []
+        };
 
-    // Собираем расходы
-    EXPENSES.forEach(e => {
-        const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
-        rows.forEach(row => {
-            const amountInput = row.querySelector('input[type="number"]');
-            const commentInput = row.querySelector('textarea');
-            const amount = parseFloat(amountInput.value) || 0;
-            if (amount > 0) {
-                reportData.expenses.push({
-                    name: e.name,
-                    amount: amount,
-                    comment: commentInput ? commentInput.value.trim() : ''
-                });
+        // 2. ✅ Собираем РАСХОДЫ из НОВОЙ структуры (категории → подкатегории)
+        EXPENSES.forEach(cat => {
+            cat.subcategories.forEach(sub => {
+                if (sub.type === 'single') {
+                    // Одиночный тип (ЗП Техперсонал, Аванс, Хозрасход и т.д.)
+                    const item = document.getElementById(`sub-${sub.id}`);
+                    if (item && item.classList.contains('selected')) {
+                        const amountInput = document.getElementById(`amount-${sub.id}`);
+                        const commentInput = document.getElementById(`comment-${sub.id}`);
+                        const amount = parseFloat(amountInput.value) || 0;
+                        if (amount > 0) {
+                            reportData.expenses.push({
+                                name: `${sub.name}`,
+                                amount: amount,
+                                comment: commentInput ? commentInput.value.trim() : ''
+                            });
+                        }
+                    }
+                } else if (sub.type === 'multi') {
+                    // Мульти-тип (Закуп: Бар, Кухня, Кондитерская...)
+                    sub.items.forEach((item, idx) => {
+                        const itemName = typeof item === 'string' ? item : item.name;
+                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
+                        if (multiItem && multiItem.classList.contains('selected')) {
+                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
+                            const commentInput = document.getElementById(`comment-${sub.id}-${idx}`);
+                            const amount = parseFloat(amountInput.value) || 0;
+                            if (amount > 0) {
+                                reportData.expenses.push({
+                                    name: `${sub.name} - ${itemName}`,
+                                    amount: amount,
+                                    comment: commentInput ? commentInput.value.trim() : ''
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // 3. Собираем ДОЛГИ (старая логика — она правильная)
+        DEBTS.forEach(e => {
+            const item = document.getElementById('item-' + e.id);
+            if (item && item.classList.contains('selected')) {
+                const amount = parseFloat(document.getElementById('sum-' + e.id).value) || 0;
+                if (amount > 0) {
+                    const commentInput = document.getElementById('cmt-' + e.id);
+                    reportData.debts.push({
+                        name: e.name,
+                        amount: amount,
+                        comment: commentInput ? commentInput.value.trim() : ''
+                    });
+                }
             }
         });
-    });
 
-    // Собираем долги
-    DEBTS.forEach(e => {
-        const item = document.getElementById('item-' + e.id);
-        if (item && item.classList.contains('selected')) {
-            const amount = parseFloat(document.getElementById('sum-' + e.id).value) || 0;
-            if (amount > 0) {
-                const commentInput = document.getElementById('cmt-' + e.id);
-                reportData.debts.push({
-                    name: e.name,
-                    amount: amount,
-                    comment: commentInput ? commentInput.value.trim() : ''
-                });
-            }
+        // 4. Считаем итоги
+        reportData.totalExpenses = reportData.expenses.reduce((sum, exp) => sum + exp.amount, 0);
+        reportData.totalDebts = reportData.debts.reduce((sum, dbt) => sum + dbt.amount, 0);
+        reportData.expected = reportData.opening + reportData.revenue - reportData.totalExpenses - reportData.cashless - reportData.collection;
+        reportData.diff = reportData.closing - reportData.expected;
+
+        // 5. Проверяем URL
+        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
+            throw new Error('Не настроен GOOGLE_SCRIPT_URL');
         }
-    });
 
-    // Считаем итоги
-    reportData.totalExpenses = reportData.expenses.reduce((sum, exp) => sum + exp.amount, 0);
-    reportData.totalDebts = reportData.debts.reduce((sum, dbt) => sum + dbt.amount, 0);
-    reportData.expected = reportData.opening + reportData.revenue - reportData.totalExpenses - reportData.cashless - reportData.collection;
-    reportData.diff = reportData.closing - reportData.expected;
+        // 6. Отправляем данные
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(reportData)
+        });
 
-    // ВАЖНО: Используем no-cors и text/plain чтобы избежать preflight запроса
-    fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',  // Это ключевой момент!
-        headers: {
-            'Content-Type': 'text/plain;charset=utf-8',  // НЕ application/json!
-        },
-        body: JSON.stringify(reportData)
-    })
-    .then(() => {
-        // При no-cors мы не получаем ответ, но если нет ошибки сети — всё ок
         showSuccess();
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-        tg.showAlert('Ошибка при отправке. Попробуйте еще раз.');
+        
+    } catch (error) {
+        console.error('Ошибка отправки:', error);
+        tg.showAlert('Ошибка: ' + error.message);
         btn.disabled = false;
         btn.innerHTML = '<i class="ti ti-send"></i> Отправить отчёт';
-    });
+    }
 }
 
 function showSuccess() {
