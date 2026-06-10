@@ -73,139 +73,202 @@
         .err-msg { font-size: 13px; color: #A32D2D; margin-top: 6px; display: none; align-items: center; gap: 4px; }
         .err-msg i { font-size: 14px; }
 
-        /* Стили для расходов с кнопкой "+ Добавить" */
-        .expense-header {
-            display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer;
-        }
-        .expense-header .exp-check {
-            width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #E0B8B8;
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-            transition: all 0.2s; background: #fff;
-        }
-        .expense-item.selected .expense-header .exp-check {
-            background: #7B3B3B; border-color: #7B3B3B;
-        }
-        .expense-header .exp-check i { font-size: 14px; color: #fff; display: none; }
-        .expense-item.selected .expense-header .exp-check i { display: block; }
-        .expense-header .exp-name {
-            font-size: 15px; color: #3D1A1A; flex: 1; font-weight: 500;
-        }
-
-        .add-btn {
-            background: rgba(123, 59, 59, 0.1);
+        /* Новые стили для категорий расходов */
+        .category-item {
             border: 1px solid #E8C8C8;
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #7B3B3B;
-            cursor: pointer;
+            border-radius: 12px;
+            background: #FFFAFA;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .category-header {
             display: flex;
             align-items: center;
-            gap: 4px;
-            transition: all 0.2s;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .category-header:active {
+            background: #FFF5F5;
+        }
+        .category-header .cat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #F5D0D0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
         }
-        .add-btn:active {
-            background: #7B3B3B;
-            color: #fff;
-            transform: scale(0.95);
+        .category-header .cat-icon i {
+            font-size: 18px;
+            color: #7B3B3B;
         }
-        .add-btn i { font-size: 16px; }
-
-        .exp-rows {
-            padding: 0 16px 14px;
+        .category-header .cat-name {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 600;
+            color: #3D1A1A;
+        }
+        .category-header .cat-arrow {
+            font-size: 20px;
+            color: #A06060;
+            transition: transform 0.3s;
+        }
+        .category-item.expanded .category-header .cat-arrow {
+            transform: rotate(180deg);
+        }
+        .category-content {
             display: none;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .expense-item.selected .exp-rows {
-            display: flex;
+            padding: 0 16px 16px;
             animation: fadeIn 0.3s ease;
         }
+        .category-item.expanded .category-content {
+            display: block;
+        }
 
-        .expense-row-item {
+        .subcategory-item {
+            background: #fff;
+            border: 1px solid #E8C8C8;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .subcategory-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: #FFFAFA;
-            border: 1px solid #E8C8C8;
-            border-radius: 10px;
-            padding: 10px 12px;
-            animation: fadeIn 0.25s ease;
+            margin-bottom: 8px;
         }
-        .expense-row-item .row-label {
-            font-size: 14px;
-            color: #7B5050;
-            min-width: 80px;
-            font-weight: 500;
-        }
-        .expense-row-item .row-amount {
-            flex: 1;
-            position: relative;
-        }
-        .expense-row-item .row-amount input {
-            width: 100%;
-            font-size: 14px;
-            padding: 8px 10px 8px 26px;
-            border: 1px solid #E8C8C8;
-            border-radius: 8px;
-            background: #fff;
-            color: #3D1A1A;
-            outline: none;
-        }
-        .expense-row-item .row-amount input:focus {
-            border-color: #7B3B3B;
-        }
-        .expense-row-item .row-currency {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 13px;
-            color: #A06060;
-            pointer-events: none;
-        }
-        .expense-row-item .row-comment {
-            width: 100%;
-            font-size: 13px;
-            padding: 8px 10px;
-            border: 1px solid #E8C8C8;
-            border-radius: 8px;
-            background: #fff;
-            color: #3D1A1A;
-            outline: none;
-            margin-top: 6px;
-            resize: none;
-        }
-        .expense-row-item .row-comment:focus {
-            border-color: #7B3B3B;
-        }
-        .expense-row-item .row-delete {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: none;
-            background: #FCEBEB;
-            color: #A32D2D;
-            cursor: pointer;
+        .subcategory-header .sub-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            border: 1.5px solid #E0B8B8;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
             transition: all 0.2s;
+            background: #fff;
+            cursor: pointer;
         }
-        .expense-row-item .row-delete:active {
-            background: #A32D2D;
+        .subcategory-item.selected .subcategory-header .sub-check {
+            background: #7B3B3B;
+            border-color: #7B3B3B;
+        }
+        .subcategory-header .sub-check i {
+            font-size: 13px;
             color: #fff;
-            transform: scale(0.9);
+            display: none;
         }
-        .expense-row-item .row-delete i { font-size: 16px; }
-        .expense-row-item .row-content {
+        .subcategory-item.selected .subcategory-header .sub-check i {
+            display: block;
+        }
+        .subcategory-header .sub-name {
             flex: 1;
-            display: flex;
+            font-size: 14px;
+            font-weight: 500;
+            color: #3D1A1A;
+        }
+        .subcategory-fields {
+            display: none;
             flex-direction: column;
-            gap: 4px;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .subcategory-item.selected .subcategory-fields {
+            display: flex;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .multi-item {
+            background: #FFFAFA;
+            border: 1px solid #E8C8C8;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+        .multi-item-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .multi-item-header .multi-check {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 1.5px solid #E0B8B8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            background: #fff;
+            cursor: pointer;
+        }
+        .multi-item.selected .multi-item-header .multi-check {
+            background: #7B3B3B;
+            border-color: #7B3B3B;
+        }
+        .multi-item-header .multi-check i {
+            font-size: 12px;
+            color: #fff;
+            display: none;
+        }
+        .multi-item.selected .multi-item-header .multi-check i {
+            display: block;
+        }
+        .multi-item-header .multi-name {
+            flex: 1;
+            font-size: 13px;
+            color: #3D1A1A;
+        }
+        .multi-item-fields {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 8px;
+            padding-left: 26px;
+        }
+        .multi-item.selected .multi-item-fields {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .field-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .field-row .amount-wrap {
+            flex: 1;
+        }
+        .field-row input {
+            font-size: 13px;
+            padding: 8px 10px 8px 24px;
+        }
+        .field-row .currency {
+            font-size: 13px;
+            left: 10px;
+        }
+        .field-row textarea {
+            font-size: 12px;
+            padding: 6px 8px;
+            margin-top: 4px;
+        }
+
+        .mandatory-badge {
+            font-size: 10px;
+            background: #FCEBEB;
+            color: #A32D2D;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            margin-left: 6px;
         }
 
         /* Старые стили для долгов */
@@ -337,7 +400,7 @@
             </div>
             <div class="field">
                 <label>Дата смены</label>
-                <input type="text" id="f-date" placeholder="ДД/ММ/ГГГГ" maxlength="10" inputmode="numeric">
+                <input type="date" id="f-date">
             </div>
             <div class="field">
                 <label>Сумма на начало дня (в кассе)</label>
@@ -360,7 +423,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-icon"><i class="ti ti-receipt"></i></div>
-                <div><div class="card-title">Расходы из кассы</div><div class="card-sub">Выберите нужные пункты</div></div>
+                <div><div class="card-title">Расходы из кассы</div><div class="card-sub">Выберите категории и укажите суммы</div></div>
             </div>
             <div id="expenses-list"></div>
         </div>
@@ -480,33 +543,19 @@
     tg.expand();
     tg.setHeaderColor('#FDF0F0');
     tg.setBackgroundColor('#FDF0F0');
-        // 🔑 URL вашего Google Apps Script (куда отправляются данные)
+    
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/ВАША_СКОПИРОВАННАЯ_ССЫЛКА/exec';
     
-
-    // Установка текущей даты в формате ДД/ММ/ГГГГ
+    // Установка текущей даты
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
-    document.getElementById('f-date').value = `${day}/${month}/${year}`;
-
-    // Маска для поля даты
-    document.getElementById('f-date').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length >= 2) {
-            value = value.substring(0, 2) + '/' + value.substring(2);
-        }
-        if (value.length >= 5) {
-            value = value.substring(0, 5) + '/' + value.substring(5, 9);
-        }
-        e.target.value = value;
-    });
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    document.getElementById('f-date').value = `${yyyy}-${mm}-${dd}`;
 
     // === 2. УПРАВЛЕНИЕ НАВИГАЦИЕЙ ===
     let currentStep = 1;
 
-    // Обработка системной кнопки "Назад" в Telegram
     tg.BackButton.onClick(() => {
         if (currentStep > 1) {
             goToStep(currentStep - 1);
@@ -517,7 +566,6 @@
         }
     });
 
-    // Функция открытия отчета из главного меню
     function openReport() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         const page1 = document.getElementById('page1');
@@ -532,7 +580,6 @@
         tg.HapticFeedback.impactOccurred('light');
     }
 
-    // Функция возврата в главное меню
     function openMenu() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-menu').classList.add('active');
@@ -548,6 +595,7 @@
     function goToStep(step) {
         if (step > currentStep) {
             if (currentStep === 1 && !validateStep1()) return;
+            if (currentStep === 2 && !validateStep2()) return;
         }
 
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -613,15 +661,186 @@
         return ok;
     }
 
-    // === 3. ЛОГИКА СПИСКОВ И РАСЧЕТОВ ===
+    function validateStep2() {
+        let ok = true;
+        let errorMsg = '';
+        
+        EXPENSES.forEach(cat => {
+            cat.subcategories.forEach(sub => {
+                if (sub.type === 'single') {
+                    const item = document.getElementById(`sub-${sub.id}`);
+                    if (item && item.classList.contains('selected')) {
+                        const amountInput = document.getElementById(`amount-${sub.id}`);
+                        if (!amountInput.value || parseFloat(amountInput.value) <= 0) {
+                            ok = false;
+                            errorMsg = `Укажите сумму для "${sub.name}"`;
+                        }
+                        if (sub.mandatoryComment) {
+                            const commentInput = document.getElementById(`comment-${sub.id}`);
+                            if (!commentInput.value.trim()) {
+                                ok = false;
+                                errorMsg = `Укажите комментарий для "${sub.name}"`;
+                            }
+                        }
+                    }
+                } else if (sub.type === 'multi') {
+                    sub.items.forEach((item, idx) => {
+                        const itemName = typeof item === 'string' ? item : item.name;
+                        const mandatoryComment = typeof item === 'string' ? false : item.mandatoryComment;
+                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
+                        if (multiItem && multiItem.classList.contains('selected')) {
+                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
+                            if (!amountInput.value || parseFloat(amountInput.value) <= 0) {
+                                ok = false;
+                                errorMsg = `Укажите сумму для "${itemName}"`;
+                            }
+                            if (mandatoryComment) {
+                                const commentInput = document.getElementById(`comment-${sub.id}-${idx}`);
+                                if (!commentInput.value.trim()) {
+                                    ok = false;
+                                    errorMsg = `Укажите комментарий для "${itemName}"`;
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        
+        if (!ok) {
+            tg.HapticFeedback.notificationOccurred('error');
+            alert(errorMsg);
+        }
+        return ok;
+    }
+
+    // === 3. НОВАЯ СТРУКТУРА РАСХОДОВ ===
     const EXPENSES = [
-        {id:'ex1',name:'Закуп Бар'},
-        {id:'ex2',name:'Закуп Кухня'},
-        {id:'ex3',name:'Закуп Кондитер'},
-        {id:'ex4',name:'Доставка'},
-        {id:'ex5',name:'ЗП Техперсонал'},
-        {id:'ex6',name:'Аванс сотруднику'},
-        {id:'ex7',name:'Прочее'},     
+        {
+            id: 'cat1',
+            name: 'Оплата продуктов/поставщиков',
+            icon: 'ti-shopping-cart',
+            subcategories: [
+                {
+                    id: 'sub1_1',
+                    name: 'Закуп',
+                    type: 'multi',
+                    items: ['Бар', 'Кухня', 'Кондитерская', 'Тара']
+                },
+                {
+                    id: 'sub1_2',
+                    name: 'Расходники',
+                    type: 'multi',
+                    items: ['Съедобные цветы', 'Фортайм', 'Фортайм Кондитер', 'Декор']
+                },
+                {
+                    id: 'sub1_3',
+                    name: 'Поставщик продукта',
+                    type: 'multi',
+                    items: [
+                        {name: 'Мороженое', mandatoryComment: false},
+                        {name: 'Круассаны', mandatoryComment: false},
+                        {name: 'Тартин', mandatoryComment: false},
+                        {name: 'Кукинг 11', mandatoryComment: false},
+                        {name: 'Напитки для бара', mandatoryComment: false},
+                        {name: 'Кофейные зерна', mandatoryComment: false},
+                        {name: 'Ягоды (Фрут)', mandatoryComment: false},
+                        {name: 'Масло сливочное', mandatoryComment: false},
+                        {name: 'Сливки Петмол', mandatoryComment: false},
+                        {name: 'Коника', mandatoryComment: false},
+                        {name: 'Магазин', mandatoryComment: true}
+                    ]
+                }
+            ]
+        },
+        {
+            id: 'cat2',
+            name: 'Персонал',
+            icon: 'ti-users',
+            subcategories: [
+                {
+                    id: 'sub2_1',
+                    name: 'ЗП Техперсонал',
+                    type: 'single',
+                    mandatoryComment: false
+                },
+                {
+                    id: 'sub2_2',
+                    name: 'Аванс сотруднику',
+                    type: 'single',
+                    mandatoryComment: true
+                }
+            ]
+        },
+        {
+            id: 'cat3',
+            name: 'Содержание точки',
+            icon: 'ti-home',
+            subcategories: [
+                {
+                    id: 'sub3_1',
+                    name: 'Хозрасход',
+                    type: 'single',
+                    mandatoryComment: false
+                },
+                {
+                    id: 'sub3_2',
+                    name: 'Ремонт',
+                    type: 'single',
+                    mandatoryComment: true
+                },
+                {
+                    id: 'sub3_3',
+                    name: 'Оборудование',
+                    type: 'single',
+                    mandatoryComment: true
+                },
+                {
+                    id: 'sub3_4',
+                    name: 'Декор/Расходник для зала',
+                    type: 'single',
+                    mandatoryComment: false
+                }
+            ]
+        },
+        {
+            id: 'cat4',
+            name: 'Транспортный расход',
+            icon: 'ti-truck',
+            subcategories: [
+                {
+                    id: 'sub4_1',
+                    name: 'Доставка на точку',
+                    type: 'single',
+                    mandatoryComment: false
+                },
+                {
+                    id: 'sub4_2',
+                    name: 'Доставка клиенту',
+                    type: 'single',
+                    mandatoryComment: false
+                }
+            ]
+        },
+        {
+            id: 'cat5',
+            name: 'Прочее',
+            icon: 'ti-dots',
+            subcategories: [
+                {
+                    id: 'sub5_1',
+                    name: 'Возврат',
+                    type: 'single',
+                    mandatoryComment: true
+                },
+                {
+                    id: 'sub5_2',
+                    name: 'Разовый или неизвестный расход',
+                    type: 'single',
+                    mandatoryComment: true
+                }
+            ]
+        }
     ];
 
     const DEBTS = [
@@ -629,138 +848,215 @@
         {id:'db2',name:'Золотой'},
         {id:'db3',name:'Коника'},
         {id:'db4',name:'Другой поставщик'},
- 
     ];
 
-    const expenseRowCounters = {};
-
-    function buildList(items, containerId, totalId) {
-        const list = document.getElementById(containerId);
+    function buildExpensesList() {
+        const list = document.getElementById('expenses-list');
         list.innerHTML = '';
-        const isExpense = (totalId === 'exp-total');
         
-        items.forEach(e => {
+        EXPENSES.forEach(cat => {
+            const catDiv = document.createElement('div');
+            catDiv.className = 'category-item';
+            catDiv.id = `category-${cat.id}`;
+            
+            let subcategoriesHTML = '';
+            cat.subcategories.forEach(sub => {
+                if (sub.type === 'single') {
+                    subcategoriesHTML += `
+                        <div class="subcategory-item" id="sub-${sub.id}">
+                            <div class="subcategory-header" onclick="toggleSubcategory('${sub.id}')">
+                                <div class="sub-check" id="check-${sub.id}"><i class="ti ti-check"></i></div>
+                                <span class="sub-name">${sub.name}</span>
+                                ${sub.mandatoryComment ? '<span class="mandatory-badge">комм. обяз.</span>' : ''}
+                            </div>
+                            <div class="subcategory-fields">
+                                <div class="field-row">
+                                    <div class="amount-wrap">
+                                        <span class="currency">₽</span>
+                                        <input type="number" id="amount-${sub.id}" placeholder="0" min="0" oninput="recalcExpenses()">
+                                    </div>
+                                </div>
+                                ${sub.mandatoryComment ? `
+                                    <textarea id="comment-${sub.id}" rows="2" placeholder="Комментарий (обязательно)..."></textarea>
+                                ` : `
+                                    <textarea id="comment-${sub.id}" rows="2" placeholder="Комментарий (необязательно)..."></textarea>
+                                `}
+                            </div>
+                        </div>
+                    `;
+                } else if (sub.type === 'multi') {
+                    let itemsHTML = '';
+                    sub.items.forEach((item, idx) => {
+                        const itemName = typeof item === 'string' ? item : item.name;
+                        const mandatoryComment = typeof item === 'string' ? false : item.mandatoryComment;
+                        
+                        itemsHTML += `
+                            <div class="multi-item" id="multi-${sub.id}-${idx}">
+                                <div class="multi-item-header" onclick="toggleMultiItem('${sub.id}', ${idx})">
+                                    <div class="multi-check" id="mcheck-${sub.id}-${idx}"><i class="ti ti-check"></i></div>
+                                    <span class="multi-name">${itemName}</span>
+                                    ${mandatoryComment ? '<span class="mandatory-badge">комм. обяз.</span>' : ''}
+                                </div>
+                                <div class="multi-item-fields">
+                                    <div class="field-row">
+                                        <div class="amount-wrap">
+                                            <span class="currency">₽</span>
+                                            <input type="number" id="amount-${sub.id}-${idx}" placeholder="0" min="0" oninput="recalcExpenses()">
+                                        </div>
+                                    </div>
+                                    ${mandatoryComment ? `
+                                        <textarea id="comment-${sub.id}-${idx}" rows="2" placeholder="Комментарий (обязательно)..."></textarea>
+                                    ` : `
+                                        <textarea id="comment-${sub.id}-${idx}" rows="2" placeholder="Комментарий (необязательно)..."></textarea>
+                                    `}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    subcategoriesHTML += `
+                        <div class="subcategory-item">
+                            <div class="subcategory-header" style="cursor: default;">
+                                <span class="sub-name">${sub.name}</span>
+                            </div>
+                            ${itemsHTML}
+                        </div>
+                    `;
+                }
+            });
+            
+            catDiv.innerHTML = `
+                <div class="category-header" onclick="toggleCategory('${cat.id}')">
+                    <div class="cat-icon"><i class="ti ${cat.icon}"></i></div>
+                    <span class="cat-name">${cat.name}</span>
+                    <i class="ti ti-chevron-down cat-arrow"></i>
+                </div>
+                <div class="category-content">
+                    ${subcategoriesHTML}
+                </div>
+            `;
+            
+            list.appendChild(catDiv);
+        });
+    }
+
+    function toggleCategory(catId) {
+        const cat = document.getElementById(`category-${catId}`);
+        cat.classList.toggle('expanded');
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function toggleSubcategory(subId) {
+        const sub = document.getElementById(`sub-${subId}`);
+        sub.classList.toggle('selected');
+        tg.HapticFeedback.impactOccurred('light');
+        recalcExpenses();
+    }
+
+    function toggleMultiItem(subId, idx) {
+        const item = document.getElementById(`multi-${subId}-${idx}`);
+        item.classList.toggle('selected');
+        tg.HapticFeedback.impactOccurred('light');
+        recalcExpenses();
+    }
+
+    function recalcExpenses() {
+        let total = 0;
+        
+        EXPENSES.forEach(cat => {
+            cat.subcategories.forEach(sub => {
+                if (sub.type === 'single') {
+                    const item = document.getElementById(`sub-${sub.id}`);
+                    if (item && item.classList.contains('selected')) {
+                        const amountInput = document.getElementById(`amount-${sub.id}`);
+                        total += parseFloat(amountInput.value) || 0;
+                    }
+                } else if (sub.type === 'multi') {
+                    sub.items.forEach((item, idx) => {
+                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
+                        if (multiItem && multiItem.classList.contains('selected')) {
+                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
+                            total += parseFloat(amountInput.value) || 0;
+                        }
+                    });
+                }
+            });
+        });
+        
+        document.getElementById('exp-total').textContent = '₽ ' + total.toLocaleString('ru-RU');
+        calcResult();
+    }
+
+    function getTotalExpenses() {
+        let total = 0;
+        
+        EXPENSES.forEach(cat => {
+            cat.subcategories.forEach(sub => {
+                if (sub.type === 'single') {
+                    const item = document.getElementById(`sub-${sub.id}`);
+                    if (item && item.classList.contains('selected')) {
+                        const amountInput = document.getElementById(`amount-${sub.id}`);
+                        total += parseFloat(amountInput.value) || 0;
+                    }
+                } else if (sub.type === 'multi') {
+                    sub.items.forEach((item, idx) => {
+                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
+                        if (multiItem && multiItem.classList.contains('selected')) {
+                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
+                            total += parseFloat(amountInput.value) || 0;
+                        }
+                    });
+                }
+            });
+        });
+        
+        return total;
+    }
+
+    // === 4. СТАРАЯ ЛОГИКА ДЛЯ ДОЛГОВ ===
+    function buildDebtsList() {
+        const list = document.getElementById('debts-list');
+        list.innerHTML = '';
+        
+        DEBTS.forEach(e => {
             const d = document.createElement('div');
             d.className = 'expense-item';
             d.id = 'item-' + e.id;
-            
-            if (isExpense) {
-                d.innerHTML = `
-                    <div class="expense-header" onclick="toggle('${e.id}','${totalId}')">
-                        <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
-                        <span class="exp-name">${e.name}</span>
-                        <button class="add-btn" onclick="event.stopPropagation(); addExpenseRow('${e.id}', '${totalId}', '${e.name}')">
-                            <i class="ti ti-plus"></i> Добавить
-                        </button>
+            d.innerHTML = `
+                <div class="expense-row" onclick="toggleDebt('${e.id}')">
+                    <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
+                    <span class="exp-name">${e.name}</span>
+                </div>
+                <div class="exp-fields">
+                    <div>
+                        <label>Сумма</label>
+                        <div class="amount-wrap"><span class="currency">₽</span>
+                        <input type="number" id="sum-${e.id}" placeholder="0" min="0" oninput="recalcDebts()"></div>
                     </div>
-                    <div class="exp-rows" id="rows-${e.id}"></div>
-                `;
-            } else {
-                d.innerHTML = `
-                    <div class="expense-row" onclick="toggle('${e.id}','${totalId}')">
-                        <div class="exp-check" id="check-${e.id}"><i class="ti ti-check"></i></div>
-                        <span class="exp-name">${e.name}</span>
+                    <div>
+                        <label>Комментарий (необязательно)</label>
+                        <textarea id="cmt-${e.id}" rows="2" placeholder="Уточните при необходимости..."></textarea>
                     </div>
-                    <div class="exp-fields">
-                        <div>
-                            <label>Сумма</label>
-                            <div class="amount-wrap"><span class="currency">₽</span>
-                            <input type="number" id="sum-${e.id}" placeholder="0" min="0" oninput="recalcTotal('${totalId}')"></div>
-                        </div>
-                        <div>
-                            <label>Комментарий (необязательно)</label>
-                            <textarea id="cmt-${e.id}" rows="2" placeholder="Уточните при необходимости..."></textarea>
-                        </div>
-                    </div>`;
-            }
+                </div>`;
             list.appendChild(d);
         });
     }
 
-    function addExpenseRow(itemId, totalId, itemName) {
-        const container = document.getElementById('rows-' + itemId);
-        
-        if (!expenseRowCounters[itemId]) expenseRowCounters[itemId] = 0;
-        expenseRowCounters[itemId]++;
-        const rowIndex = expenseRowCounters[itemId];
-        
-        const item = document.getElementById('item-' + itemId);
-        if (!item.classList.contains('selected')) {
-            item.classList.add('selected');
-        }
-        
-        const row = document.createElement('div');
-        row.className = 'expense-row-item';
-        row.id = `row-${itemId}-${rowIndex}`;
-        row.innerHTML = `
-            <div class="row-content">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span class="row-label">${itemName} #${rowIndex}</span>
-                    <div class="row-amount">
-                        <span class="row-currency">₽</span>
-                        <input type="number" placeholder="0" min="0" oninput="recalcTotal('${totalId}')">
-                    </div>
-                    <button class="row-delete" onclick="removeExpenseRow('${itemId}', ${rowIndex}, '${totalId}')">
-                        <i class="ti ti-x"></i>
-                    </button>
-                </div>
-                <textarea class="row-comment" rows="1" placeholder="Комментарий (необязательно)..."></textarea>
-            </div>
-        `;
-        
-        container.appendChild(row);
-        tg.HapticFeedback.impactOccurred('light');
-    }
-
-    function removeExpenseRow(itemId, rowIndex, totalId) {
-        const row = document.getElementById(`row-${itemId}-${rowIndex}`);
-        if (row) {
-            row.remove();
-            recalcTotal(totalId);
-            tg.HapticFeedback.impactOccurred('light');
-        }
-    }
-
-    function toggle(id, totalId) {
+    function toggleDebt(id) {
         document.getElementById('item-' + id).classList.toggle('selected');
         tg.HapticFeedback.impactOccurred('light');
+        recalcDebts();
     }
 
-    function recalcTotal(totalId) {
-        const allItems = totalId === 'exp-total' ? EXPENSES : DEBTS;
+    function recalcDebts() {
         let t = 0;
-        
-        allItems.forEach(e => {
+        DEBTS.forEach(e => {
             const item = document.getElementById('item-' + e.id);
-            if (!item) return;
-            
-            if (totalId === 'exp-total') {
-                const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
-                rows.forEach(row => {
-                    const input = row.querySelector('input[type="number"]');
-                    if (input) t += parseFloat(input.value) || 0;
-                });
-            } else {
-                if (item.classList.contains('selected')) {
-                    t += parseFloat(document.getElementById('sum-' + e.id).value) || 0;
-                }
+            if (item && item.classList.contains('selected')) {
+                t += parseFloat(document.getElementById('sum-' + e.id).value) || 0;
             }
         });
-        
-        document.getElementById(totalId).textContent = '₽ ' + t.toLocaleString('ru-RU');
-        if (totalId === 'exp-total') calcResult();
-    }
-
-    function getTotal(items) {
-        let t = 0;
-        items.forEach(e => {
-            const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
-            rows.forEach(row => {
-                const input = row.querySelector('input[type="number"]');
-                if (input) t += parseFloat(input.value) || 0;
-            });
-        });
-        return t;
+        document.getElementById('debt-total').textContent = '₽ ' + t.toLocaleString('ru-RU');
     }
 
     function calcResult() {
@@ -769,7 +1065,7 @@
         const cashless = parseFloat(document.getElementById('f-cashless').value) || 0;
         const collection = parseFloat(document.getElementById('f-collection').value) || 0;
         const closing = parseFloat(document.getElementById('f-closing').value) || 0;
-        const expenses = getTotal(EXPENSES);
+        const expenses = getTotalExpenses();
 
         const hasData = revenue || cashless || collection || closing;
         if (!hasData) {
@@ -832,8 +1128,8 @@
     }
 
     // Инициализация списков при загрузке
-    buildList(EXPENSES, 'expenses-list', 'exp-total');
-    buildList(DEBTS, 'debts-list', 'debt-total');
+    buildExpensesList();
+    buildDebtsList();
     
     // Запуск приложения с главного меню
     openMenu();
