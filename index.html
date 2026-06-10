@@ -1149,16 +1149,13 @@ function handlePhotos(input) {
         reader.readAsDataURL(file);
     });
 }
-
-    
-
-   function submitAll() {
+function submitAll() {
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
     tg.HapticFeedback.impactOccurred('medium');
 
-    // 1. Собираем основные данные
+    // Собираем данные
     const reportData = {
         employeeName: document.getElementById('f-name').value.trim(),
         date: document.getElementById('f-date').value,
@@ -1169,10 +1166,11 @@ function handlePhotos(input) {
         closing: parseFloat(document.getElementById('f-closing').value) || 0,
         comment: document.getElementById('f-comment').value.trim(),
         expenses: [],
-        debts: []
+        debts: [],
+        photos: photosBase64
     };
 
-    // 2. Собираем Расходы
+    // Собираем Расходы
     EXPENSES.forEach(e => {
         const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
         rows.forEach(row => {
@@ -1189,7 +1187,7 @@ function handlePhotos(input) {
         });
     });
 
-    // 3. Собираем Долги
+    // Собираем Долги
     DEBTS.forEach(e => {
         const item = document.getElementById('item-' + e.id);
         if (item && item.classList.contains('selected')) {
@@ -1205,25 +1203,28 @@ function handlePhotos(input) {
         }
     });
 
-    // 4. Считаем итоги
+    // Считаем итоги
     reportData.totalExpenses = reportData.expenses.reduce((sum, exp) => sum + exp.amount, 0);
     reportData.totalDebts = reportData.debts.reduce((sum, dbt) => sum + dbt.amount, 0);
     reportData.expected = reportData.opening + reportData.revenue - reportData.totalExpenses - reportData.cashless - reportData.collection;
     reportData.diff = reportData.closing - reportData.expected;
 
-    // 5. Отправка данных в Google Apps Script
+    // Отправляем данные
     fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(reportData)
     })
-    .then(() => {
+    .then(response => response.text())
+    .then(result => {
+        console.log('Success:', result);
         showSuccess();
     })
     .catch(error => {
-        console.error('Ошибка сети:', error);
-        tg.showAlert('Ошибка сети. Проверьте интернет.');
+        console.error('Ошибка:', error);
+        tg.showAlert('Ошибка при отправке. Проверьте интернет.');
         btn.disabled = false;
         btn.innerHTML = '<i class="ti ti-send"></i> Отправить отчёт';
     });
