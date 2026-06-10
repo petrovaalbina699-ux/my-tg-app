@@ -1155,7 +1155,6 @@ function submitAll() {
     btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
     tg.HapticFeedback.impactOccurred('medium');
 
-    // Собираем данные
     const reportData = {
         employeeName: document.getElementById('f-name').value.trim(),
         date: document.getElementById('f-date').value,
@@ -1167,10 +1166,10 @@ function submitAll() {
         comment: document.getElementById('f-comment').value.trim(),
         expenses: [],
         debts: [],
-        photos: photosBase64
+        photos: photosBase64 || []
     };
 
-    // Собираем Расходы
+    // Собираем расходы
     EXPENSES.forEach(e => {
         const rows = document.querySelectorAll(`#rows-${e.id} .expense-row-item`);
         rows.forEach(row => {
@@ -1187,7 +1186,7 @@ function submitAll() {
         });
     });
 
-    // Собираем Долги
+    // Собираем долги
     DEBTS.forEach(e => {
         const item = document.getElementById('item-' + e.id);
         if (item && item.classList.contains('selected')) {
@@ -1209,22 +1208,22 @@ function submitAll() {
     reportData.expected = reportData.opening + reportData.revenue - reportData.totalExpenses - reportData.cashless - reportData.collection;
     reportData.diff = reportData.closing - reportData.expected;
 
-    // Отправляем данные
+    // ВАЖНО: Используем no-cors и text/plain чтобы избежать preflight запроса
     fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',  // Это ключевой момент!
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain;charset=utf-8',  // НЕ application/json!
         },
         body: JSON.stringify(reportData)
     })
-    .then(response => response.text())
-    .then(result => {
-        console.log('Success:', result);
+    .then(() => {
+        // При no-cors мы не получаем ответ, но если нет ошибки сети — всё ок
         showSuccess();
     })
     .catch(error => {
         console.error('Ошибка:', error);
-        tg.showAlert('Ошибка при отправке. Проверьте интернет.');
+        tg.showAlert('Ошибка при отправке. Попробуйте еще раз.');
         btn.disabled = false;
         btn.innerHTML = '<i class="ti ti-send"></i> Отправить отчёт';
     });
