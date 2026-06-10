@@ -1099,18 +1099,58 @@
             val.className = 'result-value deficit'; val.textContent = '− ₽ ' + Math.abs(diff).toLocaleString('ru-RU');
         }
     }
+// Глобальная переменная для хранения фото в base64
+let photosBase64 = [];
 
-    function handlePhotos(input) {
-        const prev = document.getElementById('photo-previews');
-        prev.innerHTML = '';
-        Array.from(input.files).forEach(f => {
-            const img = document.createElement('img');
-            img.className = 'photo-thumb';
-            img.src = URL.createObjectURL(f);
-            prev.appendChild(img);
-        });
-        tg.HapticFeedback.impactOccurred('light');
-    }
+function handlePhotos(input) {
+    const prev = document.getElementById('photo-previews');
+    prev.innerHTML = '';
+    photosBase64 = []; // Очищаем массив перед новой загрузкой
+    
+    const files = Array.from(input.files);
+    
+    if (files.length === 0) return;
+
+    // Показываем индикатор загрузки фото (опционально, но полезно для UX)
+    tg.HapticFeedback.impactOccurred('medium');
+
+    files.forEach(file => {
+        // 1. Сразу показываем превью пользователю
+        const imgPreview = document.createElement('img');
+        imgPreview.className = 'photo-thumb';
+        imgPreview.src = URL.createObjectURL(file);
+        prev.appendChild(imgPreview);
+        
+        // 2. Сжимаем и конвертируем в base64
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imgObj = new Image();
+            imgObj.onload = function() {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 1024; // Максимальная ширина (достаточно для чеков)
+                
+                // Сохраняем пропорции
+                const scaleSize = MAX_WIDTH / imgObj.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = imgObj.height * scaleSize;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
+                
+                // Конвертируем в JPEG с качеством 0.7 (70%)
+                // Это уменьшает размер файла в 5-10 раз без потери читаемости текста
+                const base64String = canvas.toDataURL('image/jpeg', 0.7);
+                
+                // Убираем префикс "data:image/jpeg;base64," и сохраняем чистые данные
+                photosBase64.push(base64String.split(',')[1]);
+            };
+            imgObj.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+    
 
    function submitAll() {
     const btn = document.getElementById('submit-btn');
