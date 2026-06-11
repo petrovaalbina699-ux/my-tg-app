@@ -1179,6 +1179,7 @@ async function submitAll() {
 
         // 1. Собираем основные данные
         const reportData = {
+            reportType: 'cashier',
             employeeName: document.getElementById('f-name').value.trim(),
             date: document.getElementById('f-date').value,
             opening: parseFloat(document.getElementById('f-opening').value) || 0,
