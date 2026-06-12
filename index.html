@@ -546,6 +546,45 @@
             min-width: 70px;
             text-align: right;
         }
+        /* Стили для формы отчёта о выполненном заказе */
+.filling-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+    background: #FFFAFA;
+    border: 1px solid #E8C8C8;
+    border-radius: 8px;
+    padding: 10px;
+}
+.filling-row select {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px;
+}
+.filling-row .amount-wrap {
+    width: 100px;
+}
+.filling-row .amount-wrap input {
+    font-size: 13px;
+    padding: 8px 10px 8px 24px;
+}
+.filling-row .row-delete {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: #FCEBEB;
+    color: #A32D2D;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.filling-row .row-delete:active {
+    background: #A32D2D;
+    color: #fff;
+}
     </style>
 </head>
 <body>
@@ -580,6 +619,13 @@
                 <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
+         
+            <button class="menu-item" onclick="openCompletedOrder()">
+  
+    <i class="ti ti-clipboard-check" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
+    <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Отчет о выполненном заказе</span>
+    <i class="ti ti-chevron-right" style="color: #A06060;"></i>
+</button>
             
         </div>
     </div>
@@ -917,6 +963,324 @@
             <i class="ti ti-send"></i> Отправить заказ
         </button>
     </div>
+    <!-- === ФОРМА ОТЧЁТА О ВЫПОЛНЕННОМ ЗАКАЗЕ === -->
+<div id="page-completed" class="page">
+    <div class="topbar">
+        <button class="back-btn" onclick="openMenu()" aria-label="Выйти в меню">
+            <i class="ti ti-arrow-left"></i>
+        </button>
+        <div>
+            <div class="topbar-title">Отчет о выполненном заказе</div>
+            <div class="topbar-sub">Выберите тип заказа</div>
+        </div>
+    </div>
+
+    <!-- Выбор типа заказа -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon"><i class="ti ti-list-check"></i></div>
+            <div>
+                <div class="card-title">Тип заказа</div>
+                <div class="card-sub">Индивидуальный или оптовый</div>
+            </div>
+        </div>
+        
+        <div class="client-option" onclick="selectCompletedType('individual', this)">
+            <div class="opt-radio"></div>
+            <span class="opt-name">Индивидуальный заказ</span>
+        </div>
+        <div class="client-option" onclick="selectCompletedType('wholesale', this)">
+            <div class="opt-radio"></div>
+            <span class="opt-name">Оптовый заказ</span>
+        </div>
+    </div>
+
+    <!-- Форма для индивидуального заказа -->
+    <div id="completed-individual-form" style="display: none;">
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-hash"></i></div>
+                <div>
+                    <div class="card-title">Номер заказа</div>
+                    <div class="card-sub">Выберите из списка</div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Номер выполненного заказа</label>
+                <select id="completed-individual-number">
+                    <option value="">Выберите номер...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-bread"></i></div>
+                <div>
+                    <div class="card-title">Бисквит</div>
+                    <div class="card-sub">Тип, вес и размер</div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Тип бисквита</label>
+                <select id="biscuit-type">
+                    <option value="">Выберите...</option>
+                    <option value="Шоколадный">Шоколадный</option>
+                    <option value="Фисташковый">Фисташковый</option>
+                    <option value="Ванильный">Ванильный</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Вес (кг)</label>
+                <div class="amount-wrap">
+                    <span class="currency">кг</span>
+                    <input type="number" id="biscuit-weight" placeholder="0" step="0.1" min="0">
+                </div>
+            </div>
+            <div class="field">
+                <label>Размер (см)</label>
+                <input type="number" id="biscuit-size" placeholder="Например: 20" min="10">
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-droplet"></i></div>
+                <div>
+                    <div class="card-title">Пропитка</div>
+                    <div class="card-sub">Вес в граммах</div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Вес пропитки (г)</label>
+                <div class="amount-wrap">
+                    <span class="currency">г</span>
+                    <input type="number" id="soaking-weight" placeholder="0" min="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-ice-cream"></i></div>
+                <div>
+                    <div class="card-title">Крем</div>
+                    <div class="card-sub">Тип и вес</div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Тип крема</label>
+                <select id="cream-type">
+                    <option value="">Выберите...</option>
+                    <option value="Ваниль">Ваниль</option>
+                    <option value="Фисташка">Фисташка</option>
+                    <option value="Шоколад">Шоколад</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Вес крема (г)</label>
+                <div class="amount-wrap">
+                    <span class="currency">г</span>
+                    <input type="number" id="cream-weight" placeholder="0" min="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-cake"></i></div>
+                <div>
+                    <div class="card-title">Начинка</div>
+                    <div class="card-sub">Тип и вес</div>
+                </div>
+            </div>
+            <div id="completed-filling-list"></div>
+            <button type="button" class="custom-filling-btn" onclick="addCompletedFilling()">
+                <i class="ti ti-plus"></i>
+                <span>Добавить начинку</span>
+            </button>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-chocolate"></i></div>
+                <div>
+                    <div class="card-title">Ганаш</div>
+                    <div class="card-sub">Вес в граммах</div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Вес ганаша (г)</label>
+                <div class="amount-wrap">
+                    <span class="currency">г</span>
+                    <input type="number" id="ganache-weight" placeholder="0" min="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-palette"></i></div>
+                <div>
+                    <div class="card-title">Декор</div>
+                    <div class="card-sub">Ягоды, мастика, вилюр</div>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Ягодное оформление</label>
+                <div id="berries-list">
+                    <div class="dessert-item">
+                        <div class="dessert-info">
+                            <div class="dessert-name">Клубника</div>
+                        </div>
+                        <div class="amount-wrap" style="flex: 1;">
+                            <span class="currency">г</span>
+                            <input type="number" class="berry-weight" data-type="Клубника" placeholder="0" min="0">
+                        </div>
+                    </div>
+                    <div class="dessert-item">
+                        <div class="dessert-info">
+                            <div class="dessert-name">Малина</div>
+                        </div>
+                        <div class="amount-wrap" style="flex: 1;">
+                            <span class="currency">г</span>
+                            <input type="number" class="berry-weight" data-type="Малина" placeholder="0" min="0">
+                        </div>
+                    </div>
+                    <div class="dessert-item">
+                        <div class="dessert-info">
+                            <div class="dessert-name">Голубика</div>
+                        </div>
+                        <div class="amount-wrap" style="flex: 1;">
+                            <span class="currency">г</span>
+                            <input type="number" class="berry-weight" data-type="Голубика" placeholder="0" min="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Мастика (кг)</label>
+                <div class="amount-wrap">
+                    <span class="currency">кг</span>
+                    <input type="number" id="decor-mastic" placeholder="0" step="0.1" min="0">
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Вилюр (кг)</label>
+                <div class="amount-wrap">
+                    <span class="currency">кг</span>
+                    <input type="number" id="decor-velour" placeholder="0" step="0.1" min="0">
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Другой декор (комментарий)</label>
+                <textarea id="decor-other" rows="2" placeholder="Опишите другой декор..."></textarea>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-camera"></i></div>
+                <div>
+                    <div class="card-title">Фото готового заказа</div>
+                    <div class="card-sub">Обязательно</div>
+                </div>
+            </div>
+            <div class="photo-zone" onclick="document.getElementById('completed-photo-input').click()">
+                <i class="ti ti-cloud-upload"></i>
+                <p>Нажмите, чтобы загрузить фото</p>
+                <input type="file" id="completed-photo-input" accept="image/*" multiple onchange="handleCompletedPhotos(this)">
+            </div>
+            <div class="photo-previews" id="completed-photo-previews"></div>
+        </div>
+
+        <button class="next-btn" id="submit-completed-individual-btn" onclick="submitCompletedIndividual()">
+            <i class="ti ti-send"></i> Отправить отчёт
+        </button>
+    </div>
+
+    <!-- Форма для оптового заказа -->
+    <div id="completed-wholesale-form" style="display: none;">
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-hash"></i></div>
+                <div>
+                    <div class="card-title">Номер заказа</div>
+                    <div class="card-sub">Выберите из списка</div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Номер выполненного заказа</label>
+                <select id="completed-wholesale-number" onchange="loadWholesaleOrderData()">
+                    <option value="">Выберите номер...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-calendar"></i></div>
+                <div>
+                    <div class="card-title">Дата исполнения</div>
+                    <div class="card-sub">Когда выполнен заказ</div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Дата исполнения</label>
+                <input type="date" id="wholesale-execution-date">
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-list-details"></i></div>
+                <div>
+                    <div class="card-title">Выполнено из заявки</div>
+                    <div class="card-sub">Укажите количество по каждой позиции</div>
+                </div>
+            </div>
+            <div id="wholesale-completed-items"></div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-user"></i></div>
+                <div>
+                    <div class="card-title">Выполнил</div>
+                    <div class="card-sub">Кто готовил заказ</div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Имя сотрудника</label>
+                <input type="text" id="wholesale-executor" placeholder="Введите имя">
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-camera"></i></div>
+                <div>
+                    <div class="card-title">Фото готового заказа</div>
+                    <div class="card-sub">Обязательно</div>
+                </div>
+            </div>
+            <div class="photo-zone" onclick="document.getElementById('completed-wholesale-photo-input').click()">
+                <i class="ti ti-cloud-upload"></i>
+                <p>Нажмите, чтобы загрузить фото</p>
+                <input type="file" id="completed-wholesale-photo-input" accept="image/*" multiple onchange="handleCompletedWholesalePhotos(this)">
+            </div>
+            <div class="photo-previews" id="completed-wholesale-photo-previews"></div>
+        </div>
+
+        <button class="next-btn" id="submit-completed-wholesale-btn" onclick="submitCompletedWholesale()">
+            <i class="ti ti-send"></i> Отправить отчёт
+        </button>
+    </div>
+</div>
 
     <!-- ЭКРАН УСПЕХА -->
     <div id="success" class="page">
@@ -944,7 +1308,7 @@
     tg.setBottomBarColor('#FDF0F0');
 
     // ⚠️ URL вашего Google Apps Script (уже настроен)
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTwuBf1-BghDGc8xHAMjbgzdNh8sMBmEwsNlPTCu4E2pgwIFN8AISyNq5CqB-5eec/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAxMsUmYBvWynhWbgQ6vcM327nkHx1lBBqCggDYvBPPR0BL4tOGcGJnn4jPt_m5X4/exec';
 
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -1834,6 +2198,337 @@
         tg.BackButton.hide();
         currentStep = 0;
     }
+    // === ОТЧЁТ О ВЫПОЛНЕННОМ ЗАКАЗЕ ===
+let completedOrderType = '';
+let completedPhotos = [];
+let completedWholesalePhotos = [];
+let wholesaleOrderData = null;
+
+function openCompletedOrder() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-completed').classList.add('active');
+    const steps = document.querySelector('.steps');
+    if (steps) steps.style.display = 'none';
+    currentStep = 0;
+    tg.BackButton.hide();
+    tg.HapticFeedback.impactOccurred('light');
+}
+
+function selectCompletedType(type, element) {
+    document.querySelectorAll('#page-completed .client-option').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    completedOrderType = type;
+    
+    document.getElementById('completed-individual-form').style.display = type === 'individual' ? 'block' : 'none';
+    document.getElementById('completed-wholesale-form').style.display = type === 'wholesale' ? 'block' : 'none';
+    
+    if (type === 'individual') {
+        loadIndividualOrders();
+    } else if (type === 'wholesale') {
+        loadWholesaleOrders();
+    }
+    
+    tg.HapticFeedback.impactOccurred('light');
+}
+
+function loadIndividualOrders() {
+    fetch(`${GOOGLE_SCRIPT_URL}?type=individual`)
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById('completed-individual-number');
+            select.innerHTML = '<option value="">Выберите номер...</option>';
+            data.orders.forEach((order, idx) => {
+                const option = document.createElement('option');
+                option.value = idx + 1;
+                option.textContent = `№${idx + 1} - ${order.weight}кг, ${order.diameter}см`;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error('Ошибка загрузки заказов:', err));
+}
+
+function loadWholesaleOrders() {
+    fetch(`${GOOGLE_SCRIPT_URL}?type=wholesale`)
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById('completed-wholesale-number');
+            select.innerHTML = '<option value="">Выберите номер...</option>';
+            data.orders.forEach((order, idx) => {
+                const option = document.createElement('option');
+                option.value = idx + 1;
+                option.textContent = `№${idx + 1} - ${order.client}`;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error('Ошибка загрузки заказов:', err));
+}
+
+function loadWholesaleOrderData() {
+    const orderNum = document.getElementById('completed-wholesale-number').value;
+    if (!orderNum) return;
+    
+    fetch(`${GOOGLE_SCRIPT_URL}?type=wholesale`)
+        .then(res => res.json())
+        .then(data => {
+            wholesaleOrderData = data.orders[orderNum - 1];
+            const container = document.getElementById('wholesale-completed-items');
+            container.innerHTML = '';
+            
+            // Группируем по десертам
+            const desserts = {};
+            data.orders.forEach(order => {
+                if (!desserts[order.dessert]) desserts[order.dessert] = 0;
+                desserts[order.dessert] += order.quantity;
+            });
+            
+            Object.keys(desserts).forEach(dessert => {
+                const div = document.createElement('div');
+                div.className = 'dessert-item';
+                div.innerHTML = `
+                    <div class="dessert-info">
+                        <div class="dessert-name">${dessert}</div>
+                        <div class="dessert-price">В заявке: ${desserts[dessert]} шт</div>
+                    </div>
+                    <div class="amount-wrap" style="width: 100px;">
+                        <span class="currency">шт</span>
+                        <input type="number" class="wholesale-done" data-dessert="${dessert}" data-requested="${desserts[dessert]}" placeholder="0" min="0" max="${desserts[dessert]}">
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        })
+        .catch(err => console.error('Ошибка загрузки данных заказа:', err));
+}
+
+function addCompletedFilling() {
+    const container = document.getElementById('completed-filling-list');
+    const div = document.createElement('div');
+    div.className = 'filling-row';
+    div.innerHTML = `
+        <select class="filling-type">
+            <option value="">Выберите...</option>
+            <option value="Ваниль">Ваниль</option>
+            <option value="Клубника">Клубника</option>
+            <option value="Малина">Малина</option>
+            <option value="Банан">Банан</option>
+            <option value="Шоколад-малина-банан">Шоколад-малина-банан</option>
+            <option value="Шоколад-малина">Шоколад-малина</option>
+            <option value="Сникерс">Сникерс</option>
+            <option value="Безе орех">Безе орех</option>
+            <option value="Фисташка с малиной">Фисташка с малиной</option>
+            <option value="Шоколад">Шоколад</option>
+        </select>
+        <div class="amount-wrap">
+            <span class="currency">г</span>
+            <input type="number" class="filling-weight" placeholder="0" min="0">
+        </div>
+        <button class="row-delete" onclick="this.parentElement.remove()">
+            <i class="ti ti-x"></i>
+        </button>
+    `;
+    container.appendChild(div);
+    tg.HapticFeedback.impactOccurred('light');
+}
+
+function handleCompletedPhotos(input) {
+    const prev = document.getElementById('completed-photo-previews');
+    prev.innerHTML = '';
+    completedPhotos = [];
+    const files = Array.from(input.files);
+    if (files.length === 0) return;
+    tg.HapticFeedback.impactOccurred('medium');
+    files.forEach(file => {
+        const imgPreview = document.createElement('img');
+        imgPreview.className = 'photo-thumb';
+        imgPreview.src = URL.createObjectURL(file);
+        prev.appendChild(imgPreview);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imgObj = new Image();
+            imgObj.onload = function() {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 1024;
+                const scaleSize = MAX_WIDTH / imgObj.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = imgObj.height * scaleSize;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
+                const base64String = canvas.toDataURL('image/jpeg', 0.7);
+                completedPhotos.push(base64String.split(',')[1]);
+            };
+            imgObj.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function handleCompletedWholesalePhotos(input) {
+    const prev = document.getElementById('completed-wholesale-photo-previews');
+    prev.innerHTML = '';
+    completedWholesalePhotos = [];
+    const files = Array.from(input.files);
+    if (files.length === 0) return;
+    tg.HapticFeedback.impactOccurred('medium');
+    files.forEach(file => {
+        const imgPreview = document.createElement('img');
+        imgPreview.className = 'photo-thumb';
+        imgPreview.src = URL.createObjectURL(file);
+        prev.appendChild(imgPreview);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imgObj = new Image();
+            imgObj.onload = function() {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 1024;
+                const scaleSize = MAX_WIDTH / imgObj.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = imgObj.height * scaleSize;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
+                const base64String = canvas.toDataURL('image/jpeg', 0.7);
+                completedWholesalePhotos.push(base64String.split(',')[1]);
+            };
+            imgObj.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+async function submitCompletedIndividual() {
+    const btn = document.getElementById('submit-completed-individual-btn');
+    try {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+        tg.HapticFeedback.impactOccurred('medium');
+        
+        const orderNum = document.getElementById('completed-individual-number').value;
+        if (!orderNum) throw new Error('Выберите номер заказа');
+        
+        if (completedPhotos.length === 0) throw new Error('Добавьте хотя бы одно фото');
+        
+        const fillingRows = document.querySelectorAll('#completed-filling-list .filling-row');
+        const fillings = [];
+        fillingRows.forEach(row => {
+            const type = row.querySelector('.filling-type').value;
+            const weight = row.querySelector('.filling-weight').value;
+            if (type && weight) {
+                fillings.push({ type: type, weight: parseInt(weight) });
+            }
+        });
+        
+        const berries = [];
+        document.querySelectorAll('.berry-weight').forEach(input => {
+            const weight = input.value;
+            if (weight && parseInt(weight) > 0) {
+                berries.push({ type: input.dataset.type, weight: parseInt(weight) });
+            }
+        });
+        
+        const reportData = {
+            formType: 'completed_order',
+            orderType: 'individual',
+            orderNumber: orderNum,
+            weight: document.getElementById('biscuit-weight').value,
+            diameter: document.getElementById('biscuit-size').value,
+            biscuit: {
+                type: document.getElementById('biscuit-type').value,
+                weight: document.getElementById('biscuit-weight').value,
+                size: document.getElementById('biscuit-size').value
+            },
+            soaking: {
+                weight: document.getElementById('soaking-weight').value
+            },
+            cream: {
+                type: document.getElementById('cream-type').value,
+                weight: document.getElementById('cream-weight').value
+            },
+            filling: fillings,
+            ganache: {
+                weight: document.getElementById('ganache-weight').value
+            },
+            decor: {
+                berries: berries,
+                mastic: document.getElementById('decor-mastic').value,
+                velour: document.getElementById('decor-velour').value,
+                other: document.getElementById('decor-other').value.trim()
+            },
+            photos: completedPhotos
+        };
+        
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(reportData)
+        });
+        
+        showSuccess('Отчёт отправлен!', 'Данные о выполненном заказе переданы.');
+        
+    } catch (error) {
+        console.error('Ошибка отправки:', error);
+        tg.showAlert('Ошибка: ' + error.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ti ti-send"></i> Отправить отчёт';
+    }
+}
+
+async function submitCompletedWholesale() {
+    const btn = document.getElementById('submit-completed-wholesale-btn');
+    try {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+        tg.HapticFeedback.impactOccurred('medium');
+        
+        const orderNum = document.getElementById('completed-wholesale-number').value;
+        if (!orderNum) throw new Error('Выберите номер заказа');
+        
+        const executionDate = document.getElementById('wholesale-execution-date').value;
+        if (!executionDate) throw new Error('Укажите дату исполнения');
+        
+        const executor = document.getElementById('wholesale-executor').value.trim();
+        if (!executor) throw new Error('Укажите, кто выполнил заказ');
+        
+        if (completedWholesalePhotos.length === 0) throw new Error('Добавьте хотя бы одно фото');
+        
+        const items = [];
+        document.querySelectorAll('.wholesale-done').forEach(input => {
+            const done = input.value;
+            if (done && parseInt(done) > 0) {
+                items.push({
+                    name: input.dataset.dessert,
+                    requested: parseInt(input.dataset.requested),
+                    done: parseInt(done)
+                });
+            }
+        });
+        
+        const reportData = {
+            formType: 'completed_order',
+            orderType: 'wholesale',
+            orderNumber: orderNum,
+            executionDate: executionDate,
+            client: wholesaleOrderData ? wholesaleOrderData.client : '',
+            items: items,
+            executor: executor,
+            photos: completedWholesalePhotos
+        };
+        
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(reportData)
+        });
+        
+        showSuccess('Отчёт отправлен!', 'Данные о выполненном заказе переданы.');
+        
+    } catch (error) {
+        console.error('Ошибка отправки:', error);
+        tg.showAlert('Ошибка: ' + error.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ti ti-send"></i> Отправить отчёт';
+    }
+}
 
     // === ИНИЦИАЛИЗАЦИЯ ===
     buildExpensesList();
