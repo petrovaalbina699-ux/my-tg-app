@@ -331,6 +331,62 @@
         .success-sub { font-size: 15px; color: #7B5050; line-height: 1.6; margin-bottom: 32px; }
         .new-btn { background: #fff; border: 1px solid #E8C8C8; border-radius: 10px; padding: 14px 32px; font-size: 15px; color: #7B3B3B; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .new-btn:active { background: #FDF0F0; }
+
+        /* === СТИЛИ ДЛЯ ФОРМЫ ИНДИВИДУАЛЬНОГО ЗАКАЗА === */
+        .filling-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #FFFAFA;
+            border: 1px solid #E8C8C8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+        }
+        .filling-checkbox:active {
+            background: #FFF5F5;
+        }
+        .filling-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #7B3B3B;
+            cursor: pointer;
+        }
+        .filling-checkbox label {
+            flex: 1;
+            font-size: 14px;
+            color: #3D1A1A;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .toggle-btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #E8C8C8;
+            border-radius: 8px;
+            background: #fff;
+            color: #7B5050;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toggle-btn.active {
+            background: #7B3B3B;
+            color: #fff;
+            border-color: #7B3B3B;
+        }
+        .toggle-btn:active {
+            transform: scale(0.98);
+        }
     </style>
 </head>
 <body>
@@ -354,7 +410,7 @@
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
 
-            <button class="menu-item" onclick="alert('Раздел в разработке')">
+            <button class="menu-item" onclick="openIndividualOrder()">
                 <i class="ti ti-cake" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
                 <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление индивид. заказа</span>
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
@@ -524,12 +580,110 @@
         </button>
     </div>
 
+    <!-- === ФОРМА ИНДИВИДУАЛЬНОГО ЗАКАЗА === -->
+    <div id="page-individual" class="page">
+        <div class="topbar">
+            <button class="back-btn" onclick="openMenu()" aria-label="Выйти в меню">
+                <i class="ti ti-arrow-left"></i>
+            </button>
+            <div>
+                <div class="topbar-title">Оформление индивид. заказа</div>
+                <div class="topbar-sub">Торт на заказ</div>
+            </div>
+        </div>
+
+        <!-- Карточка 1: Параметры торта -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-cake"></i></div>
+                <div>
+                    <div class="card-title">Параметры торта</div>
+                    <div class="card-sub">Основные характеристики</div>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Вес торта (кг)</label>
+                <input type="number" id="cake-weight" placeholder="Например: 2.5" step="0.1" min="0.5">
+            </div>
+            
+            <div class="field">
+                <label>Диаметр торта (см)</label>
+                <input type="number" id="cake-diameter" placeholder="Например: 20" min="10">
+            </div>
+            
+            <div class="field">
+                <label>Выберите начинку (можно несколько)</label>
+                <div id="fillings-list" style="margin-top: 8px;">
+                    <!-- Чекбоксы будут добавлены через JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Карточка 2: Декор и надпись -->
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-palette"></i></div>
+                <div>
+                    <div class="card-title">Декор и надпись</div>
+                    <div class="card-sub">Внешний вид торта</div>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Укажите декор</label>
+                <textarea id="cake-decor" rows="3" placeholder="Опишите желаемый декор: ягоды, цветы, фигурки..."></textarea>
+            </div>
+            
+            <div class="field">
+                <label>Будет ли надпись на торте?</label>
+                <div class="toggle-btn-group">
+                    <button type="button" class="toggle-btn" id="inscription-yes" onclick="toggleInscription(true)">Да</button>
+                    <button type="button" class="toggle-btn" id="inscription-no" onclick="toggleInscription(false)">Нет</button>
+                </div>
+            </div>
+            
+            <div class="field" id="inscription-text-field" style="display: none;">
+                <label>Текст надписи</label>
+                <input type="text" id="inscription-text" placeholder="Например: С Днём Рождения, Маша!">
+            </div>
+        </div>
+
+        <!-- Карточка 3: Детали заказа -->
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-calendar-time"></i></div>
+                <div>
+                    <div class="card-title">Детали заказа</div>
+                    <div class="card-sub">Когда и сколько</div>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label>Дата и время выдачи заказа</label>
+                <input type="datetime-local" id="cake-datetime">
+            </div>
+            
+            <div class="field">
+                <label>Цена (₽)</label>
+                <div class="amount-wrap">
+                    <span class="currency">₽</span>
+                    <input type="number" id="cake-price" placeholder="0" min="0">
+                </div>
+            </div>
+        </div>
+
+        <button class="next-btn" id="submit-individual-btn" onclick="submitIndividualOrder()">
+            <i class="ti ti-send"></i> Отправить заказ
+        </button>
+    </div>
+
     <!-- ЭКРАН УСПЕХА -->
     <div id="success" class="page">
         <div class="success-wrap">
             <div class="success-circle"><i class="ti ti-circle-check"></i></div>
-            <div class="success-title">Отчёт отправлен!</div>
-            <div class="success-sub">Данные записаны в таблицу.<br>Спасибо за смену!</div>
+            <div class="success-title" id="success-title">Отчёт отправлен!</div>
+            <div class="success-sub" id="success-sub">Данные записаны в таблицу.<br>Спасибо за смену!</div>
             <button class="new-btn" style="margin-top:32px;" onclick="openMenu()">На главную</button>
         </div>
     </div>
@@ -550,12 +704,13 @@ tg.ready();
 tg.expand();
 
 // ПРАВИЛЬНАЯ установка цветов (в формате #rrggbb)
-tg.setHeaderColor('#FDF0F0');  // Не "Default", а конкретный цвет
+tg.setHeaderColor('#FDF0F0');
 tg.setBackgroundColor('#FDF0F0');
-tg.setBottomBarColor('#FDF0F0'); // Если нужно
+tg.setBottomBarColor('#FDF0F0');
 
 // URL вашего Google Apps Script
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxubRGz-JXK5ZVILYRr6qpR3HvnOCZvAKPEkxi20kaOONI75itarprE2QDYFHk-e3Q/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvD6oHf4mq7wNC8AATBA0hoeJNppyPSIbLvYFUtBJXxP_3lfWxy8vzz9_cA5jcp3Q/exec';
+
     // Установка текущей даты
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -602,6 +757,19 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxubRGz-JXK5Z
         tg.HapticFeedback.impactOccurred('light');
     }
 
+    // === ФУНКЦИЯ ОТКРЫТИЯ ФОРМЫ ИНДИВИДУАЛЬНОГО ЗАКАЗА ===
+    function openIndividualOrder() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-individual').classList.add('active');
+        
+        const steps = document.querySelector('.steps');
+        if (steps) steps.style.display = 'none';
+        
+        currentStep = 0;
+        tg.BackButton.hide();
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
 function goToStep(step) {
     if (step > currentStep) {
         if (currentStep === 1 && !validateStep1()) return;
@@ -632,7 +800,7 @@ function updateStepIndicators(step) {
         const circle = document.getElementById('sc' + i);
         const line = document.getElementById('sl' + i);
         
-        if (!circle) continue; // Пропускаем если элемент не найден
+        if (!circle) continue;
         
         circle.classList.remove('active', 'done');
         circle.innerHTML = i;
@@ -870,6 +1038,52 @@ function updateStepIndicators(step) {
         {id:'db4',name:'Другой поставщик'},
     ];
 
+    // === СПИСОК НАЧИНОК ДЛЯ ТОРТА ===
+    const FILLINGS = [
+        { id: 'vanilla', name: 'Ваниль' },
+        { id: 'strawberry', name: 'Клубника' },
+        { id: 'raspberry', name: 'Малина' },
+        { id: 'banana', name: 'Банан' },
+        { id: 'choco-rasp-banana', name: 'Шоколад-малина-банан' },
+        { id: 'choco-raspberry', name: 'Шоколад-малина' },
+        { id: 'snickers', name: 'Сникерс' },
+        { id: 'meringue-nut', name: 'Безе орех' },
+        { id: 'pistachio-raspberry', name: 'Фисташка с малиной' },
+        { id: 'chocolate', name: 'Шоколад' }
+    ];
+
+    function buildFillingsList() {
+        const container = document.getElementById('fillings-list');
+        container.innerHTML = '';
+        FILLINGS.forEach(filling => {
+            const div = document.createElement('div');
+            div.className = 'filling-checkbox';
+            div.innerHTML = `
+                <input type="checkbox" id="filling-${filling.id}" value="${filling.name}">
+                <label for="filling-${filling.id}">${filling.name}</label>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function toggleInscription(show) {
+        const yesBtn = document.getElementById('inscription-yes');
+        const noBtn = document.getElementById('inscription-no');
+        const textField = document.getElementById('inscription-text-field');
+        
+        if (show) {
+            yesBtn.classList.add('active');
+            noBtn.classList.remove('active');
+            textField.style.display = 'block';
+        } else {
+            yesBtn.classList.remove('active');
+            noBtn.classList.add('active');
+            textField.style.display = 'none';
+            document.getElementById('inscription-text').value = '';
+        }
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
     function buildExpensesList() {
         const list = document.getElementById('expenses-list');
         list.innerHTML = '';
@@ -921,7 +1135,7 @@ function updateStepIndicators(step) {
                                     <div class="field-row">
                                         <div class="amount-wrap">
                                             <span class="currency">₽</span>
-                                            <input type="number" id="amount-${sub.id}-${idx}" placeholder="0" min="0" oninput="recalcExpenses()">
+                                            <input type="number" id="amount-${sub.id}-${idx}" placeholder="0" min="0" oninput("recalcExpenses()">
                                         </div>
                                     </div>
                                     ${mandatoryComment ? `
@@ -1119,37 +1333,34 @@ function updateStepIndicators(step) {
             val.className = 'result-value deficit'; val.textContent = '− ₽ ' + Math.abs(diff).toLocaleString('ru-RU');
         }
     }
+
 // Глобальная переменная для хранения фото в base64
 let photosBase64 = [];
 
 function handlePhotos(input) {
     const prev = document.getElementById('photo-previews');
     prev.innerHTML = '';
-    photosBase64 = []; // Очищаем массив перед новой загрузкой
+    photosBase64 = [];
     
     const files = Array.from(input.files);
     
     if (files.length === 0) return;
 
-    // Показываем индикатор загрузки фото (опционально, но полезно для UX)
     tg.HapticFeedback.impactOccurred('medium');
 
     files.forEach(file => {
-        // 1. Сразу показываем превью пользователю
         const imgPreview = document.createElement('img');
         imgPreview.className = 'photo-thumb';
         imgPreview.src = URL.createObjectURL(file);
         prev.appendChild(imgPreview);
         
-        // 2. Сжимаем и конвертируем в base64
         const reader = new FileReader();
         reader.onload = function(e) {
             const imgObj = new Image();
             imgObj.onload = function() {
                 const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 1024; // Максимальная ширина (достаточно для чеков)
+                const MAX_WIDTH = 1024;
                 
-                // Сохраняем пропорции
                 const scaleSize = MAX_WIDTH / imgObj.width;
                 canvas.width = MAX_WIDTH;
                 canvas.height = imgObj.height * scaleSize;
@@ -1157,11 +1368,7 @@ function handlePhotos(input) {
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
                 
-                // Конвертируем в JPEG с качеством 0.7 (70%)
-                // Это уменьшает размер файла в 5-10 раз без потери читаемости текста
                 const base64String = canvas.toDataURL('image/jpeg', 0.7);
-                
-                // Убираем префикс "data:image/jpeg;base64," и сохраняем чистые данные
                 photosBase64.push(base64String.split(',')[1]);
             };
             imgObj.src = e.target.result;
@@ -1169,6 +1376,7 @@ function handlePhotos(input) {
         reader.readAsDataURL(file);
     });
 }
+
 async function submitAll() {
     const btn = document.getElementById('submit-btn');
     
@@ -1177,9 +1385,9 @@ async function submitAll() {
         btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
         tg.HapticFeedback.impactOccurred('medium');
 
-        // 1. Собираем основные данные
         const reportData = {
             reportType: 'cashier',
+            formType: 'shift_report',
             employeeName: document.getElementById('f-name').value.trim(),
             date: document.getElementById('f-date').value,
             opening: parseFloat(document.getElementById('f-opening').value) || 0,
@@ -1193,11 +1401,9 @@ async function submitAll() {
             photos: photosBase64 || []
         };
 
-        // 2. ✅ Собираем РАСХОДЫ из НОВОЙ структуры (категории → подкатегории)
         EXPENSES.forEach(cat => {
             cat.subcategories.forEach(sub => {
                 if (sub.type === 'single') {
-                    // Одиночный тип (ЗП Техперсонал, Аванс, Хозрасход и т.д.)
                     const item = document.getElementById(`sub-${sub.id}`);
                     if (item && item.classList.contains('selected')) {
                         const amountInput = document.getElementById(`amount-${sub.id}`);
@@ -1212,7 +1418,6 @@ async function submitAll() {
                         }
                     }
                 } else if (sub.type === 'multi') {
-                    // Мульти-тип (Закуп: Бар, Кухня, Кондитерская...)
                     sub.items.forEach((item, idx) => {
                         const itemName = typeof item === 'string' ? item : item.name;
                         const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
@@ -1233,7 +1438,6 @@ async function submitAll() {
             });
         });
 
-        // 3. Собираем ДОЛГИ (старая логика — она правильная)
         DEBTS.forEach(e => {
             const item = document.getElementById('item-' + e.id);
             if (item && item.classList.contains('selected')) {
@@ -1249,18 +1453,15 @@ async function submitAll() {
             }
         });
 
-        // 4. Считаем итоги
         reportData.totalExpenses = reportData.expenses.reduce((sum, exp) => sum + exp.amount, 0);
         reportData.totalDebts = reportData.debts.reduce((sum, dbt) => sum + dbt.amount, 0);
         reportData.expected = reportData.opening + reportData.revenue - reportData.totalExpenses - reportData.cashless - reportData.collection;
         reportData.diff = reportData.closing - reportData.expected;
 
-        // 5. Проверяем URL
         if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
             throw new Error('Не настроен GOOGLE_SCRIPT_URL');
         }
 
-        // 6. Отправляем данные
         await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
@@ -1270,7 +1471,7 @@ async function submitAll() {
             body: JSON.stringify(reportData)
         });
 
-        showSuccess();
+        showSuccess('Отчёт отправлен!', 'Данные записаны в таблицу.<br>Спасибо за смену!');
         
     } catch (error) {
         console.error('Ошибка отправки:', error);
@@ -1280,16 +1481,93 @@ async function submitAll() {
     }
 }
 
-function showSuccess() {
+// === ОТПРАВКА ИНДИВИДУАЛЬНОГО ЗАКАЗА ===
+async function submitIndividualOrder() {
+    const btn = document.getElementById('submit-individual-btn');
+    
+    try {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+        tg.HapticFeedback.impactOccurred('medium');
+
+        // Собираем данные
+        const weight = document.getElementById('cake-weight').value;
+        const diameter = document.getElementById('cake-diameter').value;
+        const decor = document.getElementById('cake-decor').value.trim();
+        const hasInscription = document.getElementById('inscription-yes').classList.contains('active');
+        const inscriptionText = hasInscription ? document.getElementById('inscription-text').value.trim() : '';
+        const datetime = document.getElementById('cake-datetime').value;
+        const price = document.getElementById('cake-price').value;
+
+        // Собираем выбранные начинки
+        const selectedFillings = [];
+        FILLINGS.forEach(filling => {
+            const checkbox = document.getElementById(`filling-${filling.id}`);
+            if (checkbox.checked) {
+                selectedFillings.push(filling.name);
+            }
+        });
+
+        // Валидация
+        if (!weight || !diameter || selectedFillings.length === 0 || !datetime || !price) {
+            throw new Error('Пожалуйста, заполните все обязательные поля');
+        }
+
+        // Формируем объект для отправки
+        const orderData = {
+            formType: 'individual_order',
+            weight: parseFloat(weight),
+            diameter: parseInt(diameter),
+            fillings: selectedFillings,
+            decor: decor,
+            hasInscription: hasInscription,
+            inscriptionText: inscriptionText,
+            datetime: datetime,
+            price: parseFloat(price)
+        };
+
+        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
+            throw new Error('Не настроен GOOGLE_SCRIPT_URL');
+        }
+
+        // Отправка в Google Таблицу
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        // TODO: Здесь будет отправка в Telegram-группу кондитеров
+        // После того, как пришлёте код бота, добавим отправку сообщения
+
+        showSuccess('Заказ отправлен!', 'Данные переданы кондитерам.<br>Спасибо!');
+        
+    } catch (error) {
+        console.error('Ошибка отправки:', error);
+        tg.showAlert('Ошибка: ' + error.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ti ti-send"></i> Отправить заказ';
+    }
+}
+
+function showSuccess(title, sub) {
+    document.getElementById('success-title').textContent = title;
+    document.getElementById('success-sub').innerHTML = sub;
+    
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('success').classList.add('active');
     document.querySelector('.steps').style.display = 'none';
     tg.BackButton.hide();
     currentStep = 0;
 }
+
     // Инициализация списков при загрузке
     buildExpensesList();
     buildDebtsList();
+    buildFillingsList();
     
     // Запуск приложения с главного меню
     openMenu();
