@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Отчёт закрытия смены</title>
+    <title>Mahan - Рабочее приложение</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
@@ -13,19 +13,6 @@
             display: flex; align-items: center; background: #fff; border: 0.5px solid #E8C8C8;
             border-radius: 12px; padding: 16px; width: 100%; text-align: left; cursor: pointer;
             transition: all 0.2s; box-shadow: 0 2px 8px rgba(62, 39, 35, 0.04);
-        }
-                .custom-filling-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            background: rgba(123, 59, 59, 0.08);
-            border: 1px dashed #C49090;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 8px;
-            width: 100%;
         }
         .menu-item:active { transform: scale(0.98); background: #FFF5F5; }
         
@@ -86,7 +73,7 @@
         .err-msg { font-size: 13px; color: #A32D2D; margin-top: 6px; display: none; align-items: center; gap: 4px; }
         .err-msg i { font-size: 14px; }
 
-        /* Новые стили для категорий расходов */
+        /* Стили для категорий расходов */
         .category-item {
             border: 1px solid #E8C8C8;
             border-radius: 12px;
@@ -284,7 +271,7 @@
             margin-left: 6px;
         }
 
-        /* Старые стили для долгов */
+        /* Стили для долгов */
         .expense-item { border: 1px solid #E8C8C8; border-radius: 12px; background: #FFFAFA; margin-bottom: 10px; overflow: hidden; transition: all 0.2s; }
         .expense-item.selected { border-color: #7B3B3B; background: #FFF5F5; }
         .expense-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; }
@@ -346,132 +333,219 @@
         .new-btn:active { background: #FDF0F0; }
 
         /* === СТИЛИ ДЛЯ ФОРМЫ ИНДИВИДУАЛЬНОГО ЗАКАЗА === */
+        .filling-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #FFFAFA;
+            border: 1px solid #E8C8C8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+        }
+        .filling-checkbox:active {
+            background: #FFF5F5;
+        }
+        .filling-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #7B3B3B;
+            cursor: pointer;
+        }
+        .filling-checkbox label {
+            flex: 1;
+            font-size: 14px;
+            color: #3D1A1A;
+            cursor: pointer;
+            margin: 0;
+        }
 
-.client-option, .responsible-option {
-    padding: 12px 14px;
-    background: #FFFAFA;
-    border: 1px solid #E8C8C8;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.client-option:active, .responsible-option:active {
-    background: #FFF5F5;
-    transform: scale(0.98);
-}
-.client-option.selected, .responsible-option.selected {
-    background: #FFF5F5;
-    border-color: #7B3B3B;
-    border-width: 1.5px;
-}
-.client-option .opt-radio, .responsible-option .opt-radio {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 1.5px solid #E0B8B8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-}
-.client-option.selected .opt-radio, .responsible-option.selected .opt-radio {
-    border-color: #7B3B3B;
-    background: #7B3B3B;
-}
-.client-option .opt-radio::after, .responsible-option .opt-radio::after {
-    content: '';
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #fff;
-    display: none;
-}
-.client-option.selected .opt-radio::after, .responsible-option.selected .opt-radio::after {
-    display: block;
-}
-.client-option .opt-name, .responsible-option .opt-name {
-    flex: 1;
-    font-size: 15px;
-    color: #3D1A1A;
-    font-weight: 500;
-}
-.responsible-option .opt-username {
-    font-size: 13px;
-    color: #A06060;
-}
+        .toggle-btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #E8C8C8;
+            border-radius: 8px;
+            background: #fff;
+            color: #7B5050;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toggle-btn.active {
+            background: #7B3B3B;
+            color: #fff;
+            border-color: #7B3B3B;
+        }
+        .toggle-btn:active {
+            transform: scale(0.98);
+        }
 
-/* Десерты с счётчиком */
-.dessert-item {
-    background: #FFFAFA;
-    border: 1px solid #E8C8C8;
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.dessert-info {
-    flex: 1;
-}
-.dessert-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: #3D1A1A;
-    margin-bottom: 4px;
-}
-.dessert-price {
-    font-size: 13px;
-    color: #A06060;
-}
-.dessert-counter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #fff;
-    border: 1px solid #E8C8C8;
-    border-radius: 10px;
-    padding: 4px;
-}
-.counter-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    border: none;
-    background: #F5D0D0;
-    color: #7B3B3B;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-.counter-btn:active {
-    background: #7B3B3B;
-    color: #fff;
-    transform: scale(0.9);
-}
-.counter-value {
-    min-width: 28px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    color: #3D1A1A;
-}
-.dessert-subtotal {
-    font-size: 13px;
-    color: #7B3B3B;
-    font-weight: 600;
-    min-width: 70px;
-    text-align: right;
-}
+        /* Кнопка "Другая начинка" */
+        .custom-filling-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(123, 59, 59, 0.08);
+            border: 1px dashed #C49090;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            width: 100%;
+        }
+        .custom-filling-btn:active {
+            background: rgba(123, 59, 59, 0.15);
+            transform: scale(0.98);
+        }
+        .custom-filling-btn i {
+            font-size: 18px;
+            color: #7B3B3B;
+        }
+        .custom-filling-btn span {
+            font-size: 14px;
+            color: #7B3B3B;
+            font-weight: 500;
+        }
+        .custom-filling-field {
+            margin-top: 10px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* === СТИЛИ ДЛЯ ФОРМЫ ОПТОВОГО ЗАКАЗА === */
+        .client-option, .responsible-option {
+            padding: 12px 14px;
+            background: #FFFAFA;
+            border: 1px solid #E8C8C8;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .client-option:active, .responsible-option:active {
+            background: #FFF5F5;
+            transform: scale(0.98);
+        }
+        .client-option.selected, .responsible-option.selected {
+            background: #FFF5F5;
+            border-color: #7B3B3B;
+            border-width: 1.5px;
+        }
+        .client-option .opt-radio, .responsible-option .opt-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1.5px solid #E0B8B8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .client-option.selected .opt-radio, .responsible-option.selected .opt-radio {
+            border-color: #7B3B3B;
+            background: #7B3B3B;
+        }
+        .client-option .opt-radio::after, .responsible-option .opt-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fff;
+            display: none;
+        }
+        .client-option.selected .opt-radio::after, .responsible-option.selected .opt-radio::after {
+            display: block;
+        }
+        .client-option .opt-name, .responsible-option .opt-name {
+            flex: 1;
+            font-size: 15px;
+            color: #3D1A1A;
+            font-weight: 500;
+        }
+        .responsible-option .opt-username {
+            font-size: 13px;
+            color: #A06060;
+        }
+
+        .dessert-item {
+            background: #FFFAFA;
+            border: 1px solid #E8C8C8;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .dessert-info {
+            flex: 1;
+        }
+        .dessert-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #3D1A1A;
+            margin-bottom: 4px;
+        }
+        .dessert-price {
+            font-size: 13px;
+            color: #A06060;
+        }
+        .dessert-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid #E8C8C8;
+            border-radius: 10px;
+            padding: 4px;
+        }
+        .counter-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: #F5D0D0;
+            color: #7B3B3B;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .counter-btn:active {
+            background: #7B3B3B;
+            color: #fff;
+            transform: scale(0.9);
+        }
+        .counter-value {
+            min-width: 28px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #3D1A1A;
+        }
+        .dessert-subtotal {
+            font-size: 13px;
+            color: #7B3B3B;
+            font-weight: 600;
+            min-width: 70px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -501,11 +575,11 @@
                 <i class="ti ti-chevron-right" style="color: #A06060;"></i>
             </button>
 
-<button class="menu-item" onclick="openWholesaleOrder()">
-    <i class="ti ti-package" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
-    <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
-    <i class="ti ti-chevron-right" style="color: #A06060;"></i>
-</button>
+            <button class="menu-item" onclick="openWholesaleOrder()">
+                <i class="ti ti-package" style="font-size: 22px; margin-right: 12px; color: #7B3B3B;"></i>
+                <span class="text" style="flex: 1; text-align: left; font-size: 15px; font-weight: 500; color: #3D1A1A;">Оформление опт. заказа</span>
+                <i class="ti ti-chevron-right" style="color: #A06060;"></i>
+            </button>
             
         </div>
     </div>
@@ -677,7 +751,6 @@
             </div>
         </div>
 
-        <!-- Карточка 1: Параметры торта -->
         <div class="card">
             <div class="card-header">
                 <div class="card-icon"><i class="ti ti-cake"></i></div>
@@ -699,24 +772,20 @@
             
             <div class="field">
                 <label>Выберите начинку (можно несколько)</label>
-                <div id="fillings-list" style="margin-top: 8px;">
-                    <!-- Чекбоксы будут добавлены через JS -->
+                <div id="fillings-list" style="margin-top: 8px;"></div>
+                
+                <button type="button" class="custom-filling-btn" onclick="toggleCustomFilling()">
+                    <i class="ti ti-plus"></i>
+                    <span>Выбрать другую начинку</span>
+                </button>
+                
+                <div class="custom-filling-field" id="custom-filling-field">
+                    <label>Укажите начинку</label>
+                    <input type="text" id="custom-filling-text" placeholder="Например: Манго-маракуйя">
                 </div>
-                            <!-- Кнопка "Другая начинка" -->
-            <button type="button" class="custom-filling-btn" onclick="toggleCustomFilling()">
-                <i class="ti ti-plus"></i>
-                <span>Выбрать другую начинку</span>
-            </button>
-            
-            <!-- Поле для ввода своей начинки -->
-            <div class="custom-filling-field" id="custom-filling-field">
-                <label>Укажите начинку</label>
-                <input type="text" id="custom-filling-text" placeholder="Например: Манго-маракуйя">
-            </div>
             </div>
         </div>
 
-        <!-- Карточка 2: Декор и надпись -->
         <div class="card" style="margin-top: 12px;">
             <div class="card-header">
                 <div class="card-icon"><i class="ti ti-palette"></i></div>
@@ -745,7 +814,6 @@
             </div>
         </div>
 
-        <!-- Карточка 3: Детали заказа -->
         <div class="card" style="margin-top: 12px;">
             <div class="card-header">
                 <div class="card-icon"><i class="ti ti-calendar-time"></i></div>
@@ -773,88 +841,83 @@
             <i class="ti ti-send"></i> Отправить заказ
         </button>
     </div>
-<!-- === ФОРМА ОПТОВОГО ЗАКАЗА === -->
-<div id="page-wholesale" class="page">
-    <div class="topbar">
-        <button class="back-btn" onclick="openMenu()" aria-label="Выйти в меню">
-            <i class="ti ti-arrow-left"></i>
+
+    <!-- === ФОРМА ОПТОВОГО ЗАКАЗА === -->
+    <div id="page-wholesale" class="page">
+        <div class="topbar">
+            <button class="back-btn" onclick="openMenu()" aria-label="Выйти в меню">
+                <i class="ti ti-arrow-left"></i>
+            </button>
+            <div>
+                <div class="topbar-title">Оформление опт. заказа</div>
+                <div class="topbar-sub">Заказ для клиента</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-building-store"></i></div>
+                <div>
+                    <div class="card-title">Клиент</div>
+                    <div class="card-sub">Выберите из списка</div>
+                </div>
+            </div>
+            
+            <div id="clients-list">
+                <div class="client-option" onclick="selectClient('Май Татли', this)">
+                    <div class="opt-radio"></div>
+                    <span class="opt-name">Май Татли</span>
+                </div>
+                <div class="client-option" onclick="selectClient('Он\'нур', this)">
+                    <div class="opt-radio"></div>
+                    <span class="opt-name">Он'нур</span>
+                </div>
+                <div class="client-option" onclick="selectClient('other', this)">
+                    <div class="opt-radio"></div>
+                    <span class="opt-name">Другой</span>
+                </div>
+            </div>
+            
+            <div class="field" id="other-client-field" style="display: none; margin-top: 12px;">
+                <label>Укажите название клиента</label>
+                <input type="text" id="other-client-name" placeholder="Введите имя клиента">
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-cookie"></i></div>
+                <div>
+                    <div class="card-title">Состав заказа</div>
+                    <div class="card-sub">Укажите количество каждого десерта</div>
+                </div>
+            </div>
+            
+            <div id="desserts-list"></div>
+            
+            <div class="total-bar" style="margin: 12px 0 0 0;">
+                <span class="total-label">Итого к оплате</span>
+                <span class="total-sum" id="wholesale-total">₽ 0</span>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ti ti-user-check"></i></div>
+                <div>
+                    <div class="card-title">Ответственный за заказ</div>
+                    <div class="card-sub">Ему придёт уведомление в Telegram</div>
+                </div>
+            </div>
+            
+            <div id="responsibles-list"></div>
+        </div>
+
+        <button class="next-btn" id="submit-wholesale-btn" onclick="submitWholesaleOrder()">
+            <i class="ti ti-send"></i> Отправить заказ
         </button>
-        <div>
-            <div class="topbar-title">Оформление опт. заказа</div>
-            <div class="topbar-sub">Заказ для клиента</div>
-        </div>
     </div>
 
-    <!-- Карточка 1: Клиент -->
-    <div class="card">
-        <div class="card-header">
-            <div class="card-icon"><i class="ti ti-building-store"></i></div>
-            <div>
-                <div class="card-title">Клиент</div>
-                <div class="card-sub">Выберите из списка</div>
-            </div>
-        </div>
-        
-        <div id="clients-list">
-            <div class="client-option" onclick="selectClient('Май Татли', this)">
-                <div class="opt-radio"></div>
-                <span class="opt-name">Май Татли</span>
-            </div>
-            <div class="client-option" onclick="selectClient('Он\'нур', this)">
-                <div class="opt-radio"></div>
-                <span class="opt-name">Он'нур</span>
-            </div>
-            <div class="client-option" onclick="selectClient('other', this)">
-                <div class="opt-radio"></div>
-                <span class="opt-name">Другой</span>
-            </div>
-        </div>
-        
-        <div class="field" id="other-client-field" style="display: none; margin-top: 12px;">
-            <label>Укажите название клиента</label>
-            <input type="text" id="other-client-name" placeholder="Введите имя клиента">
-        </div>
-    </div>
-
-    <!-- Карточка 2: Десерты -->
-    <div class="card" style="margin-top: 12px;">
-        <div class="card-header">
-            <div class="card-icon"><i class="ti ti-cookie"></i></div>
-            <div>
-                <div class="card-title">Состав заказа</div>
-                <div class="card-sub">Укажите количество каждого десерта</div>
-            </div>
-        </div>
-        
-        <div id="desserts-list">
-            <!-- Десерты будут добавлены через JS -->
-        </div>
-        
-        <div class="total-bar" style="margin: 12px 0 0 0;">
-            <span class="total-label">Итого к оплате</span>
-            <span class="total-sum" id="wholesale-total">₽ 0</span>
-        </div>
-    </div>
-
-    <!-- Карточка 3: Ответственный -->
-    <div class="card" style="margin-top: 12px;">
-        <div class="card-header">
-            <div class="card-icon"><i class="ti ti-user-check"></i></div>
-            <div>
-                <div class="card-title">Ответственный за заказ</div>
-                <div class="card-sub">Ему придёт уведомление в Telegram</div>
-            </div>
-        </div>
-        
-        <div id="responsibles-list">
-            <!-- Ответственные будут добавлены через JS -->
-        </div>
-    </div>
-
-    <button class="next-btn" id="submit-wholesale-btn" onclick="submitWholesaleOrder()">
-        <i class="ti ti-send"></i> Отправить заказ
-    </button>
-</div>
     <!-- ЭКРАН УСПЕХА -->
     <div id="success" class="page">
         <div class="success-wrap">
@@ -868,27 +931,21 @@
 </div>
 
 <script>
-   // === 1. ИНИЦИАЛИЗАЦИЯ TELEGRAM ===
-const tg = window.Telegram.WebApp;
+    // === 1. ИНИЦИАЛИЗАЦИЯ TELEGRAM ===
+    const tg = window.Telegram.WebApp;
+    if (!tg) {
+        console.error('Telegram WebApp API не загружен!');
+        alert('Пожалуйста, откройте приложение через Telegram');
+    }
+    tg.ready();
+    tg.expand();
+    tg.setHeaderColor('#FDF0F0');
+    tg.setBackgroundColor('#FDF0F0');
+    tg.setBottomBarColor('#FDF0F0');
 
-// Проверяем, что Telegram WebAPI доступен
-if (!tg) {
-    console.error('Telegram WebApp API не загружен!');
-    alert('Пожалуйста, откройте приложение через Telegram');
-}
+    // ⚠️ URL вашего Google Apps Script (уже настроен)
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTwuBf1-BghDGc8xHAMjbgzdNh8sMBmEwsNlPTCu4E2pgwIFN8AISyNq5CqB-5eec/exec';
 
-tg.ready();
-tg.expand();
-
-// ПРАВИЛЬНАЯ установка цветов (в формате #rrggbb)
-tg.setHeaderColor('#FDF0F0');
-tg.setBackgroundColor('#FDF0F0');
-tg.setBottomBarColor('#FDF0F0');
-
-// URL вашего Google Apps Script
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvD6oHf4mq7wNC8AATBA0hoeJNppyPSIbLvYFUtBJXxP_3lfWxy8vzz9_cA5jcp3Q/exec';
-
-    // Установка текущей даты
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -912,10 +969,8 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvD6oHf4mq7w
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         const page1 = document.getElementById('page1');
         if (page1) page1.classList.add('active');
-        
         const steps = document.querySelector('.steps');
         if (steps) steps.style.display = 'flex';
-        
         currentStep = 1;
         updateStepIndicators(1);
         if (tg.BackButton) tg.BackButton.show();
@@ -925,74 +980,67 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvD6oHf4mq7w
     function openMenu() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-menu').classList.add('active');
-        
         const steps = document.querySelector('.steps');
         if (steps) steps.style.display = 'none';
-        
         currentStep = 0;
         tg.BackButton.hide();
         tg.HapticFeedback.impactOccurred('light');
     }
 
-    // === ФУНКЦИЯ ОТКРЫТИЯ ФОРМЫ ИНДИВИДУАЛЬНОГО ЗАКАЗА ===
     function openIndividualOrder() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-individual').classList.add('active');
-        
         const steps = document.querySelector('.steps');
         if (steps) steps.style.display = 'none';
-        
         currentStep = 0;
         tg.BackButton.hide();
         tg.HapticFeedback.impactOccurred('light');
     }
 
-function goToStep(step) {
-    if (step > currentStep) {
-        if (currentStep === 1 && !validateStep1()) return;
-           if (currentStep === 2 && !validateStep2()) return;
+    function openWholesaleOrder() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-wholesale').classList.add('active');
+        const steps = document.querySelector('.steps');
+        if (steps) steps.style.display = 'none';
+        currentStep = 0;
+        tg.BackButton.hide();
+        tg.HapticFeedback.impactOccurred('light');
     }
 
-    // Скрываем все страницы
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    
-    // Показываем нужную страницу
-    const targetPage = document.getElementById('page' + step);
-    if (targetPage) {
-        targetPage.classList.add('active');
-    } else {
-        console.error('Страница page' + step + ' не найдена!');
-        return;
+    function goToStep(step) {
+        if (step > currentStep) {
+            if (currentStep === 1 && !validateStep1()) return;
+            if (currentStep === 2 && !validateStep2()) return;
+        }
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const targetPage = document.getElementById('page' + step);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+        currentStep = step;
+        updateStepIndicators(step);
+        updateTelegramBackButton(step);
+        tg.HapticFeedback.impactOccurred('light');
     }
-    
-    currentStep = step;
-    updateStepIndicators(step);
-    updateTelegramBackButton(step);
-    
-    tg.HapticFeedback.impactOccurred('light');
-}
 
-function updateStepIndicators(step) {
-    for (let i = 1; i <= 4; i++) {
-        const circle = document.getElementById('sc' + i);
-        const line = document.getElementById('sl' + i);
-        
-        if (!circle) continue;
-        
-        circle.classList.remove('active', 'done');
-        circle.innerHTML = i;
-        
-        if (line) line.classList.remove('done');
-
-        if (i < step) {
-            circle.classList.add('done');
-            circle.innerHTML = '<i class="ti ti-check" style="font-size:14px"></i>';
-            if (line) line.classList.add('done');
-        } else if (i === step) {
-            circle.classList.add('active');
+    function updateStepIndicators(step) {
+        for (let i = 1; i <= 4; i++) {
+            const circle = document.getElementById('sc' + i);
+            const line = document.getElementById('sl' + i);
+            if (!circle) continue;
+            circle.classList.remove('active', 'done');
+            circle.innerHTML = i;
+            if (line) line.classList.remove('done');
+            if (i < step) {
+                circle.classList.add('done');
+                circle.innerHTML = '<i class="ti ti-check" style="font-size:14px"></i>';
+                if (line) line.classList.add('done');
+            } else if (i === step) {
+                circle.classList.add('active');
+            }
         }
     }
-}
+
     function updateTelegramBackButton(step) {
         if (step === 1) {
             tg.BackButton.hide();
@@ -1005,12 +1053,10 @@ function updateStepIndicators(step) {
         const name = document.getElementById('f-name');
         const opening = document.getElementById('f-opening');
         let ok = true;
-
         document.getElementById('err-name').style.display = 'none';
         document.getElementById('err-opening').style.display = 'none';
         name.style.borderColor = '#E8C8C8';
         opening.style.borderColor = '#E8C8C8';
-
         if (!name.value.trim()) {
             name.style.borderColor = '#A32D2D';
             document.getElementById('err-name').style.display = 'flex';
@@ -1021,7 +1067,6 @@ function updateStepIndicators(step) {
             document.getElementById('err-opening').style.display = 'flex';
             ok = false;
         }
-        
         if (!ok) tg.HapticFeedback.notificationOccurred('error');
         return ok;
     }
@@ -1029,7 +1074,6 @@ function updateStepIndicators(step) {
     function validateStep2() { 
         let ok = true;
         let errorMsg = '';
-        
         EXPENSES.forEach(cat => {
             cat.subcategories.forEach(sub => {
                 if (sub.type === 'single') {
@@ -1071,7 +1115,6 @@ function updateStepIndicators(step) {
                 }
             });
         });
-        
         if (!ok) {
             tg.HapticFeedback.notificationOccurred('error');
             alert(errorMsg);
@@ -1079,29 +1122,15 @@ function updateStepIndicators(step) {
         return ok;
     }
 
-    // === 3. НОВАЯ СТРУКТУРА РАСХОДОВ ===
+    // === 3. СТРУКТУРА РАСХОДОВ ===
     const EXPENSES = [
         {
-            id: 'cat1',
-            name: 'Оплата продуктов/поставщиков',
-            icon: 'ti-shopping-cart',
+            id: 'cat1', name: 'Оплата продуктов/поставщиков', icon: 'ti-shopping-cart',
             subcategories: [
+                { id: 'sub1_1', name: 'Закуп', type: 'multi', items: ['Бар', 'Кухня', 'Кондитерская', 'Тара'] },
+                { id: 'sub1_2', name: 'Расходники', type: 'multi', items: ['Съедобные цветы', 'Фортайм', 'Фортайм Кондитер', 'Декор'] },
                 {
-                    id: 'sub1_1',
-                    name: 'Закуп',
-                    type: 'multi',
-                    items: ['Бар', 'Кухня', 'Кондитерская', 'Тара']
-                },
-                {
-                    id: 'sub1_2',
-                    name: 'Расходники',
-                    type: 'multi',
-                    items: ['Съедобные цветы', 'Фортайм', 'Фортайм Кондитер', 'Декор']
-                },
-                {
-                    id: 'sub1_3',
-                    name: 'Поставщик продукта',
-                    type: 'multi',
+                    id: 'sub1_3', name: 'Поставщик продукта', type: 'multi',
                     items: [
                         {name: 'Мороженое', mandatoryComment: false},
                         {name: 'Круассаны', mandatoryComment: false},
@@ -1119,91 +1148,33 @@ function updateStepIndicators(step) {
             ]
         },
         {
-            id: 'cat2',
-            name: 'Персонал',
-            icon: 'ti-users',
+            id: 'cat2', name: 'Персонал', icon: 'ti-users',
             subcategories: [
-                {
-                    id: 'sub2_1',
-                    name: 'ЗП Техперсонал',
-                    type: 'single',
-                    mandatoryComment: false
-                },
-                {
-                    id: 'sub2_2',
-                    name: 'Аванс сотруднику',
-                    type: 'single',
-                    mandatoryComment: true
-                }
+                { id: 'sub2_1', name: 'ЗП Техперсонал', type: 'single', mandatoryComment: false },
+                { id: 'sub2_2', name: 'Аванс сотруднику', type: 'single', mandatoryComment: true }
             ]
         },
         {
-            id: 'cat3',
-            name: 'Содержание точки',
-            icon: 'ti-home',
+            id: 'cat3', name: 'Содержание точки', icon: 'ti-home',
             subcategories: [
-                {
-                    id: 'sub3_1',
-                    name: 'Хозрасход',
-                    type: 'single',
-                    mandatoryComment: false
-                },
-                {
-                    id: 'sub3_2',
-                    name: 'Ремонт',
-                    type: 'single',
-                    mandatoryComment: true
-                },
-                {
-                    id: 'sub3_3',
-                    name: 'Оборудование',
-                    type: 'single',
-                    mandatoryComment: true
-                },
-                {
-                    id: 'sub3_4',
-                    name: 'Декор/Расходник для зала',
-                    type: 'single',
-                    mandatoryComment: false
-                }
+                { id: 'sub3_1', name: 'Хозрасход', type: 'single', mandatoryComment: false },
+                { id: 'sub3_2', name: 'Ремонт', type: 'single', mandatoryComment: true },
+                { id: 'sub3_3', name: 'Оборудование', type: 'single', mandatoryComment: true },
+                { id: 'sub3_4', name: 'Декор/Расходник для зала', type: 'single', mandatoryComment: false }
             ]
         },
         {
-            id: 'cat4',
-            name: 'Транспортный расход',
-            icon: 'ti-truck',
+            id: 'cat4', name: 'Транспортный расход', icon: 'ti-truck',
             subcategories: [
-                {
-                    id: 'sub4_1',
-                    name: 'Доставка на точку',
-                    type: 'single',
-                    mandatoryComment: false
-                },
-                {
-                    id: 'sub4_2',
-                    name: 'Доставка клиенту',
-                    type: 'single',
-                    mandatoryComment: false
-                }
+                { id: 'sub4_1', name: 'Доставка на точку', type: 'single', mandatoryComment: false },
+                { id: 'sub4_2', name: 'Доставка клиенту', type: 'single', mandatoryComment: false }
             ]
         },
         {
-            id: 'cat5',
-            name: 'Прочее',
-            icon: 'ti-dots',
+            id: 'cat5', name: 'Прочее', icon: 'ti-dots',
             subcategories: [
-                {
-                    id: 'sub5_1',
-                    name: 'Возврат',
-                    type: 'single',
-                    mandatoryComment: true
-                },
-                {
-                    id: 'sub5_2',
-                    name: 'Разовый или неизвестный расход',
-                    type: 'single',
-                    mandatoryComment: true
-                }
+                { id: 'sub5_1', name: 'Возврат', type: 'single', mandatoryComment: true },
+                { id: 'sub5_2', name: 'Разовый или неизвестный расход', type: 'single', mandatoryComment: true }
             ]
         }
     ];
@@ -1215,7 +1186,6 @@ function updateStepIndicators(step) {
         {id:'db4',name:'Другой поставщик'},
     ];
 
-    // === СПИСОК НАЧИНОК ДЛЯ ТОРТА ===
     const FILLINGS = [
         { id: 'vanilla', name: 'Ваниль' },
         { id: 'strawberry', name: 'Клубника' },
@@ -1229,59 +1199,35 @@ function updateStepIndicators(step) {
         { id: 'chocolate', name: 'Шоколад' }
     ];
 
-    function buildFillingsList() {
-        const container = document.getElementById('fillings-list');
-        container.innerHTML = '';
-        FILLINGS.forEach(filling => {
-            const div = document.createElement('div');
-            div.className = 'filling-checkbox';
-            div.innerHTML = `
-                <input type="checkbox" id="filling-${filling.id}" value="${filling.name}">
-                <label for="filling-${filling.id}">${filling.name}</label>
-            `;
-            container.appendChild(div);
-        });
-    }
+    // ⚠️ СПИСОК ДЕСЕРТОВ — добавляйте/изменяйте здесь
+    const DESSERTS = [
+        { id: 'd1', name: 'Медовик', price: 300 },
+        { id: 'd2', name: 'Кокос', price: 200 },
+    ];
 
-    function toggleInscription(show) {
-        const yesBtn = document.getElementById('inscription-yes');
-        const noBtn = document.getElementById('inscription-no');
-        const textField = document.getElementById('inscription-text-field');
-        
-        if (show) {
-            yesBtn.classList.add('active');
-            noBtn.classList.remove('active');
-            textField.style.display = 'block';
-        } else {
-            yesBtn.classList.remove('active');
-            noBtn.classList.add('active');
-            textField.style.display = 'none';
-            document.getElementById('inscription-text').value = '';
-        }
-        tg.HapticFeedback.impactOccurred('light');
-    }
-       // === НОВАЯ ФУНКЦИЯ ДЛЯ КАСТОМНОЙ НАЧИНКИ ===
-    function toggleCustomFilling() {
-        const field = document.getElementById('custom-filling-field');
-        if (field.style.display === 'none' || field.style.display === '') {
-            field.style.display = 'block';
-            document.getElementById('custom-filling-text').focus();
-        } else {
-            field.style.display = 'none';
-            document.getElementById('custom-filling-text').value = '';
-        }
-        tg.HapticFeedback.impactOccurred('light');
-    } 
+    // ⚠️ СПИСОК ОТВЕТСТВЕННЫХ — замените username на реальные
+    const RESPONSIBLES = [
+        { name: 'Анна', username: '@FeyaMally' },
+        { name: 'Мария', username: '@zelim_betergaraev' },
+        { name: 'Елена', username: '@elena_username' },
+    ];
 
+    let wholesaleState = {
+        client: '',
+        clientOther: '',
+        quantities: {},
+        responsible: ''
+    };
+    DESSERTS.forEach(d => { wholesaleState.quantities[d.id] = 0; });
+
+    // === ФУНКЦИИ ПОСТРОЕНИЯ СПИСКОВ ===
     function buildExpensesList() {
         const list = document.getElementById('expenses-list');
         list.innerHTML = '';
-        
         EXPENSES.forEach(cat => {
             const catDiv = document.createElement('div');
             catDiv.className = 'category-item';
             catDiv.id = `category-${cat.id}`;
-            
             let subcategoriesHTML = '';
             cat.subcategories.forEach(sub => {
                 if (sub.type === 'single') {
@@ -1299,11 +1245,7 @@ function updateStepIndicators(step) {
                                         <input type="number" id="amount-${sub.id}" placeholder="0" min="0" oninput="recalcExpenses()">
                                     </div>
                                 </div>
-                                ${sub.mandatoryComment ? `
-                                    <textarea id="comment-${sub.id}" rows="2" placeholder="Комментарий (обязательно)..."></textarea>
-                                ` : `
-                                    <textarea id="comment-${sub.id}" rows="2" placeholder="Комментарий (необязательно)..."></textarea>
-                                `}
+                                ${sub.mandatoryComment ? `<textarea id="comment-${sub.id}" rows="2" placeholder="Комментарий (обязательно)..."></textarea>` : `<textarea id="comment-${sub.id}" rows="2" placeholder="Комментарий (необязательно)..."></textarea>`}
                             </div>
                         </div>
                     `;
@@ -1312,7 +1254,6 @@ function updateStepIndicators(step) {
                     sub.items.forEach((item, idx) => {
                         const itemName = typeof item === 'string' ? item : item.name;
                         const mandatoryComment = typeof item === 'string' ? false : item.mandatoryComment;
-                        
                         itemsHTML += `
                             <div class="multi-item" id="multi-${sub.id}-${idx}">
                                 <div class="multi-item-header" onclick="toggleMultiItem('${sub.id}', ${idx})">
@@ -1324,19 +1265,14 @@ function updateStepIndicators(step) {
                                     <div class="field-row">
                                         <div class="amount-wrap">
                                             <span class="currency">₽</span>
-                                            <input type="number" id="amount-${sub.id}-${idx}" placeholder="0" min="0" oninput("recalcExpenses()">
+                                            <input type="number" id="amount-${sub.id}-${idx}" placeholder="0" min="0" oninput="recalcExpenses()">
                                         </div>
                                     </div>
-                                    ${mandatoryComment ? `
-                                        <textarea id="comment-${sub.id}-${idx}" rows="2" placeholder="Комментарий (обязательно)..."></textarea>
-                                    ` : `
-                                        <textarea id="comment-${sub.id}-${idx}" rows="2" placeholder="Комментарий (необязательно)..."></textarea>
-                                    `}
+                                    ${mandatoryComment ? `<textarea id="comment-${sub.id}-${idx}" rows="2" placeholder="Комментарий (обязательно)..."></textarea>` : `<textarea id="comment-${sub.id}-${idx}" rows="2" placeholder="Комментарий (необязательно)..."></textarea>`}
                                 </div>
                             </div>
                         `;
                     });
-                    
                     subcategoriesHTML += `
                         <div class="subcategory-item">
                             <div class="subcategory-header" style="cursor: default;">
@@ -1347,7 +1283,6 @@ function updateStepIndicators(step) {
                     `;
                 }
             });
-            
             catDiv.innerHTML = `
                 <div class="category-header" onclick="toggleCategory('${cat.id}')">
                     <div class="cat-icon"><i class="ti ${cat.icon}"></i></div>
@@ -1358,89 +1293,13 @@ function updateStepIndicators(step) {
                     ${subcategoriesHTML}
                 </div>
             `;
-            
             list.appendChild(catDiv);
         });
     }
 
-    function toggleCategory(catId) {
-        const cat = document.getElementById(`category-${catId}`);
-        cat.classList.toggle('expanded');
-        tg.HapticFeedback.impactOccurred('light');
-    }
-
-    function toggleSubcategory(subId) {
-        const sub = document.getElementById(`sub-${subId}`);
-        sub.classList.toggle('selected');
-        tg.HapticFeedback.impactOccurred('light');
-        recalcExpenses();
-    }
-
-    function toggleMultiItem(subId, idx) {
-        const item = document.getElementById(`multi-${subId}-${idx}`);
-        item.classList.toggle('selected');
-        tg.HapticFeedback.impactOccurred('light');
-        recalcExpenses();
-    }
-
-    function recalcExpenses() {
-        let total = 0;
-        
-        EXPENSES.forEach(cat => {
-            cat.subcategories.forEach(sub => {
-                if (sub.type === 'single') {
-                    const item = document.getElementById(`sub-${sub.id}`);
-                    if (item && item.classList.contains('selected')) {
-                        const amountInput = document.getElementById(`amount-${sub.id}`);
-                        total += parseFloat(amountInput.value) || 0;
-                    }
-                } else if (sub.type === 'multi') {
-                    sub.items.forEach((item, idx) => {
-                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
-                        if (multiItem && multiItem.classList.contains('selected')) {
-                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
-                            total += parseFloat(amountInput.value) || 0;
-                        }
-                    });
-                }
-            });
-        });
-        
-        document.getElementById('exp-total').textContent = '₽ ' + total.toLocaleString('ru-RU');
-        calcResult();
-    }
-
-    function getTotalExpenses() {
-        let total = 0;
-        
-        EXPENSES.forEach(cat => {
-            cat.subcategories.forEach(sub => {
-                if (sub.type === 'single') {
-                    const item = document.getElementById(`sub-${sub.id}`);
-                    if (item && item.classList.contains('selected')) {
-                        const amountInput = document.getElementById(`amount-${sub.id}`);
-                        total += parseFloat(amountInput.value) || 0;
-                    }
-                } else if (sub.type === 'multi') {
-                    sub.items.forEach((item, idx) => {
-                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
-                        if (multiItem && multiItem.classList.contains('selected')) {
-                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
-                            total += parseFloat(amountInput.value) || 0;
-                        }
-                    });
-                }
-            });
-        });
-        
-        return total;
-    }
-
-    // === 4. СТАРАЯ ЛОГИКА ДЛЯ ДОЛГОВ ===
     function buildDebtsList() {
         const list = document.getElementById('debts-list');
         list.innerHTML = '';
-        
         DEBTS.forEach(e => {
             const d = document.createElement('div');
             d.className = 'expense-item';
@@ -1465,10 +1324,215 @@ function updateStepIndicators(step) {
         });
     }
 
+    function buildFillingsList() {
+        const container = document.getElementById('fillings-list');
+        container.innerHTML = '';
+        FILLINGS.forEach(filling => {
+            const div = document.createElement('div');
+            div.className = 'filling-checkbox';
+            div.innerHTML = `
+                <input type="checkbox" id="filling-${filling.id}" value="${filling.name}">
+                <label for="filling-${filling.id}">${filling.name}</label>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function buildDessertsList() {
+        const container = document.getElementById('desserts-list');
+        container.innerHTML = '';
+        DESSERTS.forEach(dessert => {
+            const div = document.createElement('div');
+            div.className = 'dessert-item';
+            div.id = `dessert-${dessert.id}`;
+            div.innerHTML = `
+                <div class="dessert-info">
+                    <div class="dessert-name">${dessert.name}</div>
+                    <div class="dessert-price">${dessert.price} ₽ / шт</div>
+                </div>
+                <div class="dessert-counter">
+                    <button class="counter-btn" onclick="updateQuantity('${dessert.id}', -1)">−</button>
+                    <span class="counter-value" id="qty-${dessert.id}">0</span>
+                    <button class="counter-btn" onclick="updateQuantity('${dessert.id}', 1)">+</button>
+                </div>
+                <div class="dessert-subtotal" id="sub-${dessert.id}">0 ₽</div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function buildResponsiblesList() {
+        const container = document.getElementById('responsibles-list');
+        container.innerHTML = '';
+        RESPONSIBLES.forEach((resp) => {
+            const div = document.createElement('div');
+            div.className = 'responsible-option';
+            div.onclick = () => selectResponsible(resp.username, div);
+            div.innerHTML = `
+                <div class="opt-radio"></div>
+                <span class="opt-name">${resp.name}</span>
+                <span class="opt-username">${resp.username}</span>
+            `;
+            container.appendChild(div);
+        });
+        const laterDiv = document.createElement('div');
+        laterDiv.className = 'responsible-option';
+        laterDiv.onclick = () => selectResponsible('Назначить позже', laterDiv);
+        laterDiv.innerHTML = `
+            <div class="opt-radio"></div>
+            <span class="opt-name">Назначить позже</span>
+            <i class="ti ti-clock" style="color: #A06060; font-size: 18px;"></i>
+        `;
+        container.appendChild(laterDiv);
+    }
+
+    // === ФУНКЦИИ ПЕРЕКЛЮЧЕНИЯ ===
+    function toggleCategory(catId) {
+        const cat = document.getElementById(`category-${catId}`);
+        cat.classList.toggle('expanded');
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function toggleSubcategory(subId) {
+        const sub = document.getElementById(`sub-${subId}`);
+        sub.classList.toggle('selected');
+        tg.HapticFeedback.impactOccurred('light');
+        recalcExpenses();
+    }
+
+    function toggleMultiItem(subId, idx) {
+        const item = document.getElementById(`multi-${subId}-${idx}`);
+        item.classList.toggle('selected');
+        tg.HapticFeedback.impactOccurred('light');
+        recalcExpenses();
+    }
+
     function toggleDebt(id) {
         document.getElementById('item-' + id).classList.toggle('selected');
         tg.HapticFeedback.impactOccurred('light');
         recalcDebts();
+    }
+
+    function toggleInscription(show) {
+        const yesBtn = document.getElementById('inscription-yes');
+        const noBtn = document.getElementById('inscription-no');
+        const textField = document.getElementById('inscription-text-field');
+        if (show) {
+            yesBtn.classList.add('active');
+            noBtn.classList.remove('active');
+            textField.style.display = 'block';
+        } else {
+            yesBtn.classList.remove('active');
+            noBtn.classList.add('active');
+            textField.style.display = 'none';
+            document.getElementById('inscription-text').value = '';
+        }
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function toggleCustomFilling() {
+        const field = document.getElementById('custom-filling-field');
+        if (field.style.display === 'none' || field.style.display === '') {
+            field.style.display = 'block';
+            document.getElementById('custom-filling-text').focus();
+        } else {
+            field.style.display = 'none';
+            document.getElementById('custom-filling-text').value = '';
+        }
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function selectClient(clientValue, element) {
+        document.querySelectorAll('.client-option').forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+        const otherField = document.getElementById('other-client-field');
+        if (clientValue === 'other') {
+            wholesaleState.client = 'other';
+            otherField.style.display = 'block';
+        } else {
+            wholesaleState.client = clientValue;
+            wholesaleState.clientOther = '';
+            otherField.style.display = 'none';
+            document.getElementById('other-client-name').value = '';
+        }
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function selectResponsible(username, element) {
+        document.querySelectorAll('.responsible-option').forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+        wholesaleState.responsible = username;
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function updateQuantity(dessertId, delta) {
+        let qty = wholesaleState.quantities[dessertId] || 0;
+        qty = Math.max(0, qty + delta);
+        wholesaleState.quantities[dessertId] = qty;
+        document.getElementById(`qty-${dessertId}`).textContent = qty;
+        const dessert = DESSERTS.find(d => d.id === dessertId);
+        const subtotal = qty * dessert.price;
+        document.getElementById(`sub-${dessertId}`).textContent = `${subtotal.toLocaleString('ru-RU')} ₽`;
+        updateWholesaleTotal();
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function updateWholesaleTotal() {
+        let total = 0;
+        DESSERTS.forEach(d => {
+            total += (wholesaleState.quantities[d.id] || 0) * d.price;
+        });
+        document.getElementById('wholesale-total').textContent = `₽ ${total.toLocaleString('ru-RU')}`;
+    }
+
+    // === РАСЧЁТЫ ===
+    function recalcExpenses() {
+        let total = 0;
+        EXPENSES.forEach(cat => {
+            cat.subcategories.forEach(sub => {
+                if (sub.type === 'single') {
+                    const item = document.getElementById(`sub-${sub.id}`);
+                    if (item && item.classList.contains('selected')) {
+                        const amountInput = document.getElementById(`amount-${sub.id}`);
+                        total += parseFloat(amountInput.value) || 0;
+                    }
+                } else if (sub.type === 'multi') {
+                    sub.items.forEach((item, idx) => {
+                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
+                        if (multiItem && multiItem.classList.contains('selected')) {
+                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
+                            total += parseFloat(amountInput.value) || 0;
+                        }
+                    });
+                }
+            });
+        });
+        document.getElementById('exp-total').textContent = '₽ ' + total.toLocaleString('ru-RU');
+        calcResult();
+    }
+
+    function getTotalExpenses() {
+        let total = 0;
+        EXPENSES.forEach(cat => {
+            cat.subcategories.forEach(sub => {
+                if (sub.type === 'single') {
+                    const item = document.getElementById(`sub-${sub.id}`);
+                    if (item && item.classList.contains('selected')) {
+                        const amountInput = document.getElementById(`amount-${sub.id}`);
+                        total += parseFloat(amountInput.value) || 0;
+                    }
+                } else if (sub.type === 'multi') {
+                    sub.items.forEach((item, idx) => {
+                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
+                        if (multiItem && multiItem.classList.contains('selected')) {
+                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
+                            total += parseFloat(amountInput.value) || 0;
+                        }
+                    });
+                }
+            });
+        });
+        return total;
     }
 
     function recalcDebts() {
@@ -1489,7 +1553,6 @@ function updateStepIndicators(step) {
         const collection = parseFloat(document.getElementById('f-collection').value) || 0;
         const closing = parseFloat(document.getElementById('f-closing').value) || 0;
         const expenses = getTotalExpenses();
-
         const hasData = revenue || cashless || collection || closing;
         if (!hasData) {
             document.getElementById('result-value').textContent = '—';
@@ -1498,16 +1561,13 @@ function updateStepIndicators(step) {
             document.getElementById('result-formula').textContent = 'Заполните поля выше';
             return;
         }
-
         const expected = opening + revenue - expenses - cashless - collection;
         const diff = closing - expected;
         const card = document.getElementById('result-card');
         const lbl = document.getElementById('result-label');
         const val = document.getElementById('result-value');
         const formula = document.getElementById('result-formula');
-
         formula.textContent = `${opening.toLocaleString('ru-RU')} + ${revenue.toLocaleString('ru-RU')} − ${expenses.toLocaleString('ru-RU')} − ${cashless.toLocaleString('ru-RU')} − ${collection.toLocaleString('ru-RU')}`;
-
         if (diff === 0) {
             card.className = 'result-card surplus';
             lbl.className = 'result-label surplus'; lbl.textContent = 'Сходится';
@@ -1523,475 +1583,264 @@ function updateStepIndicators(step) {
         }
     }
 
-// Глобальная переменная для хранения фото в base64
-let photosBase64 = [];
-
-function handlePhotos(input) {
-    const prev = document.getElementById('photo-previews');
-    prev.innerHTML = '';
-    photosBase64 = [];
-    
-    const files = Array.from(input.files);
-    
-    if (files.length === 0) return;
-
-    tg.HapticFeedback.impactOccurred('medium');
-
-    files.forEach(file => {
-        const imgPreview = document.createElement('img');
-        imgPreview.className = 'photo-thumb';
-        imgPreview.src = URL.createObjectURL(file);
-        prev.appendChild(imgPreview);
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const imgObj = new Image();
-            imgObj.onload = function() {
-                const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 1024;
-                
-                const scaleSize = MAX_WIDTH / imgObj.width;
-                canvas.width = MAX_WIDTH;
-                canvas.height = imgObj.height * scaleSize;
-                
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
-                
-                const base64String = canvas.toDataURL('image/jpeg', 0.7);
-                photosBase64.push(base64String.split(',')[1]);
-            };
-            imgObj.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-async function submitAll() {
-    const btn = document.getElementById('submit-btn');
-    
-    try {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+    // === ФОТО ===
+    let photosBase64 = [];
+    function handlePhotos(input) {
+        const prev = document.getElementById('photo-previews');
+        prev.innerHTML = '';
+        photosBase64 = [];
+        const files = Array.from(input.files);
+        if (files.length === 0) return;
         tg.HapticFeedback.impactOccurred('medium');
+        files.forEach(file => {
+            const imgPreview = document.createElement('img');
+            imgPreview.className = 'photo-thumb';
+            imgPreview.src = URL.createObjectURL(file);
+            prev.appendChild(imgPreview);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgObj = new Image();
+                imgObj.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 1024;
+                    const scaleSize = MAX_WIDTH / imgObj.width;
+                    canvas.width = MAX_WIDTH;
+                    canvas.height = imgObj.height * scaleSize;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
+                    const base64String = canvas.toDataURL('image/jpeg', 0.7);
+                    photosBase64.push(base64String.split(',')[1]);
+                };
+                imgObj.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
 
-        const reportData = {
-            reportType: 'cashier',
-            formType: 'shift_report',
-            employeeName: document.getElementById('f-name').value.trim(),
-            date: document.getElementById('f-date').value,
-            opening: parseFloat(document.getElementById('f-opening').value) || 0,
-            revenue: parseFloat(document.getElementById('f-revenue').value) || 0,
-            cashless: parseFloat(document.getElementById('f-cashless').value) || 0,
-            collection: parseFloat(document.getElementById('f-collection').value) || 0,
-            closing: parseFloat(document.getElementById('f-closing').value) || 0,
-            comment: document.getElementById('f-comment').value.trim(),
-            expenses: [],
-            debts: [],
-            photos: photosBase64 || []
-        };
-
-        EXPENSES.forEach(cat => {
-            cat.subcategories.forEach(sub => {
-                if (sub.type === 'single') {
-                    const item = document.getElementById(`sub-${sub.id}`);
-                    if (item && item.classList.contains('selected')) {
-                        const amountInput = document.getElementById(`amount-${sub.id}`);
-                        const commentInput = document.getElementById(`comment-${sub.id}`);
-                        const amount = parseFloat(amountInput.value) || 0;
-                        if (amount > 0) {
-                            reportData.expenses.push({
-                                name: `${sub.name}`,
-                                amount: amount,
-                                comment: commentInput ? commentInput.value.trim() : ''
-                            });
-                        }
-                    }
-                } else if (sub.type === 'multi') {
-                    sub.items.forEach((item, idx) => {
-                        const itemName = typeof item === 'string' ? item : item.name;
-                        const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
-                        if (multiItem && multiItem.classList.contains('selected')) {
-                            const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
-                            const commentInput = document.getElementById(`comment-${sub.id}-${idx}`);
+    // === ОТПРАВКА ОТЧЁТА КАССИРА ===
+    async function submitAll() {
+        const btn = document.getElementById('submit-btn');
+        try {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+            tg.HapticFeedback.impactOccurred('medium');
+            const reportData = {
+                reportType: 'cashier',
+                formType: 'shift_report',
+                employeeName: document.getElementById('f-name').value.trim(),
+                date: document.getElementById('f-date').value,
+                opening: parseFloat(document.getElementById('f-opening').value) || 0,
+                revenue: parseFloat(document.getElementById('f-revenue').value) || 0,
+                cashless: parseFloat(document.getElementById('f-cashless').value) || 0,
+                collection: parseFloat(document.getElementById('f-collection').value) || 0,
+                closing: parseFloat(document.getElementById('f-closing').value) || 0,
+                comment: document.getElementById('f-comment').value.trim(),
+                expenses: [],
+                debts: [],
+                photos: photosBase64 || []
+            };
+            EXPENSES.forEach(cat => {
+                cat.subcategories.forEach(sub => {
+                    if (sub.type === 'single') {
+                        const item = document.getElementById(`sub-${sub.id}`);
+                        if (item && item.classList.contains('selected')) {
+                            const amountInput = document.getElementById(`amount-${sub.id}`);
+                            const commentInput = document.getElementById(`comment-${sub.id}`);
                             const amount = parseFloat(amountInput.value) || 0;
                             if (amount > 0) {
-                                reportData.expenses.push({
-                                    name: `${sub.name} - ${itemName}`,
-                                    amount: amount,
-                                    comment: commentInput ? commentInput.value.trim() : ''
-                                });
+                                reportData.expenses.push({ name: sub.name, amount: amount, comment: commentInput ? commentInput.value.trim() : '' });
                             }
                         }
-                    });
+                    } else if (sub.type === 'multi') {
+                        sub.items.forEach((item, idx) => {
+                            const itemName = typeof item === 'string' ? item : item.name;
+                            const multiItem = document.getElementById(`multi-${sub.id}-${idx}`);
+                            if (multiItem && multiItem.classList.contains('selected')) {
+                                const amountInput = document.getElementById(`amount-${sub.id}-${idx}`);
+                                const commentInput = document.getElementById(`comment-${sub.id}-${idx}`);
+                                const amount = parseFloat(amountInput.value) || 0;
+                                if (amount > 0) {
+                                    reportData.expenses.push({ name: `${sub.name} - ${itemName}`, amount: amount, comment: commentInput ? commentInput.value.trim() : '' });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            DEBTS.forEach(e => {
+                const item = document.getElementById('item-' + e.id);
+                if (item && item.classList.contains('selected')) {
+                    const amount = parseFloat(document.getElementById('sum-' + e.id).value) || 0;
+                    if (amount > 0) {
+                        const commentInput = document.getElementById('cmt-' + e.id);
+                        reportData.debts.push({ name: e.name, amount: amount, comment: commentInput ? commentInput.value.trim() : '' });
+                    }
                 }
             });
-        });
+            reportData.totalExpenses = reportData.expenses.reduce((sum, exp) => sum + exp.amount, 0);
+            reportData.totalDebts = reportData.debts.reduce((sum, dbt) => sum + dbt.amount, 0);
+            reportData.expected = reportData.opening + reportData.revenue - reportData.totalExpenses - reportData.cashless - reportData.collection;
+            reportData.diff = reportData.closing - reportData.expected;
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
+                throw new Error('Не настроен GOOGLE_SCRIPT_URL');
+            }
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(reportData)
+            });
+            showSuccess('Отчёт отправлен!', 'Данные записаны в таблицу.<br>Спасибо за смену!');
+        } catch (error) {
+            console.error('Ошибка отправки:', error);
+            tg.showAlert('Ошибка: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ti ti-send"></i> Отправить отчёт';
+        }
+    }
 
-        DEBTS.forEach(e => {
-            const item = document.getElementById('item-' + e.id);
-            if (item && item.classList.contains('selected')) {
-                const amount = parseFloat(document.getElementById('sum-' + e.id).value) || 0;
-                if (amount > 0) {
-                    const commentInput = document.getElementById('cmt-' + e.id);
-                    reportData.debts.push({
-                        name: e.name,
-                        amount: amount,
-                        comment: commentInput ? commentInput.value.trim() : ''
-                    });
+    // === ОТПРАВКА ИНДИВИДУАЛЬНОГО ЗАКАЗА ===
+    async function submitIndividualOrder() {
+        const btn = document.getElementById('submit-individual-btn');
+        try {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+            tg.HapticFeedback.impactOccurred('medium');
+            const weight = document.getElementById('cake-weight').value;
+            const diameter = document.getElementById('cake-diameter').value;
+            const decor = document.getElementById('cake-decor').value.trim();
+            const hasInscription = document.getElementById('inscription-yes').classList.contains('active');
+            const inscriptionText = hasInscription ? document.getElementById('inscription-text').value.trim() : '';
+            const datetime = document.getElementById('cake-datetime').value;
+            const price = document.getElementById('cake-price').value;
+            const selectedFillings = [];
+            FILLINGS.forEach(filling => {
+                const checkbox = document.getElementById(`filling-${filling.id}`);
+                if (checkbox.checked) {
+                    selectedFillings.push(filling.name);
+                }
+            });
+            const customFillingField = document.getElementById('custom-filling-field');
+            if (customFillingField.style.display === 'block') {
+                const customFilling = document.getElementById('custom-filling-text').value.trim();
+                if (customFilling) {
+                    selectedFillings.push(`Другая: ${customFilling}`);
                 }
             }
-        });
-
-        reportData.totalExpenses = reportData.expenses.reduce((sum, exp) => sum + exp.amount, 0);
-        reportData.totalDebts = reportData.debts.reduce((sum, dbt) => sum + dbt.amount, 0);
-        reportData.expected = reportData.opening + reportData.revenue - reportData.totalExpenses - reportData.cashless - reportData.collection;
-        reportData.diff = reportData.closing - reportData.expected;
-
-        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
-            throw new Error('Не настроен GOOGLE_SCRIPT_URL');
-        }
-
-        await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8',
-            },
-            body: JSON.stringify(reportData)
-        });
-
-        showSuccess('Отчёт отправлен!', 'Данные записаны в таблицу.<br>Спасибо за смену!');
-        
-    } catch (error) {
-        console.error('Ошибка отправки:', error);
-        tg.showAlert('Ошибка: ' + error.message);
-        btn.disabled = false;
-        btn.innerHTML = '<i class="ti ti-send"></i> Отправить отчёт';
-    }
-}
-
-// === ОТПРАВКА ИНДИВИДУАЛЬНОГО ЗАКАЗА ===
-async function submitIndividualOrder() {
-    const btn = document.getElementById('submit-individual-btn');
-    
-    try {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
-        tg.HapticFeedback.impactOccurred('medium');
-
-        // Собираем данные
-        const weight = document.getElementById('cake-weight').value;
-        const diameter = document.getElementById('cake-diameter').value;
-        const decor = document.getElementById('cake-decor').value.trim();
-        const hasInscription = document.getElementById('inscription-yes').classList.contains('active');
-        const inscriptionText = hasInscription ? document.getElementById('inscription-text').value.trim() : '';
-        const datetime = document.getElementById('cake-datetime').value;
-        const price = document.getElementById('cake-price').value;
-
-        // Собираем выбранные начинки
-        const selectedFillings = [];
-        FILLINGS.forEach(filling => {
-            const checkbox = document.getElementById(`filling-${filling.id}`);
-            if (checkbox.checked) {
-                selectedFillings.push(filling.name);
+            if (!weight || !diameter || selectedFillings.length === 0 || !datetime || !price) {
+                throw new Error('Пожалуйста, заполните все обязательные поля');
             }
-        });
-        
-        // Добавляем кастомную начинку, если указана
-        const customFillingField = document.getElementById('custom-filling-field');
-        if (customFillingField.style.display === 'block') {
-            const customFilling = document.getElementById('custom-filling-text').value.trim();
-            if (customFilling) {
-                selectedFillings.push(`Другая: ${customFilling}`);
+            const orderData = {
+                formType: 'individual_order',
+                weight: parseFloat(weight),
+                diameter: parseInt(diameter),
+                fillings: selectedFillings,
+                decor: decor,
+                hasInscription: hasInscription,
+                inscriptionText: inscriptionText,
+                datetime: datetime,
+                price: parseFloat(price)
+            };
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
+                throw new Error('Не настроен GOOGLE_SCRIPT_URL');
             }
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(orderData)
+            });
+            showSuccess('Заказ отправлен!', 'Данные переданы кондитерам.<br>Спасибо!');
+        } catch (error) {
+            console.error('Ошибка отправки:', error);
+            tg.showAlert('Ошибка: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ti ti-send"></i> Отправить заказ';
         }
-        // Валидация
-        if (!weight || !diameter || selectedFillings.length === 0 || !datetime || !price) {
-            throw new Error('Пожалуйста, заполните все обязательные поля');
-        }
-
-        // Формируем объект для отправки
-        const orderData = {
-            formType: 'individual_order',
-            weight: parseFloat(weight),
-            diameter: parseInt(diameter),
-            fillings: selectedFillings,
-            decor: decor,
-            hasInscription: hasInscription,
-            inscriptionText: inscriptionText,
-            datetime: datetime,
-            price: parseFloat(price)
-        };
-
-        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
-            throw new Error('Не настроен GOOGLE_SCRIPT_URL');
-        }
-
-        // Отправка в Google Таблицу
-        await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8',
-            },
-            body: JSON.stringify(orderData)
-        });
-
-        // TODO: Здесь будет отправка в Telegram-группу кондитеров
-        // После того, как пришлёте код бота, добавим отправку сообщения
-
-        showSuccess('Заказ отправлен!', 'Данные переданы кондитерам.<br>Спасибо!');
-        
-    } catch (error) {
-        console.error('Ошибка отправки:', error);
-        tg.showAlert('Ошибка: ' + error.message);
-        btn.disabled = false;
-        btn.innerHTML = '<i class="ti ti-send"></i> Отправить заказ';
     }
-}
 
-function showSuccess(title, sub) {
-    document.getElementById('success-title').textContent = title;
-    document.getElementById('success-sub').innerHTML = sub;
-    
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('success').classList.add('active');
-    document.querySelector('.steps').style.display = 'none';
-    tg.BackButton.hide();
-    currentStep = 0;
-}
-// === ДАННЫЕ ДЛЯ ОПТОВОГО ЗАКАЗА ===
-
-// ⚠️ СПИСОК ДЕСЕРТОВ — добавляйте/изменяйте здесь
-// Формат: { id: 'уникальный_id', name: 'Название', price: цена_в_рублях }
-const DESSERTS = [
-    { id: 'd1', name: 'Медовик', price: 300 },
-    { id: 'd2', name: 'Кокос', price: 200 },
-    // Добавьте новые десерты по аналогии:
-    // { id: 'd3', name: 'Эклер', price: 250 },
-    // { id: 'd4', name: 'Макарон', price: 150 },
-];
-
-// ⚠️ СПИСОК ОТВЕТСТВЕННЫХ — укажите реальные Telegram username
-// Формат: { name: 'Имя Фамилия', username: '@username_в_telegram' }
-const RESPONSIBLES = [
-    { name: 'Малика', username: '@FeyaMally' },       // ← ЗАМЕНИТЕ на реальный username
-    { name: 'Зелим', username: '@zelim_betergaraev' },     // ← ЗАМЕНИТЕ на реальный username
-    { name: 'Елена', username: '@elena_username' },     // ← ЗАМЕНИТЕ на реальный username
-];
-
-// Состояние формы опт. заказа
-let wholesaleState = {
-    client: '',
-    clientOther: '',
-    quantities: {},  // { id_десерта: количество }
-    responsible: ''  // '@username' или 'Назначить позже'
-};
-
-// Инициализация количества (всё по 0)
-DESSERTS.forEach(d => { wholesaleState.quantities[d.id] = 0; });
-
-// === ФУНКЦИИ ФОРМЫ ОПТОВОГО ЗАКАЗА ===
-
-function openWholesaleOrder() {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-wholesale').classList.add('active');
-    
-    const steps = document.querySelector('.steps');
-    if (steps) steps.style.display = 'none';
-    
-    currentStep = 0;
-    tg.BackButton.hide();
-    tg.HapticFeedback.impactOccurred('light');
-}
-
-function selectClient(clientValue, element) {
-    // Убираем выделение со всех
-    document.querySelectorAll('.client-option').forEach(el => el.classList.remove('selected'));
-    // Выделяем выбранную
-    element.classList.add('selected');
-    
-    const otherField = document.getElementById('other-client-field');
-    
-    if (clientValue === 'other') {
-        wholesaleState.client = 'other';
-        otherField.style.display = 'block';
-    } else {
-        wholesaleState.client = clientValue;
-        wholesaleState.clientOther = '';
-        otherField.style.display = 'none';
-        document.getElementById('other-client-name').value = '';
-    }
-    tg.HapticFeedback.impactOccurred('light');
-}
-
-function buildDessertsList() {
-    const container = document.getElementById('desserts-list');
-    container.innerHTML = '';
-    
-    DESSERTS.forEach(dessert => {
-        const div = document.createElement('div');
-        div.className = 'dessert-item';
-        div.id = `dessert-${dessert.id}`;
-        div.innerHTML = `
-            <div class="dessert-info">
-                <div class="dessert-name">${dessert.name}</div>
-                <div class="dessert-price">${dessert.price} ₽ / шт</div>
-            </div>
-            <div class="dessert-counter">
-                <button class="counter-btn" onclick="updateQuantity('${dessert.id}', -1)">−</button>
-                <span class="counter-value" id="qty-${dessert.id}">0</span>
-                <button class="counter-btn" onclick="updateQuantity('${dessert.id}', 1)">+</button>
-            </div>
-            <div class="dessert-subtotal" id="sub-${dessert.id}">0 ₽</div>
-        `;
-        container.appendChild(div);
-    });
-}
-
-function updateQuantity(dessertId, delta) {
-    let qty = wholesaleState.quantities[dessertId] || 0;
-    qty = Math.max(0, qty + delta);
-    wholesaleState.quantities[dessertId] = qty;
-    
-    document.getElementById(`qty-${dessertId}`).textContent = qty;
-    
-    // Пересчитываем подытог
-    const dessert = DESSERTS.find(d => d.id === dessertId);
-    const subtotal = qty * dessert.price;
-    document.getElementById(`sub-${dessertId}`).textContent = `${subtotal.toLocaleString('ru-RU')} ₽`;
-    
-    updateWholesaleTotal();
-    tg.HapticFeedback.impactOccurred('light');
-}
-
-function updateWholesaleTotal() {
-    let total = 0;
-    DESSERTS.forEach(d => {
-        total += (wholesaleState.quantities[d.id] || 0) * d.price;
-    });
-    document.getElementById('wholesale-total').textContent = `₽ ${total.toLocaleString('ru-RU')}`;
-}
-
-function buildResponsiblesList() {
-    const container = document.getElementById('responsibles-list');
-    container.innerHTML = '';
-    
-    RESPONSIBLES.forEach((resp, idx) => {
-        const div = document.createElement('div');
-        div.className = 'responsible-option';
-        div.onclick = () => selectResponsible(resp.username, div);
-        div.innerHTML = `
-            <div class="opt-radio"></div>
-            <span class="opt-name">${resp.name}</span>
-            <span class="opt-username">${resp.username}</span>
-        `;
-        container.appendChild(div);
-    });
-    
-    // Кнопка "Назначить позже"
-    const laterDiv = document.createElement('div');
-    laterDiv.className = 'responsible-option';
-    laterDiv.onclick = () => selectResponsible('Назначить позже', laterDiv);
-    laterDiv.innerHTML = `
-        <div class="opt-radio"></div>
-        <span class="opt-name">Назначить позже</span>
-        <i class="ti ti-clock" style="color: #A06060; font-size: 18px;"></i>
-    `;
-    container.appendChild(laterDiv);
-}
-
-function selectResponsible(username, element) {
-    document.querySelectorAll('.responsible-option').forEach(el => el.classList.remove('selected'));
-    element.classList.add('selected');
-    wholesaleState.responsible = username;
-    tg.HapticFeedback.impactOccurred('light');
-}
-
-async function submitWholesaleOrder() {
-    const btn = document.getElementById('submit-wholesale-btn');
-    
-    try {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
-        tg.HapticFeedback.impactOccurred('medium');
-        
-        // Определяем имя клиента
-        let clientName = wholesaleState.client;
-        if (clientName === 'other') {
-            clientName = document.getElementById('other-client-name').value.trim();
-            if (!clientName) {
-                throw new Error('Укажите название клиента');
+    // === ОТПРАВКА ОПТОВОГО ЗАКАЗА ===
+    async function submitWholesaleOrder() {
+        const btn = document.getElementById('submit-wholesale-btn');
+        try {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ti ti-loader-2 ti-spin"></i> Отправка...';
+            tg.HapticFeedback.impactOccurred('medium');
+            let clientName = wholesaleState.client;
+            if (clientName === 'other') {
+                clientName = document.getElementById('other-client-name').value.trim();
+                if (!clientName) {
+                    throw new Error('Укажите название клиента');
+                }
             }
-        }
-        
-        // Собираем позиции с количеством > 0
-        const orderItems = [];
-        let total = 0;
-        DESSERTS.forEach(d => {
-            const qty = wholesaleState.quantities[d.id] || 0;
-            if (qty > 0) {
-                orderItems.push({
-                    name: d.name,
-                    price: d.price,
-                    quantity: qty,
-                    subtotal: qty * d.price
-                });
-                total += qty * d.price;
+            const orderItems = [];
+            let total = 0;
+            DESSERTS.forEach(d => {
+                const qty = wholesaleState.quantities[d.id] || 0;
+                if (qty > 0) {
+                    orderItems.push({
+                        name: d.name,
+                        price: d.price,
+                        quantity: qty,
+                        subtotal: qty * d.price
+                    });
+                    total += qty * d.price;
+                }
+            });
+            if (!wholesaleState.client) {
+                throw new Error('Выберите клиента');
             }
-        });
-        
-        // Валидация
-        if (!wholesaleState.client) {
-            throw new Error('Выберите клиента');
+            if (orderItems.length === 0) {
+                throw new Error('Добавьте хотя бы один десерт в заказ');
+            }
+            if (!wholesaleState.responsible) {
+                throw new Error('Выберите ответственного за заказ');
+            }
+            const orderData = {
+                formType: 'wholesale_order',
+                client: clientName,
+                items: orderItems,
+                total: total,
+                responsible: wholesaleState.responsible
+            };
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
+                throw new Error('Не настроен GOOGLE_SCRIPT_URL');
+            }
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(orderData)
+            });
+            wholesaleState = { client: '', clientOther: '', quantities: {}, responsible: '' };
+            DESSERTS.forEach(d => { wholesaleState.quantities[d.id] = 0; });
+            document.querySelectorAll('.client-option, .responsible-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('other-client-field').style.display = 'none';
+            showSuccess('Оптовый заказ отправлен!', 'Заказ передан кондитерам.<br>Ответственный получит уведомление.');
+        } catch (error) {
+            console.error('Ошибка отправки:', error);
+            tg.showAlert('Ошибка: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ti ti-send"></i> Отправить заказ';
         }
-        if (orderItems.length === 0) {
-            throw new Error('Добавьте хотя бы один десерт в заказ');
-        }
-        if (!wholesaleState.responsible) {
-            throw new Error('Выберите ответственного за заказ');
-        }
-        
-        // Формируем объект для отправки
-        const orderData = {
-            formType: 'wholesale_order',
-            client: clientName,
-            items: orderItems,
-            total: total,
-            responsible: wholesaleState.responsible
-        };
-        
-        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('ВАШ_')) {
-            throw new Error('Не настроен GOOGLE_SCRIPT_URL');
-        }
-        
-        await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(orderData)
-        });
-        
-        // Сбрасываем форму
-        wholesaleState = { client: '', clientOther: '', quantities: {}, responsible: '' };
-        DESSERTS.forEach(d => { wholesaleState.quantities[d.id] = 0; });
-        
-        showSuccess('Оптовый заказ отправлен!', 'Заказ передан кондитерам.<br>Ответственный получит уведомление.');
-        
-    } catch (error) {
-        console.error('Ошибка отправки:', error);
-        tg.showAlert('Ошибка: ' + error.message);
-        btn.disabled = false;
-        btn.innerHTML = '<i class="ti ti-send"></i> Отправить заказ';
     }
-}    
-    // Инициализация списков при загрузке
+
+    function showSuccess(title, sub) {
+        document.getElementById('success-title').textContent = title;
+        document.getElementById('success-sub').innerHTML = sub;
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('success').classList.add('active');
+        document.querySelector('.steps').style.display = 'none';
+        tg.BackButton.hide();
+        currentStep = 0;
+    }
+
+    // === ИНИЦИАЛИЗАЦИЯ ===
     buildExpensesList();
     buildDebtsList();
     buildFillingsList();
     buildDessertsList();
     buildResponsiblesList();
-    // Запуск приложения с главного меню
     openMenu();
 </script>
 
